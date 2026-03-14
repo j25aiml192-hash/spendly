@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <meta name="description" content="Spendly helps companies detect and eliminate unnecessary SaaS spending. Recover 20-30% of your SaaS budget in 90 days.">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — Spendly</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      /* Backgrounds */
+      --bg-page: #FFFFFF;
+      --bg-section-alt: #F5F4F0;
+      --bg-dark: #0F1117;
+      --bg-card: #FFFFFF;
+
+      /* Typography */
+      --text-primary: #0F1117;
+      --text-body: #3D3D3D;
+      --text-muted: #6B7280;
+      --text-on-dark: #F8F8F5;
+      --text-on-dark-muted: #9CA3AF;
+
+      /* Accent */
+      --accent: #2563EB;
+      --accent-light: #EFF6FF;
+      --accent-dark: #1D4ED8;
+
+      /* Borders */
+      --border: #E5E7EB;
+      --border-dark: rgba(255, 255, 255, 0.1);
+
+      /* Status colors */
+      --status-success: #059669;
+      --status-warning: #D97706;
+      --status-danger: #DC2626;
+      --status-neutral: #6B7280;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-page);
+      color: var(--text-body);
+      line-height: 1.65;
+    }
+
+    /* LAYOUT & SPACING */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    section {
+      padding: 96px 0;
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.55s ease-out, transform 0.55s ease-out;
+    }
+
+    section.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 768px) {
+      section {
+        padding: 64px 0;
+      }
+
+      .container {
+        padding: 0 20px;
+      }
+    }
+
+        /* NAVBAR */
+    nav {
+      position: sticky; top: 0; z-index: 100; background: white;
+      top: 0;
+      left: 0;
+      width: <span class="mono">100%</span>;
+      height: 64px;
+      background-color: var(--bg-page);
+      border-bottom: 1px solid var(--border);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    nav .logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 22px;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+    }
+
+    nav .logo svg {
+      width: 20px;
+      height: 20px;
+      margin-right: 8px;
+      stroke: var(--accent);
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      gap: 24px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--text-body);
+      font-size: 15px;
+      transition: color 0.2s;
+      display: inline-block;
+    }
+
+    nav a:hover {
+      color: var(--accent);
+    }
+
+    nav a.active {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    nav a.active::after {
+      content: '';
+      display: block;
+      width: <span class="mono">100%</span>;
+      height: 2px;
+      background-color: var(--accent);
+      margin-top: 4px;
+    }
+
+    nav .button {
+      border: 1.5px solid var(--text-primary);
+      color: var(--text-primary);
+      background: transparent;
+      padding: 8px 20px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 15px;
+      transition: all 0.25s ease;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    nav .button:hover {
+      background-color: var(--text-primary);
+      color: var(--bg-page);
+    }
+
+    /* DASHBOARD LAYOUT */
+    .dashboard-container {
+      display: flex;
+    }
+
+    .sidebar {
+      width: 240px;
+      height: 100vh;
+      background-color: #FAFAFA;
+      border-right: 1px solid var(--border);
+      position: sticky; top: 0; z-index: 100; background: white;
+      top: 0;
+      left: 0;
+      padding-top: 60px;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .sidebar li a {
+      display: block;
+      padding: 12px 24px;
+      text-decoration: none;
+      color: var(--text-body);
+      font-size: 14px;
+      transition: background-color 0.2s;
+    }
+
+    .sidebar li a:hover {
+      background-color: #F9FAFB;
+    }
+
+    .sidebar li a.active {
+      background-color: var(--accent-light);
+      color: var(--accent);
+      border-right: 2px solid var(--accent);
+    }
+
+    .main-content {
+      flex: 1;
+      margin-left: 240px;
+      padding: 32px;
+      background-color: var(--bg-page);
+    }
+
+    /* KPI CARDS */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+
+    .kpi-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+    }
+
+    .kpi-card.success {
+      border-top: 3px solid var(--status-success);
+    }
+
+    .kpi-card.warning {
+      border-top: 3px solid var(--status-warning);
+    }
+
+    .kpi-card.danger {
+      border-top: 3px solid var(--status-danger);
+    }
+
+    .kpi-number {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 28px;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .kpi-label {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .kpi-delta {
+      font-size: 12px;
+      color: var(--status-success);
+    }
+
+    /* TABLES */
+    .data-table {
+      width: <span class="mono">100%</span>;
+      border-collapse: collapse;
+      margin-bottom: 32px;
+    }
+
+    .data-table th,
+    .data-table td {
+      padding: 12px 16px;
+      text-align: left;
+    }
+
+    .data-table th {
+      background-color: #F9FAFB;
+      font-size: 12px;
+      font-weight: 500;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .data-table td {
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+    }
+
+    .data-table tbody tr:hover {
+      background-color: #F9FAFB;
+    }
+
+    /* STATUS BADGES */
+    .status-badge {
+      font-size: 11px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      border-radius: 4px;
+      padding: 3px 8px;
+      display: inline-block;
+    }
+
+    .status-badge.low {
+      background-color: #ECFDF5;
+      color: #065F46;
+      border: 1px solid #A7F3D0;
+    }
+
+    .status-badge.medium {
+      background-color: #FFFBEB;
+      color: #92400E;
+      border: 1px solid #FDE68A;
+    }
+
+    .status-badge.high {
+      background-color: #FEF3C7;
+      color: #B45309;
+      border: 1px solid #FCD34D;
+    }
+
+    .status-badge.critical {
+      background-color: #FEF2F2;
+      color: #991B1B;
+      border: 1px solid #FECACA;
+    }
+
+    /* ALERTS */
+    .alert-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .alert-item {
+      background-color: #FFFBEB;
+      border: 1px solid var(--status-warning);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 16px;
+      font-size: 14px;
+      color: var(--text-primary);
+    }
+
+    /* CHARTS */
+    .chart-container {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 32px;
+    }
+
+    /* DATE RANGE PICKER (placeholder) */
+    .date-range-picker {
+      margin-bottom: 24px;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+      /* FOOTER */
+    footer {
+      background-color: var(--bg-dark);
+      color: var(--text-on-dark-muted);
+      padding: 64px 0;
+      font-size: 14px;
+    }
+
+    footer .container {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+
+    @media (max-width: 768px) {
+      footer .container {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+    }
+
+    footer h5 {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text-on-dark);
+      margin-bottom: 16px;
+    }
+
+    footer ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    footer li {
+      margin-bottom: 8px;
+    }
+
+    footer a {
+      color: var(--text-on-dark-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    footer a:hover {
+      color: var(--text-on-dark);
+    }
+
+    footer .divider {
+      border-top: 1px solid var(--border-dark);
+      margin: 32px 0;
+    }
+
+    footer .bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    @media (max-width: 768px) {
+      footer .bottom {
+        flex-direction: column;
+        gap: 16px;
+        text-align: center;
+      }
+    }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+  .label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: #2563EB; font-weight: 500; display: block; margin-bottom: 8px; }
+  .bg-white { background-color: #FFFFFF; }
+  .bg-alt { background-color: #F5F4F0; }
+  .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.55s ease, transform 0.55s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  .card, .dashboard-card, .dashboard-metric-card, .article-card, .kpi-card, .settings-card, .feature-item {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    cursor: pointer;
+  }
+  .card:hover, .dashboard-card:hover, .dashboard-metric-card:hover, .article-card:hover, .kpi-card:hover, .settings-card:hover, .feature-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.10);
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(-2deg); }
+    50% { transform: translateY(-10px) rotate(-2deg); }
+  }
+  .dashboard-card { animation: float 5s ease-in-out infinite; }
+
+  .button, .primary-button, .btn-primary {
+    transition: background-color 0.25s ease;
+  }
+  .button:hover, .primary-button:hover, .btn-primary:hover {
+    background-color: #2563EB !important;
+    color: #FFFFFF !important;
+  }
+
+  
+  h1 { font-size: clamp(36px, 6vw, 80px) !important; }
+  h2 { font-size: clamp(28px, 4vw, 52px) !important; }
+
+
+  
+  h1 { font-size: clamp(36px, 6vw, 80px) !important; }
+  h2 { font-size: clamp(28px, 4vw, 52px) !important; }
+
+
+@media (max-width: 768px) {
+
+  /* Nav — collapse to hamburger */
+  .nav-links { display: none; }
+  .nav-links.open { display: flex; flex-direction: column; 
+    position: fixed; top: 64px; left: 0; right: 0; 
+    background: white; padding: 24px; 
+    border-bottom: 1px solid #E5E7EB; z-index: 99; gap: 16px; }
+  .hamburger { display: flex !important; cursor: pointer; 
+    flex-direction: column; gap: 5px; }
+  .hamburger span { display: block; width: 22px; height: 2px; 
+    background: #0F1117; border-radius: 2px; 
+    transition: all 0.2s; }
+
+  /* Hero — stack vertically */
+  .hero { flex-direction: column !important; 
+    text-align: center !important; padding: 80px 24px 48px !important; }
+  .hero-visual { display: none !important; }
+  .hero-content { max-width: 100% !important; }
+
+  /* Typography — scale down */
+  h1 { font-size: clamp(32px, 8vw, 52px) !important; }
+  h2 { font-size: clamp(24px, 6vw, 36px) !important; }
+
+  /* All grid layouts — single column */
+  .cards-grid, 
+  .features-grid, 
+  .articles-grid,
+  .stats-grid,
+  .pricing-grid,
+  .pillars-grid { grid-template-columns: 1fr !important; }
+
+  /* Dashboard layout — stack sidebar on top */
+  .app-layout { flex-direction: column !important; }
+  .sidebar { width: 100% !important; height: auto !important; 
+    position: relative !important; 
+    border-right: none !important; 
+    border-bottom: 1px solid #E5E7EB !important; 
+    padding: 16px !important; }
+  .sidebar-nav { display: flex; flex-wrap: wrap; 
+    gap: 8px !important; }
+  .main-content { padding: 24px 16px !important; }
+
+  /* KPI cards — 2 columns on mobile */
+  .kpi-grid { grid-template-columns: 1fr 1fr !important; }
+
+  /* Numbered feature list — stack vertically */
+  .feature-list { flex-direction: column !important; gap: 24px !important; }
+  .feature-divider { display: none !important; }
+
+  /* Two-column sections — stack */
+  .two-col, 
+  .split-section, 
+  .case-study-layout { grid-template-columns: 1fr !important; 
+    flex-direction: column !important; }
+
+  /* Container padding */
+  .container { padding-left: 20px !important; 
+    padding-right: 20px !important; }
+
+  /* Footer — single column */
+  .footer-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+}
+
+
+  /* MOBILE CHECKS - Comprehensive FIXED */
+  @media (max-width: 768px) {
+    /* Nav — collapse to hamburger */
+    .nav-links:not(.open) { display: none !important; }
+    .nav-links.open { display: flex !important; flex-direction: column; 
+      position: absolute; top: 64px; left: 0; right: 0; 
+      background: white; padding: 24px; 
+      border-bottom: 1px solid #E5E7EB; z-index: 99; gap: 16px; }
+    .hamburger { display: flex !important; cursor: pointer; 
+      flex-direction: column; gap: 5px; margin-left: auto; }
+    .hamburger span { display: block; width: 22px; height: 2px; 
+      background: #0F1117; border-radius: 2px; 
+      transition: all 0.2s; }
+
+    /* Hero — stack vertically */
+    .hero, #hero .container { flex-direction: column !important; 
+      text-align: center !important; padding: 80px 24px 48px !important; display: flex !important; }
+    .hero-visual, #hero .dashboard-card { display: none !important; }
+    .hero-content { max-width: 100% !important; }
+
+    /* Typography — scale down */
+    h1 { font-size: clamp(32px, 8vw, 52px) !important; }
+    h2 { font-size: clamp(24px, 6vw, 36px) !important; }
+
+    /* All grid layouts — single column */
+    .cards-grid, 
+    .features-grid, 
+    .articles-grid,
+    .stats-grid,
+    .pricing-grid,
+    .pillars-grid { grid-template-columns: 1fr !important; }
+
+    /* Dashboard layout — stack sidebar on top */
+    .dashboard-container { flex-direction: column !important; display: flex !important; }
+    .sidebar { width: 100% !important; height: auto !important; 
+      position: relative !important; 
+      border-right: none !important; 
+      border-bottom: 1px solid #E5E7EB !important; 
+      padding: 16px !important; }
+    .sidebar-nav { display: flex; flex-wrap: wrap; 
+      gap: 8px !important; }
+    .main-content { padding: 24px 16px !important; width: 100% !important; box-sizing: border-box; }
+
+    /* KPI cards — 2 columns on mobile */
+    .kpi-grid { grid-template-columns: 1fr 1fr !important; }
+
+    /* Numbered feature list — stack vertically */
+    .feature-list { flex-direction: column !important; gap: 24px !important; }
+    .feature-divider { display: none !important; }
+
+    /* Two-column sections — stack */
+    .two-col, 
+    .split-section, 
+    .case-study-layout { grid-template-columns: 1fr !important; 
+      flex-direction: column !important; }
+
+    /* Container padding */
+    .container { padding-left: 20px !important; 
+      padding-right: 20px !important; }
+
+    /* Footer — single column */
+    .footer-grid, footer .container { grid-template-columns: 1fr !important; gap: 32px !important; }
+  }
+
+
+  @media (max-width: 768px) {
+    /* Fix dashboard overflow */
+    .dashboard-container, .main-content { margin-left: 0 !important; width: 100% !important; box-sizing: border-box !important; overflow-x: hidden !important; }
+    
+    /* Stack hero buttons */
+    #hero .buttons { flex-direction: column !important; width: 100% !important; gap: 12px !important; }
+    #hero .buttons a { width: 100% !important; text-align: center !important; box-sizing: border-box !important; }
+    
+    /* Clean up navbar */
+    nav .button { display: none !important; }
+    
+    /* Fix wrapper sizing */
+    html, body { max-width: 100vw !important; overflow-x: hidden !important; }
+}
+</style>
+</head>
+
+<body>
+
+    <nav>
+    <a href="index.html" class="logo">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2L2 7l10 5 10-5-10-5z m0 15L2 12l10-5 10 5-10 5z m0 8L2 17l10-5 10 5-10 5z" />
+      </svg>
+      Spendly
+    </a>
+    <ul class="nav-links">
+      <li><a href="features.html">Product</a></li>
+      <li><a href="insights.html">Insights</a></li>
+      <li><a href="pricing.html">Pricing</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+    <div class="hamburger" style="display: none;">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <a href="dashboard.html" class="button">Start for free</a>
+  </nav>
+
+  <div class="dashboard-container">
+    <div class="sidebar">
+      <ul>
+        <li><a class="active" href="dashboard.html" >Overview</a></li>
+        <li><a href="inventory.html">SaaS Inventory</a></li>
+        <li><a href="license.html">License Optimizer</a></li>
+        <li><a href="spend.html">Spend Analytics</a></li>
+        <li><a href="renewals.html">Renewal Forecast</a></li>
+        <li><a href="duplicates.html">Duplicate Detector</a></li>
+        <li><a href="optimization.html">Optimization Actions</a></li>
+        <li><a class="active" href="dashboard.html">Alerts</a></li>
+        <li><a href="cfo.html">CFO View</a></li>
+        <li><a href="settings.html">Settings</a></li>
+      </ul>
+    </div>
+
+    <main class="main-content">
+      <section class="fade-in" id="dashboard-overview">
+        <div class="container">
+          <div class="date-range-picker">
+            <i class="fa fa-calendar"></i> Date Range: Last 30 Days
+          </div>
+
+          <div class="kpi-grid">
+            <div class="kpi-card success">
+              <div class="kpi-number counter" data-target="247830">0</div>
+              <div class="kpi-label">Total SaaS Spend</div>
+              <div class="kpi-delta"><i class="fa fa-arrow-up"></i> <span class="mono">3.2%</span> from last month</div>
+            </div>
+
+            <div class="kpi-card warning">
+              <div class="kpi-number counter" data-target="61240">0</div>
+              <div class="kpi-label">Detected Waste</div>
+              <div class="kpi-delta"><span class="mono">24.7%</span> of total spend</div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-number counter" data-target="47">0</div>
+              <div class="kpi-label">Active Tools</div>
+            </div>
+
+            <div class="kpi-card warning">
+              <div class="kpi-number counter" data-target="12">0</div>
+              <div class="kpi-label">Flagged Tools</div>
+            </div>
+
+            <div class="kpi-card danger">
+              <div class="kpi-number counter" data-target="6">0</div>
+              <div class="kpi-label">Upcoming Renewals</div>
+            </div>
+
+            <div class="kpi-card danger">
+              <div class="kpi-number counter" data-target="8">0</div>
+              <div class="kpi-label">Next Renewal (Days)</div>
+            </div>
+          </div>
+
+          <div class="chart-container">
+            <canvas id="spendChart"></canvas>
+          </div>
+
+          <span class="label">Section</span>
+
+          <h2>Alerts</h2>
+          <ul class="alert-list">
+            <li class="alert-item">
+              <i class="fa fa-exclamation-triangle"></i> Loom Renewal in 3 days — 21 inactive seats
+            </li>
+            <li class="alert-item">
+              <i class="fa fa-exclamation-triangle"></i> Figma 14 seats unused 45+ days
+            </li>
+          </ul>
+
+          <h2>SaaS Inventory</h2>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Tool</th>
+                <th>Category</th>
+                <th>Cost</th>
+                <th>Seats</th>
+                <th>Active</th>
+                <th>Renewal</th>
+                <th>Risk</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Salesforce</td>
+                <td>CRM</td>
+                <td><span class="mono">$4,200</span></td>
+                <td>45</td>
+                <td>38</td>
+                <td>2025-03-15</td>
+                <td><span class="status-badge low">Low</span></td>
+              </tr>
+              <tr>
+                <td>Slack</td>
+                <td>Comms</td>
+                <td><span class="mono">$1,800</span></td>
+                <td>120</td>
+                <td>97</td>
+                <td>2025-04-01</td>
+                <td><span class="status-badge low">Low</span></td>
+              </tr>
+              <tr>
+                <td>Figma</td>
+                <td>Design</td>
+                <td><span class="mono">$960</span></td>
+                <td>22</td>
+                <td>8</td>
+                <td>2025-02-28</td>
+                <td><span class="status-badge critical">Critical</span></td>
+              </tr>
+              <tr>
+                <td>Sketch</td>
+                <td>Design</td>
+                <td><span class="mono">$720</span></td>
+                <td>12</td>
+                <td>3</td>
+                <td>2025-03-10</td>
+                <td><span class="status-badge high">High</span></td>
+              </tr>
+              <tr>
+                <td>Notion</td>
+                <td>Productivity</td>
+                <td><span class="mono">$480</span></td>
+                <td>60</td>
+                <td>41</td>
+                <td>2025-05-01</td>
+                <td><span class="status-badge medium">Medium</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+    <footer
+    style="background-color: var(--bg-dark); color: var(--text-on-dark-muted); padding: 64px 0; font-size: 14px;">
+    <div class="container" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;">
+      <div style="font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--text-primary);">
+        Spendly
+        <p style="font-family: 'DM Sans', sans-serif; color: var(--text-on-dark-muted); margin-top: 8px;">
+          AI-powered SaaS spend intelligence<br>Built by Team Bugg Slayers</p>
+      </div>
+      <div>
+        <h5
+          style="font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 500; color: var(--text-on-dark); margin-bottom: 16px;">
+          Product</h5>
+        <ul style="list-style: none; padding: 0; margin: 0;">
+          <li style="margin-bottom: 8px;"><a href="dashboard.html"
+              style="color: var(--text-on-dark-muted); text-decoration: none;">Overview</a></li>
+          <li style="margin-bottom: 8px;"><a href="features.html"
+              style="color: var(--text-on-dark-muted); text-decoration: none;">Features</a></li>
+          <li style="margin-bottom: 8px;"><a href="pricing.html"
+              style="color: var(--text-on-dark-muted); text-decoration: none;">Pricing</a></li>
+          <li style="margin-bottom: 8px;"><a href="#"
+              style="color: var(--text-on-dark-muted); text-decoration: none;">Changelog</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5
+          style="font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 500; color: var(--text-on-dark); margin-bottom: 16px;">
+          Company</h5>
+        <ul style="list-style: none; padding: 0; margin: 0;">
+          <li style="margin-bottom: 8px;"><a href="about.html"
+              style="color: var(--text-on-dark-muted); text-decoration: none;">About</a></li>
+          <li style="margin-bottom: 8px;"><a href="#"
+              style="color: var(--text-on-dark-muted); text-decoration: none;">Careers</a></li>
+          <li style="margin-bottom: 8px;"><a href="#"
+              style="color: var(--text-on-dark-muted); text-decoration: none;">Blog</a></li>
+          <li style="margin-bottom: 8px;"><a href="#"
+              style="color: var(--text-on-dark-muted); text-decoration: none;">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5
+          style="font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 500; color: var(--text-on-dark); margin-bottom: 16px;">
+          Legal</h5>
+        <ul style="list-style: none; padding: 0; margin: 0;">
+          <li style="margin-bottom: 8px;"><a href="#"
+              style="color: var(--text-on-dark-muted); text-decoration: none;">Privacy</a></li>
+          <li style="margin-bottom: 8px;"><a href="#"
+              style="color: var(--text-on-dark-muted); text-decoration: none;">Terms</a></li>
+          <li style="margin-bottom: 8px;"><a href="#"
+              style="color: var(--text-on-dark-muted); text-decoration: none;">Security</a></li>
+          <li style="margin-bottom: 8px;"><a href="#"
+              style="color: var(--text-on-dark-muted); text-decoration: none;">SOC 2</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="divider" style="border-top: 1px solid rgba(255,255,255,0.1); margin: 32px 0;"></div>
+    <div class="bottom" style="display: flex; justify-content: space-between; align-items: center;">
+      <p style="color: var(--text-on-dark-muted); font-family: 'DM Sans', sans-serif;">© 2025 Spendly · Built by Team Bugg Slayers</p>
+      <p style="color: var(--text-on-dark-muted); font-family: 'DM Sans', sans-serif;"><a href="#"
+          style="color: var(--text-on-dark-muted); text-decoration: none;">Privacy</a> · <a href="#"
+          style="color: var(--text-on-dark-muted); text-decoration: none;">Terms</a></p>
+    </div>
+  </footer>
+  <script>
+document.querySelector('.hamburger')?.addEventListener('click', () => {
+  document.querySelector('.nav-links')?.classList.toggle('open');
+});
+</script>
+  <script>
+const fadeObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => { 
+    if (e.isIntersecting) { 
+      e.target.classList.add('visible');
+      fadeObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.15 });
+document.querySelectorAll('.fade-in').forEach(el => fadeObserver.observe(el));
+</script>
+  <script>
+function animateCounter(el, target, duration = 1800, prefix = '', suffix = '') {
+  const start = performance.now();
+  const update = (time) => {
+    const progress = Math.min((time - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 4);
+    el.textContent = prefix + Math.floor(eased * target).toLocaleString() + suffix;
+    if (progress < 1) requestAnimationFrame(update);
+  };
+  requestAnimationFrame(update);
+}
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const el = entry.target;
+      animateCounter(el, +el.dataset.target, 1800, 
+        el.dataset.prefix || '', el.dataset.suffix || '');
+      counterObserver.unobserve(el);
+    }
+  });
+}, { threshold: 0.3 });
+document.querySelectorAll('[data-counter]').forEach(el => counterObserver.observe(el));
+</script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Number Counter Animation
+      const counters = document.querySelectorAll('.counter');
+
+      const animateCounter = (counter) => {
+        const target = parseInt(counter.dataset.target);
+        const duration = 1800;
+        let start = 0;
+        const increment = target / (duration / 16); // Approximation for 60fps
+
+        const updateCounter = () => {
+          if (start < target) {
+            start += increment;
+            counter.innerText = Math.ceil(start).toLocaleString();
+            requestAnimationFrame(updateCounter);
+          } else {
+            counter.innerText = target.toLocaleString();
+          }
+        };
+
+        updateCounter();
+      };
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              counters.forEach(counter => {
+                if (!counter.classList.contains('animated')) {
+                  animateCounter(counter);
+                  counter.classList.add('animated');
+                }
+              });
+              observer.disconnect();
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+
+      observer.observe(document.querySelector('#dashboard-overview'));
+
+      // Chart
+      const ctx = document.getElementById('spendChart').getContext('2d');
+      const spendChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+          datasets: [{
+            label: 'Monthly SaaS Spend',
+            data: [20000, 21000, 22000, 23000, 24000, 25000, 24500, 25500, 26000, 27000, 26500, 27500],
+            borderColor: '#2563EB',
+            borderWidth: 2,
+            fill: false
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true,
+              grid: {
+                color: '#F3F4F6'
+              },
+              ticks: {
+                font: {
+                  family: 'DM Sans'
+                },
+                color: '#6B7280'
+              }
+            },
+            x: {
+              grid: {
+                color: '#F3F4F6'
+              },
+              ticks: {
+                font: {
+                  family: 'DM Sans'
+                },
+                color: '#6B7280'
+              }
+            }
+          },
+          plugins: {
+            legend: {
+              display: false
+            }
+          }
+        }
+      });
+    });
+  </script>
+<script>
+window.addEventListener('scroll', () => {
+    const nav = document.querySelector('nav');
+    if(nav) nav.style.boxShadow = window.scrollY > 10 ? '0 1px 12px rgba(0,0,0,0.08)' : 'none';
+});
+</script>
+</body>
+
+</html>

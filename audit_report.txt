@@ -1,0 +1,391 @@
+File: about.html
+[PASS] Background is white/off-white
+[PASS] DM Serif Display is loaded
+[PASS] DM Sans is loaded
+[PASS] JetBrains Mono is loaded
+[PASS] Hero H1 contains italic line
+[PASS] Every section H2 has label tag
+[PASS] Section backgrounds alternate
+[PASS] No lorem ipsum text
+[PASS] No placeholder image tags
+[PASS] Real mock data is used
+[PASS] Hero product card is CSS (NA/OK)
+[PASS] No emoji used as icons
+[PASS] Footer includes Built by Team Bugg Slayers
+[PASS] Counter animations exist
+[PASS] Scroll fade-in animations exist
+[PASS] Cards have hover lift
+[PASS] Hero dashboard card has floating animation
+[PASS] Primary buttons change color
+[PASS] All nav href replaced
+[PASS] Active nav link is highlighted
+[PASS] Navbar becomes sticky
+[PASS] Viewport meta tag exists
+[FAIL] Mobile checks
+[PASS] Unique title tag
+[PASS] Meta description exists
+[PASS] Favicon link exists
+
+File: cfo.html
+[PASS] Background is white/off-white
+[PASS] DM Serif Display is loaded
+[PASS] DM Sans is loaded
+[PASS] JetBrains Mono is loaded
+[PASS] Hero H1 contains italic line (No hero)
+[PASS] Every section H2 has label tag
+[PASS] Section backgrounds alternate
+[PASS] No lorem ipsum text
+[PASS] No placeholder image tags
+[PASS] Real mock data is used
+[PASS] Hero product card is CSS (NA/OK)
+[PASS] No emoji used as icons
+[PASS] Footer includes Built by Team Bugg Slayers
+[PASS] Counter animations exist
+[PASS] Scroll fade-in animations exist
+[PASS] Cards have hover lift
+[PASS] Hero dashboard card has floating animation
+[PASS] Primary buttons change color
+[PASS] All nav href replaced
+[PASS] Active nav link is highlighted
+[PASS] Navbar becomes sticky
+[PASS] Viewport meta tag exists
+[FAIL] Mobile checks
+[PASS] Unique title tag
+[PASS] Meta description exists
+[PASS] Favicon link exists
+
+File: dashboard.html
+[PASS] Background is white/off-white
+[PASS] DM Serif Display is loaded
+[PASS] DM Sans is loaded
+[PASS] JetBrains Mono is loaded
+[PASS] Hero H1 contains italic line (No hero)
+[PASS] Every section H2 has label tag
+[PASS] Section backgrounds alternate
+[PASS] No lorem ipsum text
+[PASS] No placeholder image tags
+[PASS] Real mock data is used
+[PASS] Hero product card is CSS (NA/OK)
+[PASS] No emoji used as icons
+[PASS] Footer includes Built by Team Bugg Slayers
+[PASS] Counter animations exist
+[PASS] Scroll fade-in animations exist
+[PASS] Cards have hover lift
+[PASS] Hero dashboard card has floating animation
+[PASS] Primary buttons change color
+[PASS] All nav href replaced
+[PASS] Active nav link is highlighted
+[PASS] Navbar becomes sticky
+[PASS] Viewport meta tag exists
+[FAIL] Mobile checks
+[PASS] Unique title tag
+[PASS] Meta description exists
+[PASS] Favicon link exists
+
+File: duplicates.html
+[PASS] Background is white/off-white
+[PASS] DM Serif Display is loaded
+[PASS] DM Sans is loaded
+[PASS] JetBrains Mono is loaded
+[PASS] Hero H1 contains italic line (No hero)
+[PASS] Every section H2 has label tag
+[PASS] Section backgrounds alternate
+[PASS] No lorem ipsum text
+[PASS] No placeholder image tags
+[PASS] Real mock data is used
+[PASS] Hero product card is CSS (NA/OK)
+[PASS] No emoji used as icons
+[PASS] Footer includes Built by Team Bugg Slayers
+[PASS] Counter animations exist
+[PASS] Scroll fade-in animations exist
+[PASS] Cards have hover lift
+[PASS] Hero dashboard card has floating animation
+[PASS] Primary buttons change color
+[PASS] All nav href replaced
+[PASS] Active nav link is highlighted
+[PASS] Navbar becomes sticky
+[PASS] Viewport meta tag exists
+[FAIL] Mobile checks
+[PASS] Unique title tag
+[PASS] Meta description exists
+[PASS] Favicon link exists
+
+File: features.html
+[PASS] Background is white/off-white
+[PASS] DM Serif Display is loaded
+[PASS] DM Sans is loaded
+[PASS] JetBrains Mono is loaded
+[PASS] Hero H1 contains italic line (No hero)
+[PASS] Every section H2 has label tag
+[PASS] Section backgrounds alternate
+[PASS] No lorem ipsum text
+[PASS] No placeholder image tags
+[PASS] Real mock data is used
+[PASS] Hero product card is CSS (NA/OK)
+[PASS] No emoji used as icons
+[PASS] Footer includes Built by Team Bugg Slayers
+[PASS] Counter animations exist
+[PASS] Scroll fade-in animations exist
+[PASS] Cards have hover lift
+[PASS] Hero dashboard card has floating animation
+[PASS] Primary buttons change color
+[PASS] All nav href replaced
+[PASS] Active nav link is highlighted
+[PASS] Navbar becomes sticky
+[PASS] Viewport meta tag exists
+[FAIL] Mobile checks
+[PASS] Unique title tag
+[PASS] Meta description exists
+[PASS] Favicon link exists
+
+File: index.html
+[PASS] Background is white/off-white
+[PASS] DM Serif Display is loaded
+[PASS] DM Sans is loaded
+[PASS] JetBrains Mono is loaded
+[PASS] Hero H1 contains italic line
+[PASS] Every section H2 has label tag
+[PASS] Section backgrounds alternate
+[PASS] No lorem ipsum text
+[PASS] No placeholder image tags
+[PASS] Real mock data is used
+[PASS] Hero product card is CSS
+[PASS] No emoji used as icons
+[PASS] Footer includes Built by Team Bugg Slayers
+[PASS] Counter animations exist
+[PASS] Scroll fade-in animations exist
+[PASS] Cards have hover lift
+[PASS] Hero dashboard card has floating animation
+[PASS] Primary buttons change color
+[PASS] All nav href replaced
+[PASS] Active nav link is highlighted
+[PASS] Navbar becomes sticky
+[PASS] Viewport meta tag exists
+[FAIL] Mobile checks
+[PASS] Unique title tag
+[PASS] Meta description exists
+[PASS] Favicon link exists
+
+File: insights.html
+[PASS] Background is white/off-white
+[PASS] DM Serif Display is loaded
+[PASS] DM Sans is loaded
+[PASS] JetBrains Mono is loaded
+[PASS] Hero H1 contains italic line (No hero)
+[PASS] Every section H2 has label tag
+[PASS] Section backgrounds alternate
+[PASS] No lorem ipsum text
+[PASS] No placeholder image tags
+[PASS] Real mock data is used
+[PASS] Hero product card is CSS (NA/OK)
+[PASS] No emoji used as icons
+[PASS] Footer includes Built by Team Bugg Slayers
+[PASS] Counter animations exist
+[PASS] Scroll fade-in animations exist
+[PASS] Cards have hover lift
+[PASS] Hero dashboard card has floating animation
+[PASS] Primary buttons change color
+[PASS] All nav href replaced
+[PASS] Active nav link is highlighted
+[PASS] Navbar becomes sticky
+[PASS] Viewport meta tag exists
+[FAIL] Mobile checks
+[PASS] Unique title tag
+[PASS] Meta description exists
+[PASS] Favicon link exists
+
+File: inventory.html
+[PASS] Background is white/off-white
+[PASS] DM Serif Display is loaded
+[PASS] DM Sans is loaded
+[PASS] JetBrains Mono is loaded
+[PASS] Hero H1 contains italic line (No hero)
+[PASS] Every section H2 has label tag
+[PASS] Section backgrounds alternate
+[PASS] No lorem ipsum text
+[PASS] No placeholder image tags
+[PASS] Real mock data is used
+[PASS] Hero product card is CSS (NA/OK)
+[PASS] No emoji used as icons
+[PASS] Footer includes Built by Team Bugg Slayers
+[PASS] Counter animations exist
+[PASS] Scroll fade-in animations exist
+[PASS] Cards have hover lift
+[PASS] Hero dashboard card has floating animation
+[PASS] Primary buttons change color
+[PASS] All nav href replaced
+[PASS] Active nav link is highlighted
+[PASS] Navbar becomes sticky
+[PASS] Viewport meta tag exists
+[FAIL] Mobile checks
+[PASS] Unique title tag
+[PASS] Meta description exists
+[PASS] Favicon link exists
+
+File: license.html
+[PASS] Background is white/off-white
+[PASS] DM Serif Display is loaded
+[PASS] DM Sans is loaded
+[PASS] JetBrains Mono is loaded
+[PASS] Hero H1 contains italic line (No hero)
+[PASS] Every section H2 has label tag
+[PASS] Section backgrounds alternate
+[PASS] No lorem ipsum text
+[PASS] No placeholder image tags
+[PASS] Real mock data is used
+[PASS] Hero product card is CSS (NA/OK)
+[PASS] No emoji used as icons
+[PASS] Footer includes Built by Team Bugg Slayers
+[PASS] Counter animations exist
+[PASS] Scroll fade-in animations exist
+[PASS] Cards have hover lift
+[PASS] Hero dashboard card has floating animation
+[PASS] Primary buttons change color
+[PASS] All nav href replaced
+[PASS] Active nav link is highlighted
+[PASS] Navbar becomes sticky
+[PASS] Viewport meta tag exists
+[FAIL] Mobile checks
+[PASS] Unique title tag
+[PASS] Meta description exists
+[PASS] Favicon link exists
+
+File: optimization.html
+[PASS] Background is white/off-white
+[PASS] DM Serif Display is loaded
+[PASS] DM Sans is loaded
+[PASS] JetBrains Mono is loaded
+[PASS] Hero H1 contains italic line (No hero)
+[PASS] Every section H2 has label tag
+[PASS] Section backgrounds alternate
+[PASS] No lorem ipsum text
+[PASS] No placeholder image tags
+[PASS] Real mock data is used
+[PASS] Hero product card is CSS (NA/OK)
+[PASS] No emoji used as icons
+[PASS] Footer includes Built by Team Bugg Slayers
+[PASS] Counter animations exist
+[PASS] Scroll fade-in animations exist
+[PASS] Cards have hover lift
+[PASS] Hero dashboard card has floating animation
+[PASS] Primary buttons change color
+[PASS] All nav href replaced
+[PASS] Active nav link is highlighted
+[PASS] Navbar becomes sticky
+[PASS] Viewport meta tag exists
+[FAIL] Mobile checks
+[PASS] Unique title tag
+[PASS] Meta description exists
+[PASS] Favicon link exists
+
+File: pricing.html
+[PASS] Background is white/off-white
+[PASS] DM Serif Display is loaded
+[PASS] DM Sans is loaded
+[PASS] JetBrains Mono is loaded
+[PASS] Hero H1 contains italic line
+[PASS] Every section H2 has label tag
+[PASS] Section backgrounds alternate
+[PASS] No lorem ipsum text
+[PASS] No placeholder image tags
+[PASS] Real mock data is used
+[PASS] Hero product card is CSS (NA/OK)
+[PASS] No emoji used as icons
+[PASS] Footer includes Built by Team Bugg Slayers
+[PASS] Counter animations exist
+[PASS] Scroll fade-in animations exist
+[PASS] Cards have hover lift
+[PASS] Hero dashboard card has floating animation
+[PASS] Primary buttons change color
+[PASS] All nav href replaced
+[PASS] Active nav link is highlighted
+[PASS] Navbar becomes sticky
+[PASS] Viewport meta tag exists
+[FAIL] Mobile checks
+[PASS] Unique title tag
+[PASS] Meta description exists
+[PASS] Favicon link exists
+
+File: renewals.html
+[PASS] Background is white/off-white
+[PASS] DM Serif Display is loaded
+[PASS] DM Sans is loaded
+[PASS] JetBrains Mono is loaded
+[PASS] Hero H1 contains italic line (No hero)
+[PASS] Every section H2 has label tag
+[PASS] Section backgrounds alternate
+[PASS] No lorem ipsum text
+[PASS] No placeholder image tags
+[PASS] Real mock data is used
+[PASS] Hero product card is CSS (NA/OK)
+[PASS] No emoji used as icons
+[PASS] Footer includes Built by Team Bugg Slayers
+[PASS] Counter animations exist
+[PASS] Scroll fade-in animations exist
+[PASS] Cards have hover lift
+[PASS] Hero dashboard card has floating animation
+[PASS] Primary buttons change color
+[PASS] All nav href replaced
+[PASS] Active nav link is highlighted
+[PASS] Navbar becomes sticky
+[PASS] Viewport meta tag exists
+[FAIL] Mobile checks
+[PASS] Unique title tag
+[PASS] Meta description exists
+[PASS] Favicon link exists
+
+File: settings.html
+[PASS] Background is white/off-white
+[PASS] DM Serif Display is loaded
+[PASS] DM Sans is loaded
+[PASS] JetBrains Mono is loaded
+[PASS] Hero H1 contains italic line (No hero)
+[PASS] Every section H2 has label tag
+[PASS] Section backgrounds alternate
+[PASS] No lorem ipsum text
+[PASS] No placeholder image tags
+[PASS] Real mock data is used
+[PASS] Hero product card is CSS (NA/OK)
+[PASS] No emoji used as icons
+[PASS] Footer includes Built by Team Bugg Slayers
+[PASS] Counter animations exist
+[PASS] Scroll fade-in animations exist
+[PASS] Cards have hover lift
+[PASS] Hero dashboard card has floating animation
+[PASS] Primary buttons change color
+[PASS] All nav href replaced
+[PASS] Active nav link is highlighted
+[PASS] Navbar becomes sticky
+[PASS] Viewport meta tag exists
+[FAIL] Mobile checks
+[PASS] Unique title tag
+[PASS] Meta description exists
+[PASS] Favicon link exists
+
+File: spend.html
+[PASS] Background is white/off-white
+[PASS] DM Serif Display is loaded
+[PASS] DM Sans is loaded
+[PASS] JetBrains Mono is loaded
+[PASS] Hero H1 contains italic line (No hero)
+[PASS] Every section H2 has label tag
+[PASS] Section backgrounds alternate
+[PASS] No lorem ipsum text
+[PASS] No placeholder image tags
+[PASS] Real mock data is used
+[PASS] Hero product card is CSS (NA/OK)
+[PASS] No emoji used as icons
+[PASS] Footer includes Built by Team Bugg Slayers
+[PASS] Counter animations exist
+[PASS] Scroll fade-in animations exist
+[PASS] Cards have hover lift
+[PASS] Hero dashboard card has floating animation
+[PASS] Primary buttons change color
+[PASS] All nav href replaced
+[PASS] Active nav link is highlighted
+[PASS] Navbar becomes sticky
+[PASS] Viewport meta tag exists
+[FAIL] Mobile checks
+[PASS] Unique title tag
+[PASS] Meta description exists
+[PASS] Favicon link exists
