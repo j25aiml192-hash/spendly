@@ -1,0 +1,27 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "frontend/**",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    { "src": "/features", "dest": "/frontend/features.html" },
+    { "src": "/insights", "dest": "/frontend/insights.html" },
+    { "src": "/pricing", "dest": "/frontend/pricing.html" },
+    { "src": "/about", "dest": "/frontend/about.html" },
+    { "src": "/dashboard", "dest": "/frontend/dashboard.html" },
+    { "src": "/inventory", "dest": "/frontend/inventory.html" },
+    { "src": "/license", "dest": "/frontend/license.html" },
+    { "src": "/spend", "dest": "/frontend/spend.html" },
+    { "src": "/renewals", "dest": "/frontend/renewals.html" },
+    { "src": "/duplicates", "dest": "/frontend/duplicates.html" },
+    { "src": "/optimization", "dest": "/frontend/optimization.html" },
+    { "src": "/cfo", "dest": "/frontend/cfo.html" },
+    { "src": "/settings", "dest": "/frontend/settings.html" },
+    { "src": "/(.*)", "dest": "/frontend/$1" }
+  ],
+  "cleanUrls": true,
+  "trailingSlash": false
+}
