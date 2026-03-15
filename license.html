@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
     integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
@@ -47,7 +47,7 @@
     }
 
     body {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Outfit', sans-serif;
       margin: 0;
       padding: 0;
       background-color: var(--bg-page);
@@ -86,10 +86,10 @@
 
         /* NAVBAR */
     nav {
-      position: sticky; top: 0; z-index: 100; background: white;
+      position: sticky; top: 0; z-index: 100; /* background: aliceblue; removed for glass */
       top: 0;
       left: 0;
-      width: <span class="mono">100%</span>;
+      width: 100%;
       height: 64px;
       background-color: var(--bg-page);
       border-bottom: 1px solid var(--border);
@@ -102,7 +102,7 @@
     }
 
     nav .logo {
-      font-family: 'DM Serif Display', serif;
+      font-family: 'Outfit', sans-serif;
       font-size: 22px;
       color: var(--text-primary);
       display: flex;
@@ -144,7 +144,7 @@
     nav a.active::after {
       content: '';
       display: block;
-      width: <span class="mono">100%</span>;
+      width: 100%;
       height: 2px;
       background-color: var(--accent);
       margin-top: 4px;
@@ -159,7 +159,7 @@
       text-decoration: none;
       font-size: 15px;
       transition: all 0.25s ease;
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Outfit', sans-serif;
     }
 
     nav .button:hover {
@@ -173,11 +173,11 @@
     }
 
     .sidebar {
-      width: 240px;
+      width: var(--sidebar-width, 240px); transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1);
       height: 100vh;
-      background-color: #FAFAFA;
+      /* background-color: aliceblue; removed for glass */
       border-right: 1px solid var(--border);
-      position: sticky; top: 0; z-index: 100; background: white;
+      position: sticky; top: 0; z-index: 100; /* background: aliceblue; removed for glass */
       top: 0;
       left: 0;
       padding-top: 60px;
@@ -210,7 +210,7 @@
 
     .main-content {
       flex: 1;
-      margin-left: 240px;
+      margin-left: var(--sidebar-width, 240px); transition: margin-left 0.4s cubic-bezier(0.25, 1, 0.5, 1);
       padding: 32px;
       background-color: var(--bg-page);
     }
@@ -261,7 +261,7 @@
 
     /* TABLES */
     .data-table {
-      width: <span class="mono">100%</span>;
+      width: 100%;
       border-collapse: collapse;
       margin-bottom: 32px;
     }
@@ -278,7 +278,7 @@
       font-weight: 500;
       text-transform: uppercase;
       color: var(--text-muted);
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Outfit', sans-serif;
     }
 
     .data-table td {
@@ -293,7 +293,7 @@
     /* STATUS BADGES */
     .status-badge {
       font-size: 11px;
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Outfit', sans-serif;
       font-weight: 500;
       letter-spacing: 0.05em;
       text-transform: uppercase;
@@ -369,7 +369,7 @@
       font-size: 14px;
       cursor: pointer;
       transition: background-color 0.2s;
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Outfit', sans-serif;
     }
 
     .action-button:hover {
@@ -405,7 +405,7 @@
     }
 
     footer h5 {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Outfit', sans-serif;
       font-size: 16px;
       font-weight: 500;
       color: var(--text-on-dark);
@@ -426,7 +426,7 @@
       color: var(--text-on-dark-muted);
       text-decoration: none;
       transition: color 0.2s;
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Outfit', sans-serif;
     }
 
     footer a:hover {
@@ -635,7 +635,92 @@
     /* Fix wrapper sizing */
     html, body { max-width: 100vw !important; overflow-x: hidden !important; }
 }
-</style>
+
+    /* Migrated from SpenDly */
+
+    .license-header { margin-bottom: var(--space-xl); }
+    .license-header h2 { font-size: 1.5rem; margin-bottom: 4px; }
+    .license-header p { font-size: 14px; }
+    .license-summary { display: flex; gap: 24px; margin-bottom: var(--space-lg); }
+    .license-stat {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 20px; border-radius: var(--radius-sm);
+      background: rgba(0,0,0,0.03); border: 1px solid var(--border-subtle);
+    }
+    .license-stat__value { font-family: var(--font-display); font-size: 1.2rem; font-weight: 700; }
+    .license-stat__label { font-size: 12px; color: var(--text-muted); }
+    .license-panels { display: grid; grid-template-columns: 1.2fr 1fr; gap: var(--space-lg); }
+
+    /* Heatmap */
+    .heatmap-panel { padding: var(--space-lg); overflow-x: auto; }
+    .heatmap-panel h4 { font-size: 14px; font-weight: 600; margin-bottom: var(--space-lg); }
+    .heatmap-table { width: 100%; border-collapse: collapse; }
+    .heatmap-table th {
+      font-size: 11px; color: var(--text-muted); font-weight: 500; padding: 6px 8px;
+      text-align: center; white-space: nowrap;
+      writing-mode: vertical-lr; transform: rotate(180deg);
+      height: 80px;
+    }
+    .heatmap-table th:first-child { writing-mode: horizontal-tb; transform: none; text-align: left; height: auto; }
+    .heatmap-table td { padding: 3px; }
+    .heatmap-table td:first-child {
+      font-size: 12px; color: var(--text-secondary); padding-right: 12px; white-space: nowrap;
+    }
+    .hm-cell {
+      width: 32px; height: 28px; border-radius: 4px; cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s; position: relative;
+      margin: 0 auto;
+    }
+    .hm-cell:hover { transform: scale(1.2); z-index: 10; box-shadow: 0 0 12px rgba(0,0,0,0.4); }
+    .hm-cell.hm-active { background: var(--accent-success); }
+    .hm-cell.hm-occasional { background: rgba(16,185,129,0.4); }
+    .hm-cell.hm-stale { background: var(--accent-warning); }
+    .hm-cell.hm-inactive { background: var(--accent-danger); }
+    .hm-cell.hm-none { background: rgba(0,0,0,0.04); }
+    .heatmap-legend {
+      display: flex; gap: 20px; margin-top: var(--space-lg); font-size: 11px; color: var(--text-muted);
+    }
+    .heatmap-legend span { display: flex; align-items: center; gap: 6px; }
+    .legend-swatch { width: 12px; height: 12px; border-radius: 3px; }
+    /* Tooltip */
+    .hm-tooltip {
+      position: fixed; background: var(--bg-card); border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm); padding: 8px 12px; font-size: 12px; pointer-events: none;
+      z-index: 100; display: none; box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    }
+
+    /* Flagged Seats */
+    .flagged-panel { padding: var(--space-lg); }
+    .flagged-panel h4 { font-size: 14px; font-weight: 600; margin-bottom: var(--space-lg); }
+    .flagged-list { max-height: 500px; overflow-y: auto; }
+    .flagged-row {
+      display: flex; align-items: center; gap: 12px; padding: 12px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.03);
+    }
+    .flagged-row:last-child { border-bottom: none; }
+    .flagged-row__avatar {
+      width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center;
+      justify-content: center; font-size: 11px; font-weight: 700; color: var(--text-primary); flex-shrink: 0;
+    }
+    .flagged-row__info { flex: 1; min-width: 0; }
+    .flagged-row__name { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+    .flagged-row__meta { font-size: 11px; color: var(--text-muted); }
+    .flagged-row__cost { font-family: var(--font-mono); font-size: 13px; color: var(--accent-danger); min-width: 60px; text-align: right; }
+    .flagged-total {
+      display: flex; justify-content: space-between; align-items: center;
+      padding-top: var(--space-md); margin-top: var(--space-md);
+      border-top: 1px solid var(--border-subtle);
+      font-size: 14px; font-weight: 600;
+    }
+    .flagged-total span:last-child { color: var(--accent-success); font-family: var(--font-mono); }
+
+    @media (max-width: 1024px) { .license-panels { grid-template-columns: 1fr; } .license-summary { flex-wrap: wrap; } }
+  
+  </style>
+    <link rel="stylesheet" href="/assets/spendly-polish.css">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="/assets/dashboard-premium.css">
 </head>
 
 <body>
@@ -648,10 +733,10 @@
       Spendly
     </a>
     <ul class="nav-links">
-      <li><a href="features.html">Product</a></li>
-      <li><a href="insights.html">Insights</a></li>
-      <li><a href="pricing.html">Pricing</a></li>
-      <li><a href="about.html">About</a></li>
+      <li><a href="features.html"><span class="sidebar-text">Product</span></a></li>
+      <li><a href="insights.html"><span class="sidebar-text">Insights</span></a></li>
+      <li><a href="pricing.html"><span class="sidebar-text">Pricing</span></a></li>
+      <li><a href="about.html"><span class="sidebar-text">About</span></a></li>
     </ul>
     <div class="hamburger" style="display: none;">
       <span></span>
@@ -664,196 +749,64 @@
   <div class="dashboard-container">
     <div class="sidebar">
       <ul>
-        <li><a href="dashboard.html">Overview</a></li>
-        <li><a href="inventory.html">SaaS Inventory</a></li>
-        <li><a class="active" href="license.html" >License Optimizer</a></li>
-        <li><a href="spend.html">Spend Analytics</a></li>
-        <li><a href="renewals.html">Renewal Forecast</a></li>
-        <li><a href="duplicates.html">Duplicate Detector</a></li>
-        <li><a href="optimization.html">Optimization Actions</a></li>
-        <li><a href="dashboard.html">Alerts</a></li>
-        <li><a href="cfo.html">CFO View</a></li>
-        <li><a href="settings.html">Settings</a></li>
+        <li><a href="dashboard.html"><i data-lucide="layout-dashboard" style="width:18px;height:18px;margin-right:12px;opacity:0.6;flex-shrink:0;"></i><span class="sidebar-text">Overview</span></a></li>
+        <li><a href="inventory.html"><i data-lucide="box" style="width:18px;height:18px;margin-right:12px;opacity:0.6;flex-shrink:0;"></i><span class="sidebar-text">SaaS Inventory</span></a></li>
+        <li><a class="active" href="license.html" ><i data-lucide="key" style="width:18px;height:18px;margin-right:12px;opacity:0.6;flex-shrink:0;"></i><span class="sidebar-text">License Optimizer</span></a></li>
+        <li><a href="spend.html"><i data-lucide="pie-chart" style="width:18px;height:18px;margin-right:12px;opacity:0.6;flex-shrink:0;"></i><span class="sidebar-text">Spend Analytics</span></a></li>
+        <li><a href="renewals.html"><i data-lucide="calendar" style="width:18px;height:18px;margin-right:12px;opacity:0.6;flex-shrink:0;"></i><span class="sidebar-text">Renewal Forecast</span></a></li>
+        <li><a href="duplicates.html"><i data-lucide="copy" style="width:18px;height:18px;margin-right:12px;opacity:0.6;flex-shrink:0;"></i><span class="sidebar-text">Duplicate Detector</span></a></li>
+        <li><a href="optimization.html"><i data-lucide="zap" style="width:18px;height:18px;margin-right:12px;opacity:0.6;flex-shrink:0;"></i><span class="sidebar-text">Optimization Actions</span></a></li>
+        <li><a href="dashboard.html"><i data-lucide="bell" style="width:18px;height:18px;margin-right:12px;opacity:0.6;flex-shrink:0;"></i><span class="sidebar-text">Alerts</span></a></li>
+        <li><a href="cfo.html"><i data-lucide="briefcase" style="width:18px;height:18px;margin-right:12px;opacity:0.6;flex-shrink:0;"></i><span class="sidebar-text">CFO View</span></a></li>
+        <li><a href="settings.html"><i data-lucide="settings" style="width:18px;height:18px;margin-right:12px;opacity:0.6;flex-shrink:0;"></i><span class="sidebar-text">Settings</span></a></li>
       </ul>
     </div>
 
     <main class="main-content">
-      <section class="fade-in" id="license-optimizer">
-        <div class="container">
-          <span class="label">Section</span>
-          <h2>License Optimizer</h2>
-
-          <div class="kpi-grid">
-            <div class="kpi-card success">
-              <div class="kpi-number counter" data-target="61240">0</div>
-              <div class="kpi-label">Potential Savings</div>
-              <div class="kpi-delta">Based on inactive licenses</div>
-            </div>
-
-            <div class="kpi-card warning">
-              <div class="kpi-number counter" data-target="27">0</div>
-              <div class="kpi-label">Flagged Licenses</div>
-              <div class="kpi-delta">Licenses with low utilization</div>
-            </div>
-
-            <div class="kpi-card danger">
-              <div class="kpi-number counter" data-target="4">0</div>
-              <div class="kpi-label">High Risk Renewals</div>
-              <div class="kpi-delta">Renewals with high inactive seats</div>
-            </div>
-          </div>
-
-          <div class="filter-action-container">
-            <select class="filter-select">
-              <option value="">Filter by Tool</option>
-              <option value="salesforce">Salesforce</option>
-              <option value="slack">Slack</option>
-              <option value="figma">Figma</option>
-              <option value="sketch">Sketch</option>
-              <option value="notion">Notion</option>
-              <option value="loom">Loom</option>
-            </select>
-            <button class="action-button">Optimize Licenses</button>
-          </div>
-
-          <div class="tool-details">
-            <h3>Figma License Details</h3>
-            <table class="data-table">
-              <thead>
-                <tr>
-                  <th>User</th>
-                  <th>Last Active</th>
-                  <th>License Type</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>john.doe@example.com</td>
-                  <td>Never</td>
-                  <td>Full</td>
-                  <td><button class="action-button">Reclaim License</button></td>
-                </tr>
-                <tr>
-                  <td>jane.smith@example.com</td>
-                  <td>60 days ago</td>
-                  <td>Full</td>
-                  <td><button class="action-button">Downgrade License</button></td>
-                </tr>
-                <tr>
-                  <td>peter.jones@example.com</td>
-                  <td>30 days ago</td>
-                  <td>Editor</td>
-                  <td>No Action Needed</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>Tool</th>
-                <th>Seats</th>
-                <th>Inactive</th>
-                <th>Potential Savings</th>
-                <th>Renewal Date</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Figma</td>
-                <td>22</td>
-                <td>14</td>
-                <td><span class="mono">$512</span></td>
-                <td>2025-02-28</td>
-                <td><button class="action-button">Optimize</button></td>
-              </tr>
-              <tr>
-                <td>Sketch</td>
-                <td>12</td>
-                <td>9</td>
-                <td><span class="mono">$720</span></td>
-                <td>2025-03-10</td>
-                <td><button class="action-button">Optimize</button></td>
-              </tr>
-              <tr>
-                <td>Loom</td>
-                <td>25</td>
-                <td>21</td>
-                <td><span class="mono">$268</span></td>
-                <td>2025-02-14</td>
-                <td><button class="action-button">Optimize</button></td>
-              </tr>
-            </tbody>
-          </table>
+<div class="license-header">
+        <h2>License Intelligence</h2>
+        <p style="color:var(--text-muted)">Identify inactive seats and reclaim wasted licenses across all tools.</p>
+      </div>
+      <div class="license-summary">
+        <div class="license-stat">
+          <div class="license-stat__value" style="color:var(--accent-danger)">23</div>
+          <div class="license-stat__label">Inactive seats</div>
         </div>
-      </section>
-    </main>
+        <div class="license-stat">
+          <div class="license-stat__value" style="color:var(--accent-warning)">$4,820<span style="font-size:12px;color:var(--text-muted)">/mo</span></div>
+          <div class="license-stat__label">Waste from unused seats</div>
+        </div>
+        <div class="license-stat">
+          <div class="license-stat__value" style="color:var(--accent-success)">$57,840<span style="font-size:12px;color:var(--text-muted)">/yr</span></div>
+          <div class="license-stat__label">Potential annual savings</div>
+        </div>
+      </div>
+
+      <div class="license-panels">
+        <div class="card heatmap-panel animate-in">
+          <h4>Employee × Tool Usage Heatmap</h4>
+          <table class="heatmap-table" id="heatmapTable"></table>
+          <div class="heatmap-legend">
+            <span><span class="legend-swatch" style="background:var(--accent-success)"></span> Active (&lt;7d)</span>
+            <span><span class="legend-swatch" style="background:rgba(16,185,129,0.4)"></span> Occasional (7–30d)</span>
+            <span><span class="legend-swatch" style="background:var(--accent-warning)"></span> Stale (30–60d)</span>
+            <span><span class="legend-swatch" style="background:var(--accent-danger)"></span> Inactive (&gt;60d)</span>
+            <span><span class="legend-swatch" style="background:rgba(255,255,255,0.04)"></span> No license</span>
+          </div>
+        </div>
+
+        <div class="card flagged-panel animate-in" style="animation-delay:0.1s">
+          <h4>Flagged Seats — Sorted by Waste</h4>
+          <div class="flagged-list" id="flaggedList"></div>
+          <div class="flagged-total">
+            <span>Reclaim all =</span>
+            <span>$4,820/mo saved</span>
+          </div>
+        </div>
+      </div>
+</main>
   </div>
-    <footer
-    style="background-color: var(--bg-dark); color: var(--text-on-dark-muted); padding: 64px 0; font-size: 14px;">
-    <div class="container" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;">
-      <div style="font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--text-primary);">
-        Spendly
-        <p style="font-family: 'DM Sans', sans-serif; color: var(--text-on-dark-muted); margin-top: 8px;">
-          AI-powered SaaS spend intelligence<br>Built by Team Bugg Slayers</p>
-      </div>
-      <div>
-        <h5
-          style="font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 500; color: var(--text-on-dark); margin-bottom: 16px;">
-          Product</h5>
-        <ul style="list-style: none; padding: 0; margin: 0;">
-          <li style="margin-bottom: 8px;"><a href="dashboard.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Overview</a></li>
-          <li style="margin-bottom: 8px;"><a href="features.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Features</a></li>
-          <li style="margin-bottom: 8px;"><a href="pricing.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Pricing</a></li>
-          <li style="margin-bottom: 8px;"><a href="insights.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Changelog</a></li>
-        </ul>
-      </div>
-      <div>
-        <h5
-          style="font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 500; color: var(--text-on-dark); margin-bottom: 16px;">
-          Company</h5>
-        <ul style="list-style: none; padding: 0; margin: 0;">
-          <li style="margin-bottom: 8px;"><a href="about.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">About</a></li>
-          <li style="margin-bottom: 8px;"><a href="about.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Careers</a></li>
-          <li style="margin-bottom: 8px;"><a href="insights.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Blog</a></li>
-          <li style="margin-bottom: 8px;"><a href="mailto:hello@spendly.io"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Contact</a></li>
-        </ul>
-      </div>
-      <div>
-        <h5
-          style="font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 500; color: var(--text-on-dark); margin-bottom: 16px;">
-          Legal</h5>
-        <ul style="list-style: none; padding: 0; margin: 0;">
-          <li style="margin-bottom: 8px;"><a href="about.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Privacy</a></li>
-          <li style="margin-bottom: 8px;"><a href="about.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Terms</a></li>
-          <li style="margin-bottom: 8px;"><a href="about.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Security</a></li>
-          <li style="margin-bottom: 8px;"><a href="about.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">SOC 2</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="divider" style="border-top: 1px solid rgba(255,255,255,0.1); margin: 32px 0;"></div>
-    <div class="bottom" style="display: flex; justify-content: space-between; align-items: center;">
-      <p style="color: var(--text-on-dark-muted); font-family: 'DM Sans', sans-serif;">© 2025 Spendly · Built by Team Bugg Slayers</p>
-      <p style="color: var(--text-on-dark-muted); font-family: 'DM Sans', sans-serif;"><a href="about.html"
-          style="color: var(--text-on-dark-muted); text-decoration: none;">Privacy</a> · <a href="about.html"
-          style="color: var(--text-on-dark-muted); text-decoration: none;">Terms</a></p>
-    </div>
-  </footer>
+    
   <script>
 document.querySelector('.hamburger')?.addEventListener('click', () => {
   document.querySelector('.nav-links')?.classList.toggle('open');
@@ -943,6 +896,117 @@ window.addEventListener('scroll', () => {
     if(nav) nav.style.boxShadow = window.scrollY > 10 ? '0 1px 12px rgba(0,0,0,0.08)' : 'none';
 });
 </script>
+<script src="/assets/shared.js"></script>
+  <script src="/assets/spendly-polish.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      
+    
+
+    const employees = [
+      { name: 'Alex Santiago', initials: 'AS' },
+      { name: 'Jordan Torres', initials: 'JT' },
+      { name: 'Sam Williams', initials: 'SW' },
+      { name: 'Casey Reed', initials: 'CR' },
+      { name: 'Morgan Liu', initials: 'ML' },
+      { name: 'Riley Kim', initials: 'RK' },
+      { name: 'Avery Chen', initials: 'AC' },
+      { name: 'Drew Patel', initials: 'DP' },
+      { name: 'Quinn Brooks', initials: 'QB' },
+      { name: 'Taylor Nash', initials: 'TN' },
+    ];
+    const tools = ['Slack', 'Figma', 'Salesforce', 'Jira', 'Zoom', 'Notion', 'GitHub', 'HubSpot'];
+    const statusMap = [
+      ['active','active','active','active','active','occasional','active','none'],
+      ['active','inactive','none','active','active','active','active','active'],
+      ['occasional','active','active','none','active','stale','active','none'],
+      ['active','stale','active','active','inactive','none','active','active'],
+      ['inactive','inactive','none','active','active','active','none','occasional'],
+      ['active','none','active','active','active','inactive','active','active'],
+      ['active','active','active','active','occasional','active','active','active'],
+      ['stale','inactive','active','none','active','none','none','active'],
+      ['active','none','none','active','active','active','active','none'],
+      ['inactive','stale','active','active','active','occasional','active','active'],
+    ];
+    const lastLogins = { active: '2 days ago', occasional: '18 days ago', stale: '42 days ago', inactive: '78 days ago', none: '—' };
+
+    // Build heatmap
+    const table = document.getElementById('heatmapTable');
+    let headerRow = '<tr><th></th>';
+    tools.forEach(t => headerRow += `<th>${t}</th>`);
+    headerRow += '</tr>';
+    table.innerHTML = headerRow;
+
+    employees.forEach((emp, i) => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${emp.name}</td>`;
+      statusMap[i].forEach((s, j) => {
+        const td = document.createElement('td');
+        const cell = document.createElement('div');
+        cell.className = `hm-cell hm-${s}`;
+        cell.dataset.user = emp.name;
+        cell.dataset.tool = tools[j];
+        cell.dataset.status = s;
+        cell.dataset.login = lastLogins[s];
+        cell.addEventListener('mouseenter', showTooltip);
+        cell.addEventListener('mouseleave', hideTooltip);
+        td.appendChild(cell);
+        tr.appendChild(td);
+      });
+      table.appendChild(tr);
+    });
+
+    const tooltip = document.getElementById('hmTooltip');
+    function showTooltip(e) {
+      const d = e.target.dataset;
+      tooltip.innerHTML = `<strong>${d.user}</strong> · ${d.tool}<br>Status: <span style="color:${d.status==='active'?'var(--accent-success)':d.status==='inactive'?'var(--accent-danger)':d.status==='stale'?'var(--accent-warning)':'var(--text-muted)'}">${d.status}</span><br>Last login: ${d.login}`;
+      tooltip.style.display = 'block';
+      tooltip.style.left = e.clientX + 12 + 'px';
+      tooltip.style.top = e.clientY - 10 + 'px';
+    }
+    function hideTooltip() { tooltip.style.display = 'none'; }
+
+    // Build flagged seats list
+    const flaggedData = [
+      { user: 'Casey Reed', tool: 'Figma', login: '42 days ago', cost: 45 },
+      { user: 'Morgan Liu', tool: 'Slack', login: '78 days ago', cost: 15 },
+      { user: 'Morgan Liu', tool: 'Figma', login: '78 days ago', cost: 45 },
+      { user: 'Drew Patel', tool: 'Slack', login: '52 days ago', cost: 15 },
+      { user: 'Drew Patel', tool: 'Figma', login: '85 days ago', cost: 45 },
+      { user: 'Taylor Nash', tool: 'Slack', login: '91 days ago', cost: 15 },
+      { user: 'Taylor Nash', tool: 'Figma', login: '36 days ago', cost: 45 },
+      { user: 'Casey Reed', tool: 'Zoom', login: '65 days ago', cost: 21 },
+      { user: 'Riley Kim', tool: 'Notion', login: '70 days ago', cost: 8 },
+    ].sort((a,b) => b.cost - a.cost);
+
+    const flaggedList = document.getElementById('flaggedList');
+    const colors = ['#6366F1','#22D3EE','#10B981','#F59E0B','#EF4444','#8B5CF6','#EC4899','#F97316','#06B6D4'];
+    flaggedData.forEach((f, i) => {
+      flaggedList.innerHTML += `<div class="flagged-row">
+        <div class="flagged-row__avatar" style="background:${colors[i % colors.length]}">${f.user.split(' ').map(w=>w[0]).join('')}</div>
+        <div class="flagged-row__info">
+          <div class="flagged-row__name">${f.user}</div>
+          <div class="flagged-row__meta">${f.tool} · Last login: ${f.login}</div>
+        </div>
+        <div class="flagged-row__cost">$${f.cost}/mo</div>
+        <button class="btn-danger" style="padding:6px 14px;font-size:11px;" onclick="showReclaim('${f.user}','${f.tool}')">Reclaim</button>
+      </div>`;
+    });
+
+    function showReclaim(user, tool) {
+      document.getElementById('reclaimMsg').textContent = `Remove ${user}'s ${tool} license? This action will be logged in your audit trail.`;
+      document.getElementById('reclaimModal').classList.add('active');
+    }
+    function closeModal() { document.getElementById('reclaimModal').classList.remove('active'); }
+    function confirmReclaim() {
+      closeModal();
+      // In real app, would process the reclaim
+    }
+
+    initSpendly();
+  
+    });
+  </script>
 </body>
 
 </html>

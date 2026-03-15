@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
     integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
@@ -47,7 +47,7 @@
     }
 
     body {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Outfit', sans-serif;
       margin: 0;
       padding: 0;
       background-color: var(--bg-page);
@@ -86,10 +86,10 @@
 
         /* NAVBAR */
     nav {
-      position: sticky; top: 0; z-index: 100; background: white;
+      position: sticky; top: 0; z-index: 100; /* background: aliceblue; removed for glass */
       top: 0;
       left: 0;
-      width: <span class="mono">100%</span>;
+      width: 100%;
       height: 64px;
       background-color: var(--bg-page);
       border-bottom: 1px solid var(--border);
@@ -102,7 +102,7 @@
     }
 
     nav .logo {
-      font-family: 'DM Serif Display', serif;
+      font-family: 'Outfit', sans-serif;
       font-size: 22px;
       color: var(--text-primary);
       display: flex;
@@ -144,7 +144,7 @@
     nav a.active::after {
       content: '';
       display: block;
-      width: <span class="mono">100%</span>;
+      width: 100%;
       height: 2px;
       background-color: var(--accent);
       margin-top: 4px;
@@ -159,7 +159,7 @@
       text-decoration: none;
       font-size: 15px;
       transition: all 0.25s ease;
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Outfit', sans-serif;
     }
 
     nav .button:hover {
@@ -173,11 +173,11 @@
     }
 
     .sidebar {
-      width: 240px;
+      width: var(--sidebar-width, 240px); transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1);
       height: 100vh;
-      background-color: #FAFAFA;
+      /* background-color: aliceblue; removed for glass */
       border-right: 1px solid var(--border);
-      position: sticky; top: 0; z-index: 100; background: white;
+      position: sticky; top: 0; z-index: 100; /* background: aliceblue; removed for glass */
       top: 0;
       left: 0;
       padding-top: 60px;
@@ -210,7 +210,7 @@
 
     .main-content {
       flex: 1;
-      margin-left: 240px;
+      margin-left: var(--sidebar-width, 240px); transition: margin-left 0.4s cubic-bezier(0.25, 1, 0.5, 1);
       padding: 32px;
       background-color: var(--bg-page);
     }
@@ -261,7 +261,7 @@
 
     /* TABLES */
     .data-table {
-      width: <span class="mono">100%</span>;
+      width: 100%;
       border-collapse: collapse;
       margin-bottom: 32px;
     }
@@ -278,7 +278,7 @@
       font-weight: 500;
       text-transform: uppercase;
       color: var(--text-muted);
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Outfit', sans-serif;
     }
 
     .data-table td {
@@ -293,7 +293,7 @@
     /* STATUS BADGES */
     .status-badge {
       font-size: 11px;
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Outfit', sans-serif;
       font-weight: 500;
       letter-spacing: 0.05em;
       text-transform: uppercase;
@@ -381,7 +381,7 @@
     }
 
     footer h5 {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Outfit', sans-serif;
       font-size: 16px;
       font-weight: 500;
       color: var(--text-on-dark);
@@ -402,7 +402,7 @@
       color: var(--text-on-dark-muted);
       text-decoration: none;
       transition: color 0.2s;
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Outfit', sans-serif;
     }
 
     footer a:hover {
@@ -611,7 +611,86 @@
     /* Fix wrapper sizing */
     html, body { max-width: 100vw !important; overflow-x: hidden !important; }
 }
-</style>
+
+    /* Migrated from SpenDly */
+
+    .renewal-header { margin-bottom: var(--space-xl); }
+    .renewal-header h2 { font-size: 1.5rem; margin-bottom: 4px; }
+    .renewal-summary { display: flex; gap: 16px; margin-bottom: var(--space-xl); flex-wrap: wrap; }
+    .renewal-stat { display: flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: var(--radius-sm); background: rgba(0,0,0,0.03); border: 1px solid var(--border-subtle); font-size: 13px; }
+    .renewal-stat strong { font-family: var(--font-display); font-size: 1.1rem; }
+
+    /* Timeline */
+    .timeline-section { margin-bottom: var(--space-xl); }
+    .timeline-section h4 { font-size: 14px; font-weight: 600; margin-bottom: var(--space-md); }
+    .timeline-scroll { overflow-x: auto; padding-bottom: var(--space-md); }
+    .timeline-months { display: flex; gap: 0; min-width: max-content; }
+    .timeline-month {
+      min-width: 200px; border-left: 1px solid var(--border-subtle); padding: 0 var(--space-md);
+    }
+    .timeline-month__label { font-size: 12px; color: var(--text-muted); font-weight: 600; padding-bottom: var(--space-sm); margin-bottom: var(--space-sm); border-bottom: 1px solid rgba(0,0,0,0.04); text-transform: uppercase; letter-spacing: 0.5px; }
+    .timeline-card {
+      padding: 16px; border-radius: 12px; margin-bottom: 12px;
+      cursor: pointer; transition: all 0.3s ease;
+      background: rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.02);
+      border-left: 4px solid;
+    }
+    .timeline-card:hover { 
+      background: rgba(255, 255, 255, 0.95); 
+      transform: translateY(-2px) translateX(4px); 
+      box-shadow: 0 8px 16px -2px rgba(15, 23, 42, 0.04); 
+    }
+    .timeline-card.risk-low { border-left-color: #34D399; background: linear-gradient(90deg, rgba(52, 211, 153, 0.08) 0%, rgba(255,255,255,0.6) 40%); }
+    .timeline-card.risk-medium { border-left-color: #FBBF24; background: linear-gradient(90deg, rgba(251, 191, 36, 0.08) 0%, rgba(255,255,255,0.6) 40%);}
+    .timeline-card.risk-high { border-left-color: #F87171; background: linear-gradient(90deg, rgba(248, 113, 113, 0.08) 0%, rgba(255,255,255,0.6) 40%);}
+    .timeline-card.risk-critical { border-left-color: #EF4444; background: linear-gradient(90deg, rgba(239, 68, 68, 0.12) 0%, rgba(255,255,255,0.6) 40%); }
+    .timeline-card__name { font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; }
+    .timeline-card__meta { font-size: 11px; color: #64748B; font-weight: 500; }
+    .timeline-card__cost { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 600; color: #0F172A; margin-top: 6px; }
+
+    /* Risk List */
+    .risk-list-card { margin-bottom: var(--space-lg); }
+    .risk-row {
+      display: flex; align-items: center; gap: 16px; padding: 16px; margin-bottom: 12px;
+      background: rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.8); border-radius: 12px;
+      transition: all 0.25s ease;
+    }
+    .risk-row:hover { background: rgba(255, 255, 255, 0.95); box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04); transform: scale(1.005); }
+    .risk-row__icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; color: var(--text-primary); flex-shrink: 0; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05); }
+    .risk-row__info { flex: 1; min-width: 0; }
+    .risk-row__name { font-size: 14px; font-weight: 600; color: var(--text-primary); }
+    .risk-row__meta { font-size: 12px; color: var(--text-muted); }
+    .risk-row__days {
+      font-family: var(--font-mono); font-size: 13px; font-weight: 600; min-width: 60px; text-align: center;
+    }
+    .risk-row__cost { font-family: var(--font-mono); font-size: 14px; font-weight: 600; min-width: 80px; text-align: right; }
+    .risk-row__usage { min-width: 60px; text-align: center; }
+    .risk-row__actions { display: flex; gap: 8px; }
+    .risk-row__actions button { padding: 6px 14px; font-size: 11px; border-radius: var(--radius-sm); }
+
+    /* Waste Projection */
+    .waste-projection { display: flex; align-items: center; gap: var(--space-xl); }
+    .waste-bar-wrap { flex: 1; }
+    .waste-bar {
+      height: 32px; border-radius: var(--radius-sm); display: flex; overflow: hidden;
+      background: rgba(0,0,0,0.04);
+    }
+    .waste-bar__waste { background: linear-gradient(90deg, var(--accent-danger), #F87171); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: var(--text-primary); }
+    .waste-bar__save { background: linear-gradient(90deg, var(--accent-success), #34D399); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: var(--text-primary); }
+    .waste-labels { display: flex; justify-content: space-between; margin-top: 8px; font-size: 12px; color: var(--text-muted); }
+
+    @media (max-width: 768px) { .risk-row { flex-wrap: wrap; gap: 8px; } .risk-row__actions { width: 100%; justify-content: flex-end; } }
+  
+  </style>
+    <link rel="stylesheet" href="/assets/spendly-polish.css">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="/assets/dashboard-premium.css">
 </head>
 
 <body>
@@ -624,10 +703,10 @@
       Spendly
     </a>
     <ul class="nav-links">
-      <li><a href="features.html">Product</a></li>
-      <li><a href="insights.html">Insights</a></li>
-      <li><a href="pricing.html">Pricing</a></li>
-      <li><a href="about.html">About</a></li>
+      <li><a href="features.html"><span class="sidebar-text">Product</span></a></li>
+      <li><a href="insights.html"><span class="sidebar-text">Insights</span></a></li>
+      <li><a href="pricing.html"><span class="sidebar-text">Pricing</span></a></li>
+      <li><a href="about.html"><span class="sidebar-text">About</span></a></li>
     </ul>
     <div class="hamburger" style="display: none;">
       <span></span>
@@ -640,176 +719,64 @@
   <div class="dashboard-container">
     <div class="sidebar">
       <ul>
-        <li><a href="dashboard.html">Overview</a></li>
-        <li><a href="inventory.html">SaaS Inventory</a></li>
-        <li><a href="license.html">License Optimizer</a></li>
-        <li><a href="spend.html">Spend Analytics</a></li>
-        <li><a class="active" href="renewals.html" >Renewal Forecast</a></li>
-        <li><a href="duplicates.html">Duplicate Detector</a></li>
-        <li><a href="optimization.html">Optimization Actions</a></li>
-        <li><a href="dashboard.html">Alerts</a></li>
-        <li><a href="cfo.html">CFO View</a></li>
-        <li><a href="settings.html">Settings</a></li>
+        <li><a href="dashboard.html"><i data-lucide="layout-dashboard" style="width:18px;height:18px;margin-right:12px;opacity:0.6;flex-shrink:0;"></i><span class="sidebar-text">Overview</span></a></li>
+        <li><a href="inventory.html"><i data-lucide="box" style="width:18px;height:18px;margin-right:12px;opacity:0.6;flex-shrink:0;"></i><span class="sidebar-text">SaaS Inventory</span></a></li>
+        <li><a href="license.html"><i data-lucide="key" style="width:18px;height:18px;margin-right:12px;opacity:0.6;flex-shrink:0;"></i><span class="sidebar-text">License Optimizer</span></a></li>
+        <li><a href="spend.html"><i data-lucide="pie-chart" style="width:18px;height:18px;margin-right:12px;opacity:0.6;flex-shrink:0;"></i><span class="sidebar-text">Spend Analytics</span></a></li>
+        <li><a class="active" href="renewals.html" ><i data-lucide="calendar" style="width:18px;height:18px;margin-right:12px;opacity:0.6;flex-shrink:0;"></i><span class="sidebar-text">Renewal Forecast</span></a></li>
+        <li><a href="duplicates.html"><i data-lucide="copy" style="width:18px;height:18px;margin-right:12px;opacity:0.6;flex-shrink:0;"></i><span class="sidebar-text">Duplicate Detector</span></a></li>
+        <li><a href="optimization.html"><i data-lucide="zap" style="width:18px;height:18px;margin-right:12px;opacity:0.6;flex-shrink:0;"></i><span class="sidebar-text">Optimization Actions</span></a></li>
+        <li><a href="dashboard.html"><i data-lucide="bell" style="width:18px;height:18px;margin-right:12px;opacity:0.6;flex-shrink:0;"></i><span class="sidebar-text">Alerts</span></a></li>
+        <li><a href="cfo.html"><i data-lucide="briefcase" style="width:18px;height:18px;margin-right:12px;opacity:0.6;flex-shrink:0;"></i><span class="sidebar-text">CFO View</span></a></li>
+        <li><a href="settings.html"><i data-lucide="settings" style="width:18px;height:18px;margin-right:12px;opacity:0.6;flex-shrink:0;"></i><span class="sidebar-text">Settings</span></a></li>
       </ul>
     </div>
 
     <main class="main-content">
-      <section class="fade-in" id="renewal-forecast">
-        <div class="container">
-          <span class="label">Section</span>
-          <h2>Renewal Forecast</h2>
+<div class="renewal-header">
+        <h2>Renewal Forecast</h2>
+        <p style="color:var(--text-muted);font-size:14px;">Plan ahead for upcoming SaaS renewals and avoid unnecessary costs.</p>
+      </div>
+      <div class="renewal-summary">
+        <div class="renewal-stat"><strong style="color:var(--accent-danger)">6</strong> renewals in next 90 days</div>
+        <div class="renewal-stat"><strong style="color:var(--accent-warning)">$28,400</strong> at risk</div>
+        <div class="renewal-stat"><strong style="color:var(--accent-success)">$19,200</strong> potential savings</div>
+      </div>
 
-          <div class="kpi-grid">
-            <div class="kpi-card danger">
-              <div class="kpi-number counter" data-target="6">0</div>
-              <div class="kpi-label">Renewals in Next 90 Days</div>
-            </div>
-
-            <div class="kpi-card warning">
-              <div class="kpi-number counter" data-target="3">0</div>
-              <div class="kpi-label">Renewals at High Risk</div>
-            </div>
-
-            <div class="kpi-card success">
-              <div class="kpi-number">$<span class="counter" data-target="12000">0</span></div>
-              <div class="kpi-label">Potential Savings</div>
-            </div>
-          </div>
-          <div class="filter-action-container">
-            <select class="filter-select">
-              <option value="">Filter by Risk</option>
-              <option value="critical">Critical</option>
-              <option value="high">High</option>
-              <option value="medium">Medium</option>
-              <option value="low">Low</option>
-            </select>
-          </div>
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>Tool</th>
-                <th>Renewal Date</th>
-                <th>Cost</th>
-                <th>Seats</th>
-                <th>Active Seats</th>
-                <th>Inactive Seats</th>
-                <th>Risk</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Loom</td>
-                <td>2025-02-14</td>
-                <td><span class="mono">$320</span></td>
-                <td>25</td>
-                <td>4</td>
-                <td>21</td>
-                <td><span class="status-badge critical">Critical</span></td>
-              </tr>
-              <tr>
-                <td>Figma</td>
-                <td>2025-02-28</td>
-                <td><span class="mono">$960</span></td>
-                <td>22</td>
-                <td>8</td>
-                <td>14</td>
-                <td><span class="status-badge high">High</span></td>
-              </tr>
-              <tr>
-                <td>Sketch</td>
-                <td>2025-03-10</td>
-                <td><span class="mono">$720</span></td>
-                <td>12</td>
-                <td>3</td>
-                <td>9</td>
-                <td><span class="status-badge high">High</span></td>
-              </tr>
-              <tr>
-                <td>Notion</td>
-                <td>2025-05-01</td>
-                <td><span class="mono">$480</span></td>
-                <td>60</td>
-                <td>41</td>
-                <td>19</td>
-                <td><span class="status-badge medium">Medium</span></td>
-              </tr>
-              <tr>
-                <td>Slack</td>
-                <td>2025-04-01</td>
-                <td><span class="mono">$180</span>0</td>
-                <td>120</td>
-                <td>97</td>
-                <td>23</td>
-                <td><span class="status-badge low">Low</span></td>
-              </tr>
-            </tbody>
-          </table>
+      <!-- Timeline -->
+      <div class="card timeline-section animate-in" style="padding:var(--space-lg);">
+        <h4>Renewal Timeline</h4>
+        <div class="timeline-scroll">
+          <div class="timeline-months" id="timeline"></div>
         </div>
-      </section>
-    </main>
+      </div>
+
+      <!-- Risk List -->
+      <div class="card risk-list-card animate-in" style="padding:var(--space-lg);">
+        <h4 style="font-size:14px;font-weight:600;margin-bottom:var(--space-md);">Renewal Risk List</h4>
+        <div id="riskList"></div>
+      </div>
+
+      <!-- Waste Projection -->
+      <div class="card animate-in" style="padding:var(--space-lg);">
+        <h4 style="font-size:14px;font-weight:600;margin-bottom:var(--space-lg);">Waste Projection</h4>
+        <p style="font-size:14px;margin-bottom:var(--space-lg);">If you renew all flagged tools without action: <strong style="color:var(--accent-danger)">+$19,200 wasted</strong></p>
+        <div class="waste-projection">
+          <div class="waste-bar-wrap">
+            <div class="waste-bar">
+              <div class="waste-bar__waste" style="width:68%">$19,200 wasted</div>
+              <div class="waste-bar__save" style="width:32%">$9,200 saved</div>
+            </div>
+            <div class="waste-labels">
+              <span>Renew as-is</span>
+              <span>Optimized renewal</span>
+            </div>
+          </div>
+        </div>
+      </div>
+</main>
   </div>
-    <footer
-    style="background-color: var(--bg-dark); color: var(--text-on-dark-muted); padding: 64px 0; font-size: 14px;">
-    <div class="container" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;">
-      <div style="font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--text-primary);">
-        Spendly
-        <p style="font-family: 'DM Sans', sans-serif; color: var(--text-on-dark-muted); margin-top: 8px;">
-          AI-powered SaaS spend intelligence<br>Built by Team Bugg Slayers</p>
-      </div>
-      <div>
-        <h5
-          style="font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 500; color: var(--text-on-dark); margin-bottom: 16px;">
-          Product</h5>
-        <ul style="list-style: none; padding: 0; margin: 0;">
-          <li style="margin-bottom: 8px;"><a href="dashboard.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Overview</a></li>
-          <li style="margin-bottom: 8px;"><a href="features.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Features</a></li>
-          <li style="margin-bottom: 8px;"><a href="pricing.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Pricing</a></li>
-          <li style="margin-bottom: 8px;"><a href="insights.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Changelog</a></li>
-        </ul>
-      </div>
-      <div>
-        <h5
-          style="font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 500; color: var(--text-on-dark); margin-bottom: 16px;">
-          Company</h5>
-        <ul style="list-style: none; padding: 0; margin: 0;">
-          <li style="margin-bottom: 8px;"><a href="about.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">About</a></li>
-          <li style="margin-bottom: 8px;"><a href="about.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Careers</a></li>
-          <li style="margin-bottom: 8px;"><a href="insights.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Blog</a></li>
-          <li style="margin-bottom: 8px;"><a href="mailto:hello@spendly.io"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Contact</a></li>
-        </ul>
-      </div>
-      <div>
-        <h5
-          style="font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 500; color: var(--text-on-dark); margin-bottom: 16px;">
-          Legal</h5>
-        <ul style="list-style: none; padding: 0; margin: 0;">
-          <li style="margin-bottom: 8px;"><a href="about.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Privacy</a></li>
-          <li style="margin-bottom: 8px;"><a href="about.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Terms</a></li>
-          <li style="margin-bottom: 8px;"><a href="about.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Security</a></li>
-          <li style="margin-bottom: 8px;"><a href="about.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">SOC 2</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="divider" style="border-top: 1px solid rgba(255,255,255,0.1); margin: 32px 0;"></div>
-    <div class="bottom" style="display: flex; justify-content: space-between; align-items: center;">
-      <p style="color: var(--text-on-dark-muted); font-family: 'DM Sans', sans-serif;">© 2025 Spendly · Built by Team Bugg Slayers</p>
-      <p style="color: var(--text-on-dark-muted); font-family: 'DM Sans', sans-serif;"><a href="about.html"
-          style="color: var(--text-on-dark-muted); text-decoration: none;">Privacy</a> · <a href="about.html"
-          style="color: var(--text-on-dark-muted); text-decoration: none;">Terms</a></p>
-    </div>
-  </footer>
+    
   <script>
 document.querySelector('.hamburger')?.addEventListener('click', () => {
   document.querySelector('.nav-links')?.classList.toggle('open');
@@ -899,6 +866,74 @@ window.addEventListener('scroll', () => {
     if(nav) nav.style.boxShadow = window.scrollY > 10 ? '0 1px 12px rgba(0,0,0,0.08)' : 'none';
 });
 </script>
+<script src="/assets/shared.js"></script>
+  <script src="/assets/spendly-polish.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      
+    
+
+    const renewals = [
+      { ...mockTools[5], daysUntil: 3 },  // Loom
+      { ...mockTools[2], daysUntil: 17 },  // Figma
+      { ...mockTools[3], daysUntil: 27 },  // Sketch
+      { ...mockTools[0], daysUntil: 32 },  // Salesforce
+      { ...mockTools[1], daysUntil: 49 },  // Slack
+      { ...mockTools[4], daysUntil: 78 },  // Notion
+      { ...mockTools[6], daysUntil: 124 }, // Zoom
+      { ...mockTools[7], daysUntil: 140 }, // HubSpot
+      { ...mockTools[8], daysUntil: 170 }, // Jira
+    ];
+
+    // Timeline
+    const months = ['February', 'March', 'April', 'May', 'June'];
+    const monthRenewals = {
+      'February': renewals.filter(r => r.daysUntil <= 14),
+      'March': renewals.filter(r => r.daysUntil > 14 && r.daysUntil <= 45),
+      'April': renewals.filter(r => r.daysUntil > 45 && r.daysUntil <= 75),
+      'May': renewals.filter(r => r.daysUntil > 75 && r.daysUntil <= 105),
+      'June': renewals.filter(r => r.daysUntil > 105),
+    };
+
+    const timeline = document.getElementById('timeline');
+    months.forEach(month => {
+      const items = monthRenewals[month] || [];
+      timeline.innerHTML += `<div class="timeline-month">
+        <div class="timeline-month__label">${month}</div>
+        ${items.map(r => `<div class="timeline-card risk-${r.risk}">
+          <div class="timeline-card__name">${r.name}</div>
+          <div class="timeline-card__meta">${r.daysUntil} days · ${r.activeSeats}/${r.seats} active</div>
+          <div class="timeline-card__cost">$${(r.cost * 12).toLocaleString()}/yr</div>
+        </div>`).join('')}
+      </div>`;
+    });
+
+    // Risk List
+    const riskList = document.getElementById('riskList');
+    renewals.slice(0, 6).forEach(r => {
+      const usage = Math.round(r.activeSeats / r.seats * 100);
+      riskList.innerHTML += `<div class="risk-row">
+        <div class="risk-row__icon" style="background:${getToolColor(r.name)}">${r.logo}</div>
+        <div class="risk-row__info">
+          <div class="risk-row__name">${r.name}</div>
+          <div class="risk-row__meta">${r.category} · ${r.dept}</div>
+        </div>
+        <div class="risk-row__days" style="color:${r.daysUntil<=7?'var(--accent-danger)':r.daysUntil<=30?'var(--accent-warning)':'var(--text-secondary)'}">${r.daysUntil}d</div>
+        <div class="risk-row__cost">$${(r.cost*12).toLocaleString()}/yr</div>
+        <div class="risk-row__usage"><div class="progress-bar" style="width:50px"><div class="progress-bar__fill" style="width:${usage}%"></div></div><span style="font-size:11px;color:var(--text-muted)">${usage}%</span></div>
+        ${getRiskBadge(r.risk)}
+        <div class="risk-row__actions">
+          <button class="btn-danger" style="padding:6px 12px;font-size:11px">Cancel</button>
+          <button class="btn-muted" style="padding:6px 12px;font-size:11px">Renegotiate</button>
+          <button class="btn-success" style="padding:6px 12px;font-size:11px">Renew</button>
+        </div>
+      </div>`;
+    });
+
+    initSpendly();
+  
+    });
+  </script>
 </body>
 
 </html>

@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
     integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
@@ -48,7 +48,7 @@
     }
 
     body {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Outfit', sans-serif;
       margin: 0;
       padding: 0;
       background-color: var(--bg-page);
@@ -87,10 +87,10 @@
 
         /* NAVBAR */
     nav {
-      position: sticky; top: 0; z-index: 100; background: white;
+      position: sticky; top: 0; z-index: 100; /* background: aliceblue; removed for glass */
       top: 0;
       left: 0;
-      width: <span class="mono">100%</span>;
+      width: 100%;
       height: 64px;
       background-color: var(--bg-page);
       border-bottom: 1px solid var(--border);
@@ -103,7 +103,7 @@
     }
 
     nav .logo {
-      font-family: 'DM Serif Display', serif;
+      font-family: 'Outfit', sans-serif;
       font-size: 22px;
       color: var(--text-primary);
       display: flex;
@@ -145,7 +145,7 @@
     nav a.active::after {
       content: '';
       display: block;
-      width: <span class="mono">100%</span>;
+      width: 100%;
       height: 2px;
       background-color: var(--accent);
       margin-top: 4px;
@@ -160,7 +160,7 @@
       text-decoration: none;
       font-size: 15px;
       transition: all 0.25s ease;
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Outfit', sans-serif;
     }
 
     nav .button:hover {
@@ -174,11 +174,11 @@
     }
 
     .sidebar {
-      width: 240px;
+      width: var(--sidebar-width, 240px); transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1);
       height: 100vh;
-      background-color: #FAFAFA;
+      /* background-color: aliceblue; removed for glass */
       border-right: 1px solid var(--border);
-      position: sticky; top: 0; z-index: 100; background: white;
+      position: sticky; top: 0; z-index: 100; /* background: aliceblue; removed for glass */
       top: 0;
       left: 0;
       padding-top: 60px;
@@ -211,7 +211,7 @@
 
     .main-content {
       flex: 1;
-      margin-left: 240px;
+      margin-left: var(--sidebar-width, 240px); transition: margin-left 0.4s cubic-bezier(0.25, 1, 0.5, 1);
       padding: 32px;
       background-color: var(--bg-page);
     }
@@ -223,7 +223,7 @@
 
     .settings-section .label {
       font-size: 12px;
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Outfit', sans-serif;
       font-weight: 500;
       letter-spacing: 0.06em;
       text-transform: uppercase;
@@ -233,7 +233,7 @@
     }
 
     .settings-section h2 {
-      font-family: 'DM Serif Display', serif;
+      font-family: 'Outfit', sans-serif;
       font-size: clamp(32px, 4vw, 52px);
       line-height: 1.1;
       color: var(--text-primary);
@@ -304,7 +304,7 @@
       background-color: white;
       -webkit-transition: .4s;
       transition: .4s;
-      border-radius: <span class="mono">50%</span>;
+      border-radius: 50%;
     }
 
     input:checked+.slider {
@@ -342,7 +342,7 @@
     }
 
     footer h5 {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Outfit', sans-serif;
       font-size: 16px;
       font-weight: 500;
       color: var(--text-on-dark);
@@ -363,7 +363,7 @@
       color: var(--text-on-dark-muted);
       text-decoration: none;
       transition: color 0.2s;
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Outfit', sans-serif;
     }
 
     footer a:hover {
@@ -571,7 +571,124 @@
     /* Fix wrapper sizing */
     html, body { max-width: 100vw !important; overflow-x: hidden !important; }
 }
-</style>
+
+    /* Migrated from SpenDly */
+
+    .settings-layout { display: grid; grid-template-columns: 200px 1fr; gap: var(--space-xl); }
+    .settings-nav { display: flex; flex-direction: column; gap: 4px; position: sticky; top: var(--space-xl); }
+    .settings-nav a { display: block; padding: 10px 16px; color: var(--text-body); border-radius: 8px; font-size: 14px; text-decoration: none; margin-bottom: 4px; transition: all 0.2s; }
+    .settings-nav a:hover { background: rgba(37, 99, 235, 0.05); color: var(--accent-blue); transform: translateX(2px); }
+    .settings-nav a.active { background: rgba(37, 99, 235, 0.1); color: var(--accent-blue); font-weight: 500; }
+    .settings-section { display: none; }
+    .settings-section.active { display: block; }
+    .settings-section h3 { font-size: 1.2rem; margin-bottom: var(--space-lg); }
+
+    /* Integrations */
+    .int-connected { margin-bottom: var(--space-2xl); }
+    .int-connected h4, .int-available h4 { font-size: 14px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: var(--space-md); }
+    .int-row {
+      display: flex; align-items: center; gap: 16px; padding: 16px; margin-bottom: 12px;
+      background: rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.8); border-radius: 12px;
+      transition: all 0.25s ease;
+    }
+    .int-row:hover { background: rgba(255, 255, 255, 0.95); box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04); transform: scale(1.005); border-color: #E2E8F0; }
+    .int-icon {
+      width: 40px; height: 40px; border-radius: var(--radius-sm); display: flex; align-items: center;
+      justify-content: center; font-weight: 700; font-size: 14px; color: var(--text-primary); flex-shrink: 0;
+    }
+    .int-info { flex: 1; }
+    .int-name { font-size: 14px; font-weight: 600; color: var(--text-primary); }
+    .int-desc { font-size: 12px; color: var(--text-muted); }
+
+    .btn-disconnect {
+      padding: 6px 14px; font-size: 12px; font-weight: 600; 
+      color: #64748B; border: 1px solid #E2E8F0; border-radius: 6px; 
+      background: white; transition: all 0.2s ease; cursor: pointer;
+    }
+    .btn-disconnect:hover {
+      background: #FEF2F2; color: #EF4444; border-color: #FECACA;
+    }
+    .btn-remove {
+      padding: 6px 14px; font-size: 12px; font-weight: 600; 
+      color: #64748B; border: 1px solid transparent; border-radius: 6px; 
+      background: rgba(15, 23, 42, 0.04); transition: all 0.2s ease; cursor: pointer;
+    }
+    .btn-remove:hover {
+      background: #FEF2F2; color: #EF4444;
+    }
+    .btn-connect {
+      width: 100%; border-radius: 8px; font-weight: 600;
+      background: #0F172A; color: white; border: 1px solid #0F172A;
+      transition: all 0.3s ease; padding: 10px 16px; font-size: 13px; cursor: pointer;
+    }
+    .btn-connect:hover {
+      background: #1E293B; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(15,23,42,0.15);
+    }
+
+    .int-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-md); }
+    .int-card { 
+      padding: var(--space-lg); text-align: center; cursor: pointer; 
+      background: rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.8); border-radius: 16px;
+      transition: all 0.3s ease;
+    }
+    .int-card:hover { 
+      background: rgba(255, 255, 255, 0.95); 
+      transform: translateY(-4px); 
+      box-shadow: 0 12px 24px -4px rgba(15, 23, 42, 0.08); 
+      border-color: rgba(255, 255, 255, 1);
+    }
+    .int-card .int-icon { margin: 0 auto var(--space-sm); position: relative; }
+    .int-card h5 { font-size: 14px; margin-bottom: 4px; }
+    .int-card p { font-size: 12px; color: var(--text-muted); margin-bottom: var(--space-md); }
+
+    /* Team */
+    .team-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-lg); }
+    .member-row {
+      display: flex; align-items: center; gap: 16px; padding: 16px; margin-bottom: 12px;
+      background: rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.8); border-radius: 12px;
+      transition: all 0.25s ease;
+    }
+    .member-row:hover { background: rgba(255, 255, 255, 0.95); box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04); transform: scale(1.005); border-color: #E2E8F0; }
+    .member-avatar {
+      width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center;
+      justify-content: center; font-size: 13px; font-weight: 700; color: var(--text-primary); flex-shrink: 0;
+    }
+    .member-info { flex: 1; }
+    .member-name { font-size: 14px; font-weight: 600; color: var(--text-primary); }
+    .member-email { font-size: 12px; color: var(--text-muted); }
+    .role-badge { padding: 4px 12px; border-radius: 100px; font-size: 11px; font-weight: 600; }
+    .role-admin { background: rgba(99,102,241,0.15); color: var(--accent-primary); }
+    .role-analyst { background: rgba(34,211,238,0.15); color: var(--accent-secondary); }
+    .role-viewer { background: rgba(0,0,0,0.06); color: var(--text-muted); }
+
+    /* Billing */
+    .plan-card { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-xl); flex-wrap: wrap; gap: 16px; }
+    .plan-info h4 { font-family: var(--font-display); font-size: 1.3rem; margin-bottom: 4px; }
+    .plan-info p { font-size: 13px; color: var(--text-muted); }
+    .usage-meters { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-lg); margin-bottom: var(--space-xl); }
+    .usage-meter { padding: var(--space-md); background: rgba(0,0,0,0.02); border-radius: var(--radius-sm); }
+    .usage-meter__header { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 13px; }
+    .usage-meter__header span:first-child { color: var(--text-muted); }
+    .usage-meter__header span:last-child { font-weight: 600; color: var(--text-primary); }
+    .invoice-table { margin-top: var(--space-lg); }
+
+    @media (max-width: 768px) {
+      .settings-layout { grid-template-columns: 1fr; }
+      .settings-nav { flex-direction: row; overflow-x: auto; position: static; }
+      .int-grid { grid-template-columns: 1fr; }
+      .usage-meters { grid-template-columns: 1fr; }
+    }
+  
+  </style>
+    <link rel="stylesheet" href="/assets/spendly-polish.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="/assets/dashboard-premium.css">
 </head>
 
 <body>
@@ -584,10 +701,10 @@
       Spendly
     </a>
     <ul class="nav-links">
-      <li><a href="features.html">Product</a></li>
-      <li><a href="insights.html">Insights</a></li>
-      <li><a href="pricing.html">Pricing</a></li>
-      <li><a href="about.html">About</a></li>
+      <li><a href="features.html"><span class="sidebar-text">Product</span></a></li>
+      <li><a href="insights.html"><span class="sidebar-text">Insights</span></a></li>
+      <li><a href="pricing.html"><span class="sidebar-text">Pricing</span></a></li>
+      <li><a href="about.html"><span class="sidebar-text">About</span></a></li>
     </ul>
     <div class="hamburger" style="display: none;">
       <span></span>
@@ -600,129 +717,218 @@
   <div class="dashboard-container">
     <div class="sidebar">
       <ul>
-        <li><a href="dashboard.html">Overview</a></li>
-        <li><a href="inventory.html">SaaS Inventory</a></li>
-        <li><a href="license.html">License Optimizer</a></li>
-        <li><a href="spend.html">Spend Analytics</a></li>
-        <li><a href="renewals.html">Renewal Forecast</a></li>
-        <li><a href="duplicates.html">Duplicate Detector</a></li>
-        <li><a href="optimization.html">Optimization Actions</a></li>
-        <li><a href="dashboard.html">Alerts</a></li>
-        <li><a href="cfo.html">CFO View</a></li>
-        <li><a class="active" href="settings.html" >Settings</a></li>
+        <li><a href="dashboard.html"><i data-lucide="layout-dashboard" style="width:18px;height:18px;margin-right:12px;opacity:0.6;flex-shrink:0;"></i><span class="sidebar-text">Overview</span></a></li>
+        <li><a href="inventory.html"><i data-lucide="box" style="width:18px;height:18px;margin-right:12px;opacity:0.6;flex-shrink:0;"></i><span class="sidebar-text">SaaS Inventory</span></a></li>
+        <li><a href="license.html"><i data-lucide="key" style="width:18px;height:18px;margin-right:12px;opacity:0.6;flex-shrink:0;"></i><span class="sidebar-text">License Optimizer</span></a></li>
+        <li><a href="spend.html"><i data-lucide="pie-chart" style="width:18px;height:18px;margin-right:12px;opacity:0.6;flex-shrink:0;"></i><span class="sidebar-text">Spend Analytics</span></a></li>
+        <li><a href="renewals.html"><i data-lucide="calendar" style="width:18px;height:18px;margin-right:12px;opacity:0.6;flex-shrink:0;"></i><span class="sidebar-text">Renewal Forecast</span></a></li>
+        <li><a href="duplicates.html"><i data-lucide="copy" style="width:18px;height:18px;margin-right:12px;opacity:0.6;flex-shrink:0;"></i><span class="sidebar-text">Duplicate Detector</span></a></li>
+        <li><a href="optimization.html"><i data-lucide="zap" style="width:18px;height:18px;margin-right:12px;opacity:0.6;flex-shrink:0;"></i><span class="sidebar-text">Optimization Actions</span></a></li>
+        <li><a href="dashboard.html"><i data-lucide="bell" style="width:18px;height:18px;margin-right:12px;opacity:0.6;flex-shrink:0;"></i><span class="sidebar-text">Alerts</span></a></li>
+        <li><a href="cfo.html"><i data-lucide="briefcase" style="width:18px;height:18px;margin-right:12px;opacity:0.6;flex-shrink:0;"></i><span class="sidebar-text">CFO View</span></a></li>
+        <li><a class="active" href="settings.html" ><i data-lucide="settings" style="width:18px;height:18px;margin-right:12px;opacity:0.6;flex-shrink:0;"></i><span class="sidebar-text">Settings</span></a></li>
       </ul>
     </div>
 
     <main class="main-content">
-      <section class="fade-in" id="settings">
-        <div class="container">
-          <div class="settings-section">
-            <span class="label">User Settings</span>
-            <h2>Account Settings</h2>
-            <div class="settings-card">
-              <div class="setting-row">
-                <div class="setting-label">Email Notifications</div>
-                <label class="toggle-switch">
-                  <input type="checkbox" checked>
-                  <span class="slider"></span>
-                </label>
+<h2 style="font-size:1.5rem;margin-bottom:var(--space-xl);">Settings</h2>
+
+      <div class="settings-layout">
+        <nav class="settings-nav">
+          <a class="active" onclick="showSection(this,'integrations')">Integrations</a>
+          <a onclick="showSection(this,'team')">Team</a>
+          <a onclick="showSection(this,'billing')">Billing</a>
+          <a onclick="showSection(this,'profile')">Profile</a>
+          <a onclick="showSection(this,'notifications')">Notifications</a>
+          <a onclick="showSection(this,'api')">API</a>
+        </nav>
+
+        <div>
+          <!-- Integrations -->
+          <div class="settings-section active" id="sec-integrations">
+            <h3>Integrations</h3>
+            <div class="int-connected">
+              <h4>Connected Sources</h4>
+              <div class="int-row">
+                <div class="int-icon" style="background:#00D632; color: white;">P</div>
+                <div class="int-info"><div class="int-name">Plaid</div><div class="int-desc">Banking feed · Connected 14 days ago</div></div>
+                <span class="status-dot status-dot--active"></span>
+                <button class="btn-disconnect action-disconnect">Disconnect</button>
               </div>
-              <div class="setting-row">
-                <div class="setting-label">Two-Factor Authentication</div>
-                <label class="toggle-switch">
-                  <input type="checkbox">
-                  <span class="slider"></span>
-                </label>
+              <div class="int-row">
+                <div class="int-icon" style="background:#2CA01C; color: white;">Q</div>
+                <div class="int-info"><div class="int-name">QuickBooks</div><div class="int-desc">Accounting · Connected 14 days ago</div></div>
+                <span class="status-dot status-dot--active"></span>
+                <button class="btn-disconnect action-disconnect">Disconnect</button>
               </div>
-              <div class="setting-row">
-                <div class="setting-label">Change Password</div>
-                <a href="#">Update</a>
+              <div class="int-row">
+                <div class="int-icon" style="background:#4285F4; color: white;">G</div>
+                <div class="int-info"><div class="int-name">Google Workspace</div><div class="int-desc">SSO · Connected 12 days ago</div></div>
+                <span class="status-dot status-dot--active"></span>
+                <button class="btn-disconnect action-disconnect">Disconnect</button>
+              </div>
+            </div>
+            <div class="int-available">
+              <h4>Available Integrations</h4>
+              <div class="int-grid">
+                <div class="card int-card">
+                  <div class="int-icon" style="background:#007EE5;margin:0 auto var(--space-sm);color:white;">O</div>
+                  <h5>Okta</h5>
+                  <p>SSO & identity provider</p>
+                  <button class="btn-connect action-connect">Connect</button>
+                </div>
+                <div class="card int-card">
+                  <div class="int-icon" style="background:#1391c1;margin:0 auto var(--space-sm);color:white;">X</div>
+                  <h5>Xero</h5>
+                  <p>Cloud accounting</p>
+                  <button class="btn-connect action-connect">Connect</button>
+                </div>
+                <div class="card int-card">
+                  <div class="int-icon" style="background:#73C41D;margin:0 auto var(--space-sm);color:white;">B</div>
+                  <h5>BambooHR</h5>
+                  <p>HRIS & employee data</p>
+                  <button class="btn-connect action-connect">Connect</button>
+                </div>
+                <div class="card int-card">
+                  <div class="int-icon" style="background:#0078D4;margin:0 auto var(--space-sm);color:white;">A</div>
+                  <h5>Azure AD</h5>
+                  <p>Microsoft identity</p>
+                  <button class="btn-connect action-connect">Connect</button>
+                </div>
+                <div class="card int-card">
+                  <div class="int-icon" style="background:#00A1E0;margin:0 auto var(--space-sm);color:white;">S</div>
+                  <h5>Salesforce</h5>
+                  <p>CRM direct integration</p>
+                  <button class="btn-connect action-connect">Connect</button>
+                </div>
+                <div class="card int-card">
+                  <div class="int-icon" style="background:#4A154B;margin:0 auto var(--space-sm);color:white;">Sl</div>
+                  <h5>Slack</h5>
+                  <p>Communication alerts</p>
+                  <button class="btn-connect action-connect">Connect</button>
+                </div>
               </div>
             </div>
           </div>
 
-          <div class="settings-section">
-            <span class="label">Integrations</span>
-            <h2>Data Sources</h2>
-            <div class="settings-card">
-              <div class="setting-row">
-                <div class="setting-label">Connect Bank Feed</div>
-                <a href="#">Connect</a>
+          <!-- Team -->
+          <div class="settings-section" id="sec-team">
+            <div class="team-header">
+              <h3>Team Members</h3>
+              <button class="btn-primary btn-sm" onclick="document.getElementById('inviteModal').classList.add('active')"><span><i data-lucide="user-plus" style="width:14px;height:14px"></i> Invite member</sp              <div class="member-row">
+                <div class="member-avatar" style="background:linear-gradient(135deg,#6366F1,#22D3EE); color: white;">AS</div>
+                <div class="member-info"><div class="member-name">Alex Santiago</div><div class="member-email">alex@company.com · Last active: 2 min ago</div></div>
+                <span class="role-badge role-admin">Admin</span>
               </div>
-              <div class="setting-row">
-                <div class="setting-label">Connect Okta SSO</div>
-                <a href="#">Connect</a>
+              <div class="member-row">
+                <div class="member-avatar" style="background:#10B981; color: white;">JT</div>
+                <div class="member-info"><div class="member-name">Jordan Torres</div><div class="member-email">jordan@company.com · Last active: 1 hour ago</div></div>
+                <span class="role-badge role-analyst">Analyst</span>
+                <button class="btn-remove action-remove">Remove</button>
               </div>
-              <div class="setting-row">
-                <div class="setting-label">Connect HR System (BambooHR)</div>
-                <a href="#">Connect</a>
+              <div class="member-row">
+                <div class="member-avatar" style="background:#F59E0B; color: white;">SW</div>
+                <div class="member-info"><div class="member-name">Sam Williams</div><div class="member-email">sam@company.com · Last active: 3 days ago</div></div>
+                <span class="role-badge role-viewer">Viewer</span>
+                <button class="btn-remove action-remove">Remove</button>
+              </div>
+              <div class="member-row">
+                <div class="member-avatar" style="background:#8B5CF6; color: white;">CR</div>
+                <div class="member-info"><div class="member-name">Casey Reed</div><div class="member-email">casey@company.com · Last active: 1 day ago</div></div>
+                <span class="role-badge role-analyst">Analyst</span>
+                <button class="btn-remove action-remove">Remove</button>
+              </div>4px;font-size:11px">Remove</button>
               </div>
             </div>
           </div>
-    </main>
+
+          <!-- Billing -->
+          <div class="settings-section" id="sec-billing">
+            <h3>Billing & Subscription</h3>
+            <div class="card" style="padding:var(--space-xl);margin-bottom:var(--space-xl);">
+              <div class="plan-card">
+                <div class="plan-info">
+                  <h4>Growth Plan</h4>
+                  <p>$149/month · Billed monthly · Next payment: April 1, 2025</p>
+                </div>
+                <div style="display:flex;gap:8px;">
+                  <button class="btn-ghost btn-sm">Change plan</button>
+                  <button class="btn-primary btn-sm"><span>Upgrade to Enterprise</span></button>
+                </div>
+              </div>
+              <div class="usage-meters">
+                <div class="usage-meter">
+                  <div class="usage-meter__header"><span>Tools tracked</span><span>47 / 100</span></div>
+                  <div class="progress-bar"><div class="progress-bar__fill" style="width:47%"></div></div>
+                </div>
+                <div class="usage-meter">
+                  <div class="usage-meter__header"><span>Team members</span><span>4 / 10</span></div>
+                  <div class="progress-bar"><div class="progress-bar__fill" style="width:40%"></div></div>
+                </div>
+              </div>
+            </div>
+            <h4 style="font-size:14px;font-weight:600;margin-bottom:var(--space-md);">Invoice History</h4>
+            <table class="data-table">
+              <thead><tr><th>Date</th><th>Amount</th><th>Status</th><th>Invoice</th></tr></thead>
+              <tbody>
+                <tr><td>Mar 1, 2025</td><td style="font-family:var(--font-mono)">$149.00</td><td><span class="badge badge--success">Paid</span></td><td><a href="#" style="color:var(--accent-primary);font-size:13px">Download</a></td></tr>
+                <tr><td>Feb 1, 2025</td><td style="font-family:var(--font-mono)">$149.00</td><td><span class="badge badge--success">Paid</span></td><td><a href="#" style="color:var(--accent-primary);font-size:13px">Download</a></td></tr>
+                <tr><td>Jan 1, 2025</td><td style="font-family:var(--font-mono)">$149.00</td><td><span class="badge badge--success">Paid</span></td><td><a href="#" style="color:var(--accent-primary);font-size:13px">Download</a></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Profile -->
+          <div class="settings-section" id="sec-profile">
+            <h3>Profile Settings</h3>
+            <div style="max-width:480px;display:flex;flex-direction:column;gap:var(--space-lg);">
+              <div>
+                <label style="font-size:13px;color:var(--text-muted);display:block;margin-bottom:6px;">Full Name</label>
+                <input type="text" class="input-glass" value="Alex Santiago">
+              </div>
+              <div>
+                <label style="font-size:13px;color:var(--text-muted);display:block;margin-bottom:6px;">Email</label>
+                <input type="email" class="input-glass" value="alex@company.com">
+              </div>
+              <div>
+                <label style="font-size:13px;color:var(--text-muted);display:block;margin-bottom:6px;">Company Name</label>
+                <input type="text" class="input-glass" value="Acme Corporation">
+              </div>
+              <button class="btn-primary" style="width:fit-content"><span>Save changes</span></button>
+            </div>
+          </div>
+
+          <!-- Notifications -->
+          <div class="settings-section" id="sec-notifications">
+            <h3>Notification Preferences</h3>
+            <p style="font-size:14px;margin-bottom:var(--space-xl);">Configure how and when Spendly sends you alerts.</p>
+            <div style="max-width:480px;">
+              <div class="notif-setting" style="padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.04)"><span style="font-size:13px;color:var(--text-secondary)">Email notifications</span><label class="toggle-switch"><input type="checkbox" checked><span class="slider"></span></label></div>
+              <div class="notif-setting" style="padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.04)"><span style="font-size:13px;color:var(--text-secondary)">Push notifications</span><label class="toggle-switch"><input type="checkbox" checked><span class="slider"></span></label></div>
+              <div class="notif-setting" style="padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.04)"><span style="font-size:13px;color:var(--text-secondary)">Weekly summary email</span><label class="toggle-switch"><input type="checkbox" checked><span class="slider"></span></label></div>
+              <div class="notif-setting" style="padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.04)"><span style="font-size:13px;color:var(--text-secondary)">Renewal reminders (90d, 30d, 7d)</span><label class="toggle-switch"><input type="checkbox" checked><span class="slider"></span></label></div>
+              <div class="notif-setting" style="padding:12px 0"><span style="font-size:13px;color:var(--text-secondary)">New tool detection alerts</span><label class="toggle-switch"><input type="checkbox"><span class="slider"></span></label></div>
+            </div>
+          </div>
+
+          <!-- API -->
+          <div class="settings-section" id="sec-api">
+            <h3>API Access</h3>
+            <p style="font-size:14px;margin-bottom:var(--space-xl);">Access the Spendly API to integrate with your own workflows and tools.</p>
+            <div style="max-width:580px;">
+              <label style="font-size:13px;color:var(--text-muted);display:block;margin-bottom:6px;">API Key</label>
+              <div style="display:flex;gap:8px;margin-bottom:var(--space-lg);">
+                <input type="text" class="input-glass" value="sk-spendly-a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6" style="font-family:var(--font-mono);font-size:12px;" readonly>
+                <button class="btn-ghost btn-sm" onclick="this.textContent='Copied!'">Copy</button>
+              </div>
+              <p style="font-size:13px;color:var(--text-muted)">Rate limit: 1,000 requests/minute · <a href="#" style="color:var(--accent-primary)">View API docs →</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+</main>
   </div>
-  <footer
-    style="background-color: var(--bg-dark); color: var(--text-on-dark-muted); padding: 64px 0; font-size: 14px;">
-    <div class="container" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;">
-      <div style="font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--text-primary);">
-        Spendly
-        <p style="font-family: 'DM Sans', sans-serif; color: var(--text-on-dark-muted); margin-top: 8px;">
-          AI-powered SaaS spend intelligence<br>Built by Team Bugg Slayers</p>
-      </div>
-      <div>
-        <h5
-          style="font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 500; color: var(--text-on-dark); margin-bottom: 16px;">
-          Product</h5>
-        <ul style="list-style: none; padding: 0; margin: 0;">
-          <li style="margin-bottom: 8px;"><a href="dashboard.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Overview</a></li>
-          <li style="margin-bottom: 8px;"><a href="features.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Features</a></li>
-          <li style="margin-bottom: 8px;"><a href="pricing.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Pricing</a></li>
-          <li style="margin-bottom: 8px;"><a href="insights.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Changelog</a></li>
-        </ul>
-      </div>
-      <div>
-        <h5
-          style="font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 500; color: var(--text-on-dark); margin-bottom: 16px;">
-          Company</h5>
-        <ul style="list-style: none; padding: 0; margin: 0;">
-          <li style="margin-bottom: 8px;"><a href="about.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">About</a></li>
-          <li style="margin-bottom: 8px;"><a href="about.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Careers</a></li>
-          <li style="margin-bottom: 8px;"><a href="insights.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Blog</a></li>
-          <li style="margin-bottom: 8px;"><a href="mailto:hello@spendly.io"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Contact</a></li>
-        </ul>
-      </div>
-      <div>
-        <h5
-          style="font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 500; color: var(--text-on-dark); margin-bottom: 16px;">
-          Legal</h5>
-        <ul style="list-style: none; padding: 0; margin: 0;">
-          <li style="margin-bottom: 8px;"><a href="about.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Privacy</a></li>
-          <li style="margin-bottom: 8px;"><a href="about.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Terms</a></li>
-          <li style="margin-bottom: 8px;"><a href="about.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Security</a></li>
-          <li style="margin-bottom: 8px;"><a href="about.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">SOC 2</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="divider" style="border-top: 1px solid rgba(255,255,255,0.1); margin: 32px 0;"></div>
-    <div class="bottom" style="display: flex; justify-content: space-between; align-items: center;">
-      <p style="color: var(--text-on-dark-muted); font-family: 'DM Sans', sans-serif;">© 2025 Spendly · Built by Team Bugg Slayers</p>
-      <p style="color: var(--text-on-dark-muted); font-family: 'DM Sans', sans-serif;"><a href="about.html"
-          style="color: var(--text-on-dark-muted); text-decoration: none;">Privacy</a> · <a href="about.html"
-          style="color: var(--text-on-dark-muted); text-decoration: none;">Terms</a></p>
-    </div>
-  </footer>
+  
 <script>
 document.querySelector('.hamburger')?.addEventListener('click', () => {
   document.querySelector('.nav-links')?.classList.toggle('open');
@@ -768,6 +974,91 @@ window.addEventListener('scroll', () => {
     if(nav) nav.style.boxShadow = window.scrollY > 10 ? '0 1px 12px rgba(0,0,0,0.08)' : 'none';
 });
 </script>
+<script src="/assets/shared.js"></script>
+  <script src="/assets/spendly-polish.js"></script>
+  <script>
+    // Settings Interactions
+    document.addEventListener('click', function(e) {
+      // Connect Button
+      if(e.target.closest('.action-connect')) {
+        const btn = e.target.closest('.action-connect');
+        if (btn.classList.contains('connected')) return;
+        
+        const card = btn.closest('.int-card');
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Connecting...';
+        btn.style.opacity = '0.8';
+        btn.style.pointerEvents = 'none';
+        
+        setTimeout(() => {
+          btn.innerHTML = '<span style="color: #059669; font-weight: 600;"><i class="fa-solid fa-check"></i> Connected</span>';
+          btn.style.background = '#ECFDF5';
+          btn.style.borderColor = '#A7F3D0';
+          btn.style.color = '#059669';
+          btn.style.opacity = '1';
+          btn.style.pointerEvents = 'auto';
+          btn.classList.add('connected');
+          
+          if (card) {
+            card.style.borderColor = '#34D399';
+            card.style.boxShadow = '0 0 0 2px rgba(52, 211, 153, 0.2)';
+            const icon = card.querySelector('.int-icon');
+            if(icon && !icon.querySelector('.status-dot')) {
+              icon.style.position = 'relative';
+              icon.insertAdjacentHTML('beforeend', '<span class="status-dot status-dot--active" style="position:absolute;top:-4px;right:-4px;background:#10B981;border:2px solid #fff;width:12px;height:12px;border-radius:50%;"></span>');
+            }
+          }
+        }, 1200);
+      }
+      
+      // Disconnect Button
+      if(e.target.closest('.action-disconnect')) {
+        const btn = e.target.closest('.action-disconnect');
+        const row = btn.closest('.int-row');
+        btn.innerHTML = 'Disconnecting...';
+        btn.style.pointerEvents = 'none';
+        
+        setTimeout(() => {
+          if (row) {
+            row.style.opacity = '0';
+            row.style.transform = 'scale(0.95)';
+            setTimeout(() => row.remove(), 300);
+          }
+        }, 800);
+      }
+      
+      // Remove Team Member
+      if(e.target.closest('.action-remove')) {
+        const btn = e.target.closest('.action-remove');
+        const row = btn.closest('.member-row');
+        btn.innerHTML = 'Removing...';
+        btn.style.pointerEvents = 'none';
+        
+        setTimeout(() => {
+          if (row) {
+            row.style.opacity = '0';
+            row.style.transform = 'translateX(20px)';
+            setTimeout(() => row.remove(), 300);
+          }
+        }, 600);
+      }
+    });
+  </script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      
+    
+
+    function showSection(link, section) {
+      document.querySelectorAll('.settings-nav a').forEach(a => a.classList.remove('active'));
+      document.querySelectorAll('.settings-section').forEach(s => s.classList.remove('active'));
+      link.classList.add('active');
+      document.getElementById('sec-' + section).classList.add('active');
+    }
+
+    initSpendly();
+  
+    });
+  </script>
 </body>
 
 </html>

@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
     integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
@@ -48,7 +48,7 @@
     }
 
     body {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Outfit', sans-serif;
       margin: 0;
       padding: 0;
       background-color: var(--bg-page);
@@ -87,10 +87,10 @@
 
         /* NAVBAR */
     nav {
-      position: sticky; top: 0; z-index: 100; background: white;
+      position: sticky; top: 0; z-index: 100; /* background: aliceblue; removed for glass */
       top: 0;
       left: 0;
-      width: <span class="mono">100%</span>;
+      width: 100%;
       height: 64px;
       background-color: var(--bg-page);
       border-bottom: 1px solid var(--border);
@@ -103,7 +103,7 @@
     }
 
     nav .logo {
-      font-family: 'DM Serif Display', serif;
+      font-family: 'Outfit', sans-serif;
       font-size: 22px;
       color: var(--text-primary);
       display: flex;
@@ -145,7 +145,7 @@
     nav a.active::after {
       content: '';
       display: block;
-      width: <span class="mono">100%</span>;
+      width: 100%;
       height: 2px;
       background-color: var(--accent);
       margin-top: 4px;
@@ -160,7 +160,7 @@
       text-decoration: none;
       font-size: 15px;
       transition: all 0.25s ease;
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Outfit', sans-serif;
     }
 
     nav .button:hover {
@@ -174,11 +174,11 @@
     }
 
     .sidebar {
-      width: 240px;
+      width: var(--sidebar-width, 240px); transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1);
       height: 100vh;
-      background-color: #FAFAFA;
+      /* background-color: aliceblue; removed for glass */
       border-right: 1px solid var(--border);
-      position: sticky; top: 0; z-index: 100; background: white;
+      position: sticky; top: 0; z-index: 100; /* background: aliceblue; removed for glass */
       top: 0;
       left: 0;
       padding-top: 60px;
@@ -211,7 +211,7 @@
 
     .main-content {
       flex: 1;
-      margin-left: 240px;
+      margin-left: var(--sidebar-width, 240px); transition: margin-left 0.4s cubic-bezier(0.25, 1, 0.5, 1);
       padding: 32px;
       background-color: var(--bg-page);
     }
@@ -288,7 +288,7 @@
 
     /* DATA TABLE */
     .data-table {
-      width: <span class="mono">100%</span>;
+      width: 100%;
       border-collapse: collapse;
     }
 
@@ -337,7 +337,7 @@
     }
 
     footer h5 {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Outfit', sans-serif;
       font-size: 16px;
       font-weight: 500;
       color: var(--text-on-dark);
@@ -358,7 +358,7 @@
       color: var(--text-on-dark-muted);
       text-decoration: none;
       transition: color 0.2s;
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Outfit', sans-serif;
     }
 
     footer a:hover {
@@ -567,7 +567,52 @@
     /* Fix wrapper sizing */
     html, body { max-width: 100vw !important; overflow-x: hidden !important; }
 }
-</style>
+
+    /* Migrated from SpenDly */
+
+    .analytics-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-xl); flex-wrap: wrap; gap: 12px; }
+    .analytics-header h2 { font-size: 1.5rem; }
+    .date-picker { display: flex; gap: 4px; background: rgba(0,0,0,0.03); border-radius: var(--radius-sm); padding: 4px; }
+    .date-picker button {
+      padding: 8px 16px; border-radius: 6px; font-size: 12px; font-weight: 500;
+      color: var(--text-muted); cursor: pointer; transition: all 0.2s; border: none; background: transparent;
+    }
+    .date-picker button.active { background: var(--accent-primary); color: var(--text-primary); }
+    .charts-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: var(--space-lg); margin-bottom: var(--space-lg); }
+    .chart-card { padding: var(--space-lg); }
+    .chart-card h4 { font-size: 14px; font-weight: 600; margin-bottom: var(--space-md); }
+    .chart-wrap { position: relative; height: 260px; }
+    .chart-wrap-donut { position: relative; height: 240px; display: flex; align-items: center; justify-content: center; }
+
+    /* Spend Table */
+    .spend-table-card { margin-bottom: var(--space-lg); }
+    .table-scroll { overflow-x: auto; }
+    .expand-row { display: none; }
+    .expand-row.active { display: table-row; }
+    .expand-row td { padding: 0 16px 16px 60px; }
+    .expand-content { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; font-size: 12px; }
+    .expand-month { text-align: center; padding: 8px; background: rgba(0,0,0,0.02); border-radius: 4px; }
+    .expand-month__label { color: var(--text-muted); margin-bottom: 2px; }
+    .expand-month__value { font-family: var(--font-mono); font-weight: 600; color: var(--text-secondary); }
+    .clickable-row { cursor: pointer; }
+    .clickable-row:hover td { background: rgba(99,102,241,0.04); }
+
+    /* AI Insights */
+    .insights-card {
+      background: linear-gradient(135deg, rgba(99,102,241,0.08), rgba(34,211,238,0.03));
+      border: 1px solid rgba(99,102,241,0.2);
+    }
+    .insights-card h4 { display: flex; align-items: center; gap: 8px; }
+    .insight-item { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid rgba(0,0,0,0.04); font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+    .insight-item:last-child { border-bottom: none; }
+    .insight-icon { font-size: 18px; flex-shrink: 0; margin-top: 2px; }
+
+    @media (max-width: 1024px) { .charts-row { grid-template-columns: 1fr; } }
+    @media (max-width: 768px) { .date-picker { flex-wrap: wrap; } .expand-content { grid-template-columns: repeat(3, 1fr); } }
+  
+  </style>
+    <link rel="stylesheet" href="/assets/spendly-polish.css">
+    <link rel="stylesheet" href="/assets/dashboard-premium.css">
 </head>
 
 <body>
@@ -580,10 +625,10 @@
       Spendly
     </a>
     <ul class="nav-links">
-      <li><a href="features.html">Product</a></li>
-      <li><a href="insights.html">Insights</a></li>
-      <li><a href="pricing.html">Pricing</a></li>
-      <li><a href="about.html">About</a></li>
+      <li><a href="features.html"><span class="sidebar-text">Product</span></a></li>
+      <li><a href="insights.html"><span class="sidebar-text">Insights</span></a></li>
+      <li><a href="pricing.html"><span class="sidebar-text">Pricing</span></a></li>
+      <li><a href="about.html"><span class="sidebar-text">About</span></a></li>
     </ul>
     <div class="hamburger" style="display: none;">
       <span></span>
@@ -596,171 +641,76 @@
   <div class="dashboard-container">
     <div class="sidebar">
       <ul>
-        <li><a href="dashboard.html">Overview</a></li>
-        <li><a href="inventory.html">SaaS Inventory</a></li>
-        <li><a href="license.html">License Optimizer</a></li>
-        <li><a class="active" href="spend.html" >Spend Analytics</a></li>
-        <li><a href="renewals.html">Renewal Forecast</a></li>
-        <li><a href="duplicates.html">Duplicate Detector</a></li>
-        <li><a href="optimization.html">Optimization Actions</a></li>
-        <li><a href="dashboard.html">Alerts</a></li>
-        <li><a href="cfo.html">CFO View</a></li>
-        <li><a href="settings.html">Settings</a></li>
+        <li><a href="dashboard.html"><i data-lucide="layout-dashboard" style="width:18px;height:18px;margin-right:12px;opacity:0.6;flex-shrink:0;"></i><span class="sidebar-text">Overview</span></a></li>
+        <li><a href="inventory.html"><i data-lucide="box" style="width:18px;height:18px;margin-right:12px;opacity:0.6;flex-shrink:0;"></i><span class="sidebar-text">SaaS Inventory</span></a></li>
+        <li><a href="license.html"><i data-lucide="key" style="width:18px;height:18px;margin-right:12px;opacity:0.6;flex-shrink:0;"></i><span class="sidebar-text">License Optimizer</span></a></li>
+        <li><a class="active" href="spend.html" ><i data-lucide="pie-chart" style="width:18px;height:18px;margin-right:12px;opacity:0.6;flex-shrink:0;"></i><span class="sidebar-text">Spend Analytics</span></a></li>
+        <li><a href="renewals.html"><i data-lucide="calendar" style="width:18px;height:18px;margin-right:12px;opacity:0.6;flex-shrink:0;"></i><span class="sidebar-text">Renewal Forecast</span></a></li>
+        <li><a href="duplicates.html"><i data-lucide="copy" style="width:18px;height:18px;margin-right:12px;opacity:0.6;flex-shrink:0;"></i><span class="sidebar-text">Duplicate Detector</span></a></li>
+        <li><a href="optimization.html"><i data-lucide="zap" style="width:18px;height:18px;margin-right:12px;opacity:0.6;flex-shrink:0;"></i><span class="sidebar-text">Optimization Actions</span></a></li>
+        <li><a href="dashboard.html"><i data-lucide="bell" style="width:18px;height:18px;margin-right:12px;opacity:0.6;flex-shrink:0;"></i><span class="sidebar-text">Alerts</span></a></li>
+        <li><a href="cfo.html"><i data-lucide="briefcase" style="width:18px;height:18px;margin-right:12px;opacity:0.6;flex-shrink:0;"></i><span class="sidebar-text">CFO View</span></a></li>
+        <li><a href="settings.html"><i data-lucide="settings" style="width:18px;height:18px;margin-right:12px;opacity:0.6;flex-shrink:0;"></i><span class="sidebar-text">Settings</span></a></li>
       </ul>
     </div>
 
     <main class="main-content">
-      <section class="fade-in" id="spend-analytics">
-        <div class="container">
-          <span class="label">Section</span>
-          <h2>Spend Analytics</h2>
+<div class="analytics-header">
+        <h2>Spend Analytics</h2>
+        <div class="date-picker">
+          <button onclick="setPeriod(this)">30 days</button>
+          <button onclick="setPeriod(this)">90 days</button>
+          <button onclick="setPeriod(this)" class="active">6 months</button>
+          <button onclick="setPeriod(this)">1 year</button>
+          <button onclick="setPeriod(this)">Custom</button>
+        </div>
+      </div>
 
-          <div class="kpi-grid">
-            <div class="kpi-card success">
-              <div class="kpi-number">$<span class="counter" data-target="247830">0</span></div>
-              <div class="kpi-label">Total SaaS Spend</div>
-            </div>
-            <div class="kpi-card">
-              <div class="kpi-number counter" data-target="47">0</div>
-              <div class="kpi-label">Number of SaaS Tools</div>
-            </div>
-            <div class="kpi-card warning">
-              <div class="kpi-number"><span class="counter" data-target="24.7">0</span>%</div>
-              <div class="kpi-label">Wasted Spend</div>
-            </div>
-          </div>
+      <!-- Chart Row -->
+      <div class="charts-row">
+        <div class="card chart-card animate-in">
+          <h4>Monthly Spend Trend</h4>
+          <div class="chart-wrap"><canvas id="trendChart"></canvas></div>
+        </div>
+        <div class="card chart-card animate-in" style="animation-delay:0.08s">
+          <h4>Spend by Department</h4>
+          <div class="chart-wrap"><canvas id="deptChart"></canvas></div>
+        </div>
+        <div class="card chart-card animate-in" style="animation-delay:0.16s">
+          <h4>Tool Category Breakdown</h4>
+          <div class="chart-wrap-donut"><canvas id="catChart"></canvas></div>
+        </div>
+      </div>
 
-          <div class="chart-container">
-            <h3>Spend by Category</h3>
-            <canvas id="categoryChart" height="300"></canvas>
-          </div>
-
-          <div class="filter-controls">
-            <select class="filter-select">
-              <option>Last 3 Months</option>
-              <option>Last 6 Months</option>
-              <option>Last 12 Months</option>
-              <option>YTD</option>
-              <option>Custom Range</option>
-            </select>
-          </div>
-
-          <h3>Detailed Spend Data</h3>
-          <table class="data-table">
+      <!-- Spend Table -->
+      <div class="card spend-table-card chart-card animate-in">
+        <h4>Detailed Spend Breakdown</h4>
+        <div class="table-scroll">
+          <table class="data-table" id="spendTable">
             <thead>
               <tr>
-                <th>Tool</th>
-                <th>Category</th>
-                <th>Monthly Spend</th>
-                <th>Annual Spend</th>
-                <th>Trend</th>
+                <th>Tool</th><th>Department</th><th>Monthly</th><th>Annual</th><th>vs. Last Period</th><th>Active Users</th><th>Cost/User</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <td>Salesforce</td>
-                <td>CRM</td>
-                <td><span class="mono">$350</span></td>
-                <td><span class="mono">$4,200</span></td>
-                <td class="text-muted">Steady</td>
-              </tr>
-              <tr>
-                <td>Slack</td>
-                <td>Communication</td>
-                <td><span class="mono">$150</span></td>
-                <td><span class="mono">$1,800</span></td>
-                <td class="text-muted">Steady</td>
-              </tr>
-              <tr>
-                <td>Figma</td>
-                <td>Design</td>
-                <td><span class="mono">$80</span></td>
-                <td><span class="mono">$960</span></td>
-                <td class="text-muted">Increasing</td>
-              </tr>
-              <tr>
-                <td>Notion</td>
-                <td>Productivity</td>
-                <td><span class="mono">$40</span></td>
-                <td><span class="mono">$480</span></td>
-                <td class="text-muted">Decreasing</td>
-              </tr>
-              <tr>
-                <td>Zoom</td>
-                <td>Communication</td>
-                <td><span class="mono">$175</span></td>
-                <td><span class="mono">$2,100</span></td>
-                <td class="text-muted">Steady</td>
-              </tr>
-            </tbody>
+            <tbody id="spendTableBody"></tbody>
           </table>
         </div>
-      </section>
-    </main>
+      </div>
+
+      <!-- AI Insights -->
+      <div class="card insights-card chart-card animate-in">
+        <h4><span style="font-size:18px">🔍</span> AI Insights</h4>
+        <div class="insight-item"><span class="insight-icon">📊</span><span>Design department spend increased 34% this quarter, primarily driven by overlapping Figma and Sketch subscriptions. Consolidating to Figma alone would save $8,640/yr.</span></div>
+        <div class="insight-item"><span class="insight-icon">⚠️</span><span>Salesforce cost-per-user ($110.53) is 2.4× the industry median of $46. Consider reviewing your license tier or negotiating at renewal.</span></div>
+        <div class="insight-item"><span class="insight-icon">💡</span><span>Communication tools (Slack + Zoom) represent 18.9% of total spend but have the highest engagement rates. These are high-value, well-utilized investments.</span></div>
+        <div style="margin-top:var(--space-md)">
+          <button class="btn-ghost btn-sm" onclick="this.textContent='✓ Analysis refreshed'"><i data-lucide="refresh-cw" style="width:14px;height:14px"></i> Refresh analysis</button>
+        </div>
+      </div>
+</main>
   </div>
 
-    <footer
-    style="background-color: var(--bg-dark); color: var(--text-on-dark-muted); padding: 64px 0; font-size: 14px;">
-    <div class="container" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;">
-      <div style="font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--text-primary);">
-        Spendly
-        <p style="font-family: 'DM Sans', sans-serif; color: var(--text-on-dark-muted); margin-top: 8px;">
-          AI-powered SaaS spend intelligence<br>Built by Team Bugg Slayers</p>
-      </div>
-      <div>
-        <h5
-          style="font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 500; color: var(--text-on-dark); margin-bottom: 16px;">
-          Product</h5>
-        <ul style="list-style: none; padding: 0; margin: 0;">
-          <li style="margin-bottom: 8px;"><a href="dashboard.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Overview</a></li>
-          <li style="margin-bottom: 8px;"><a href="features.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Features</a></li>
-          <li style="margin-bottom: 8px;"><a href="pricing.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Pricing</a></li>
-          <li style="margin-bottom: 8px;"><a href="insights.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Changelog</a></li>
-        </ul>
-      </div>
-      <div>
-        <h5
-          style="font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 500; color: var(--text-on-dark); margin-bottom: 16px;">
-          Company</h5>
-        <ul style="list-style: none; padding: 0; margin: 0;">
-          <li style="margin-bottom: 8px;"><a href="about.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">About</a></li>
-          <li style="margin-bottom: 8px;"><a href="about.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Careers</a></li>
-          <li style="margin-bottom: 8px;"><a href="insights.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Blog</a></li>
-          <li style="margin-bottom: 8px;"><a href="mailto:hello@spendly.io"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Contact</a></li>
-        </ul>
-      </div>
-      <div>
-        <h5
-          style="font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 500; color: var(--text-on-dark); margin-bottom: 16px;">
-          Legal</h5>
-        <ul style="list-style: none; padding: 0; margin: 0;">
-          <li style="margin-bottom: 8px;"><a href="about.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Privacy</a></li>
-          <li style="margin-bottom: 8px;"><a href="about.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Terms</a></li>
-          <li style="margin-bottom: 8px;"><a href="about.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Security</a></li>
-          <li style="margin-bottom: 8px;"><a href="about.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">SOC 2</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="divider" style="border-top: 1px solid rgba(255,255,255,0.1); margin: 32px 0;"></div>
-    <div class="bottom" style="display: flex; justify-content: space-between; align-items: center;">
-      <p style="color: var(--text-on-dark-muted); font-family: 'DM Sans', sans-serif;">© 2025 Spendly · Built by Team Bugg Slayers</p>
-      <p style="color: var(--text-on-dark-muted); font-family: 'DM Sans', sans-serif;"><a href="about.html"
-          style="color: var(--text-on-dark-muted); text-decoration: none;">Privacy</a> · <a href="about.html"
-          style="color: var(--text-on-dark-muted); text-decoration: none;">Terms</a></p>
-    </div>
-  </footer>
+    
   <script>
 document.querySelector('.hamburger')?.addEventListener('click', () => {
   document.querySelector('.nav-links')?.classList.toggle('open');
@@ -907,6 +857,85 @@ window.addEventListener('scroll', () => {
     if(nav) nav.style.boxShadow = window.scrollY > 10 ? '0 1px 12px rgba(0,0,0,0.08)' : 'none';
 });
 </script>
+<script src="/assets/shared.js"></script>
+  <script src="/assets/spendly-polish.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      
+    
+
+    function setPeriod(btn) {
+      document.querySelectorAll('.date-picker button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    // Build spend table
+    const tbody = document.getElementById('spendTableBody');
+    mockTools.forEach((t, idx) => {
+      const annual = t.cost * 12;
+      const change = (Math.random() * 20 - 5).toFixed(1);
+      const costPerUser = (t.cost / t.activeSeats).toFixed(2);
+      const isExpensive = parseFloat(costPerUser) > 80;
+      tbody.innerHTML += `<tr class="clickable-row" onclick="toggleExpand(${idx})">
+        <td><div style="display:flex;align-items:center;gap:10px">
+          <div style="width:28px;height:28px;border-radius:6px;background:${getToolColor(t.name)};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:10px;color:white">${t.logo}</div>
+          <span style="font-weight:600;color:var(--text-primary)">${t.name}</span>
+        </div></td>
+        <td>${t.dept}</td>
+        <td style="font-family:var(--font-mono);font-weight:600">$${t.cost.toLocaleString()}</td>
+        <td style="font-family:var(--font-mono)">$${annual.toLocaleString()}</td>
+        <td style="color:${parseFloat(change)>0?'var(--accent-danger)':'var(--accent-success)'}">${parseFloat(change)>0?'+':''}${change}%</td>
+        <td>${t.activeSeats}/${t.seats}</td>
+        <td style="color:${isExpensive?'var(--accent-danger)':'var(--accent-success)'};">$${costPerUser}</td>
+      </tr>
+      <tr class="expand-row" id="expand-${idx}">
+        <td colspan="7">
+          <div class="expand-content">
+            ${['Sep','Oct','Nov','Dec','Jan','Feb'].map(m => `<div class="expand-month"><div class="expand-month__label">${m}</div><div class="expand-month__value">$${(t.cost + Math.floor(Math.random()*200-100)).toLocaleString()}</div></div>`).join('')}
+          </div>
+        </td>
+      </tr>`;
+    });
+
+    function toggleExpand(idx) {
+      const row = document.getElementById('expand-' + idx);
+      row.classList.toggle('active');
+    }
+
+    // Charts
+    
+      initSpendly();
+      setupChartDefaults();
+
+      // Trend Chart
+      const trendCtx = document.getElementById('trendChart').getContext('2d');
+      const gradient = trendCtx.createLinearGradient(0, 0, 0, 260);
+      gradient.addColorStop(0, 'rgba(99,102,241,0.3)');
+      gradient.addColorStop(1, 'rgba(99,102,241,0.0)');
+      new Chart(trendCtx, {
+        type: 'line',
+        data: { labels: mockSpendByMonth.map(m => m.month), datasets: [{ data: mockSpendByMonth.map(m => m.spend), borderColor: '#6366F1', backgroundColor: gradient, fill: true }] },
+        options: { responsive: true, maintainAspectRatio: false, scales: { y: { ticks: { callback: v => '$' + (v/1000) + 'k' }, grid: { color: 'rgba(255,255,255,0.04)' }, border: { display: false } }, x: { grid: { display: false }, border: { display: false } } }, plugins: { tooltip: { callbacks: { label: ctx => '$' + ctx.parsed.y.toLocaleString() } } } }
+      });
+
+      // Department Chart
+      new Chart(document.getElementById('deptChart'), {
+        type: 'bar',
+        data: { labels: mockSpendByDept.map(d => d.dept), datasets: [{ data: mockSpendByDept.map(d => d.spend), backgroundColor: ['#6366F1','#22D3EE','#10B981','#F59E0B','#8B5CF6','#EC4899','#F97316'], borderRadius: 6, barPercentage: 0.6 }] },
+        options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, scales: { x: { ticks: { callback: v => '$' + (v/1000) + 'k' }, grid: { color: 'rgba(255,255,255,0.04)' }, border: { display: false } }, y: { grid: { display: false }, border: { display: false } } }, plugins: { tooltip: { callbacks: { label: ctx => '$' + ctx.parsed.x.toLocaleString() + '/mo' } } } }
+      });
+
+      // Category Donut
+      const catData = {};
+      mockTools.forEach(t => { catData[t.category] = (catData[t.category]||0) + t.cost; });
+      new Chart(document.getElementById('catChart'), {
+        type: 'doughnut',
+        data: { labels: Object.keys(catData), datasets: [{ data: Object.values(catData), backgroundColor: ['#6366F1','#22D3EE','#10B981','#F59E0B','#8B5CF6','#EC4899','#F97316','#EF4444'], borderWidth: 0, spacing: 2 }] },
+        options: { responsive: true, maintainAspectRatio: false, cutout: '65%', plugins: { legend: { display: true, position: 'bottom', labels: { padding: 12, usePointStyle: true, pointStyle: 'circle', font: { size: 11 } } }, tooltip: { callbacks: { label: ctx => ctx.label + ': $' + ctx.parsed.toLocaleString() + '/mo' } } } }
+      });
+    
+    });
+  </script>
 </body>
 
 </html>

@@ -1,0 +1,238 @@
+/* ═════════════════════════════════════════════════════════════════════════
+   DASHBOARD PREMIUM OVERHAUL - V2 (Ultra-Clean & Professional)
+   ═════════════════════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
+/* 1. ULTRA-LIGHT PREMIUM BACKGROUND */
+body {
+    background: #F8FAFC !important; /* Very crisp, light blue/grey */
+    background-image: 
+        radial-gradient(at 0% 0%, rgba(225, 235, 255, 0.5) 0px, transparent 40%),
+        radial-gradient(at 100% 100%, rgba(210, 225, 255, 0.4) 0px, transparent 40%) !important;
+    background-attachment: fixed !important;
+}
+
+.main-content {
+    background: transparent !important;
+    padding: 48px 56px !important; /* increased spacing for less congestion */
+}
+
+/* 2. SIDEBAR TOGGLE LOGIC */
+:root {
+    --sidebar-width: 260px;
+}
+
+.sidebar {
+    width: var(--sidebar-width) !important;
+    transition: width 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+    background: rgba(255, 255, 255, 0.75) !important;
+    backdrop-filter: blur(24px) !important;
+    -webkit-backdrop-filter: blur(24px) !important;
+    border-right: 1px solid rgba(226, 232, 240, 0.8) !important;
+    box-shadow: 2px 0 24px rgba(0, 0, 0, 0.02) !important;
+}
+
+.sidebar.collapsed {
+    --sidebar-width: 80px;
+}
+
+.sidebar li a {
+    border-radius: 8px;
+    margin: 8px 16px;
+    padding: 12px 16px;
+    transition: all 0.2s ease !important;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+/* Collapse behavior: fade out text when sidebar is shrunk */
+.sidebar.collapsed .sidebar-text {
+    opacity: 0;
+    width: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+}
+
+.sidebar:not(.collapsed) .sidebar-text {
+    opacity: 1;
+    width: auto;
+    visibility: visible;
+    transition: all 0.3s ease 0.1s;
+}
+
+.sidebar li a:hover {
+    background: rgba(241, 245, 249, 0.8) !important;
+    transform: translateX(4px);
+}
+
+.sidebar li a.active {
+    background: #FFFFFF !important;
+    color: #1E3A8A !important; 
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04) !important;
+    border-right: none !important;
+    position: relative;
+}
+
+.sidebar li a.active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 50%;
+    width: 3px;
+    background: #3B82F6;
+    border-radius: 0 4px 4px 0;
+}
+
+/* 3. PREMIUM GLASS CARDS & MICRO-ANIMATIONS */
+.kpi-card, .dashboard-card, .card, .chart-card {
+    background: rgba(255, 255, 255, 0.85) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(255, 255, 255, 1) !important;
+    box-shadow: 
+        0 4px 6px -1px rgba(0, 0, 0, 0.02),
+        0 10px 15px -3px rgba(0, 0, 0, 0.03),
+        inset 0 0 0 1px rgba(241, 245, 249, 0.5) !important;
+    border-radius: 20px !important;
+    padding: 28px !important; /* Increased padding */
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1), box-shadow 0.4s ease !important;
+}
+
+.kpi-card:hover, .dashboard-card:hover, .card:hover, .chart-card:hover {
+    transform: translateY(-4px) !important;
+    box-shadow: 
+        0 12px 24px -4px rgba(15, 23, 42, 0.06),
+        0 8px 16px -4px rgba(15, 23, 42, 0.04),
+        inset 0 0 0 1px rgba(255, 255, 255, 1) !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+}
+
+/* Spacing out grids */
+.kpi-grid, .kpi-row {
+    gap: 24px !important;
+    margin-bottom: 40px !important;
+}
+.dash-grid, .bottom-grid {
+    gap: 32px !important;
+    margin-bottom: 32px !important;
+}
+
+/* 4. HIGH-END TYPOGRAPHY ALERTS & DATA */
+.kpi-number, .kpi-card span[data-counter] {
+    font-size: 38px !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.04em !important;
+    background: linear-gradient(135deg, #0F172A 0%, #475569 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 12px;
+}
+
+.kpi-card h3, .kpi-card__label {
+    text-transform: uppercase;
+    font-size: 11px !important;
+    letter-spacing: 0.1em !important;
+    color: #64748B !important;
+    font-weight: 700 !important;
+}
+
+.kpi-card__trend {
+    margin-top: 12px !important;
+    font-weight: 500 !important;
+}
+
+/* Premium Buttons & Toggles */
+.tab-filters {
+    display: inline-flex;
+    background: rgba(241, 245, 249, 0.8) !important;
+    backdrop-filter: blur(10px) !important;
+    padding: 6px !important;
+    border-radius: 9999px !important;
+    gap: 4px !important;
+    margin-bottom: 24px !important;
+    border: 1px solid rgba(226, 232, 240, 0.8) !important;
+}
+
+.tab-filter {
+    background: transparent !important;
+    border: none !important;
+    padding: 8px 20px !important;
+    border-radius: 9999px !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: #64748B !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    font-family: 'Outfit', sans-serif !important;
+}
+
+.tab-filter:hover {
+    color: #0F172A !important;
+}
+
+.tab-filter.active {
+    background: #FFFFFF !important;
+    color: #2563EB !important;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08) !important;
+}
+
+/* Premium Action Buttons (Reclaim) */
+.btn-danger {
+    background: rgba(254, 226, 226, 0.6) !important;
+    color: #DC2626 !important;
+    border: 1px solid rgba(252, 165, 165, 0.8) !important;
+    padding: 8px 16px !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    font-family: 'Outfit', sans-serif !important;
+    cursor: pointer !important;
+    transition: all 0.25s ease !important;
+}
+
+.btn-danger:hover {
+    background: #EF4444 !important;
+    color: #FFFFFF !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3) !important;
+}
+
+/* Classic Premium Headings */
+h1, h2, .main-content h2 {
+    font-family: 'Playfair Display', serif !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.02em !important;
+    color: #0F172A !important;
+}
+
+/* List Items */
+.alert-row, .inv-row, .opp-item {
+    background: rgba(255, 255, 255, 0.5) !important;
+    border: 1px solid rgba(241, 245, 249, 1) !important;
+    border-radius: 12px !important;
+    transition: all 0.25s ease !important;
+    margin-bottom: 16px !important;
+    padding: 16px 20px !important;
+}
+
+.alert-row:hover, .inv-row:hover, .opp-item:hover {
+    background: #FFFFFF !important;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04) !important;
+    transform: scale(1.005);
+    border-color: #E2E8F0 !important;
+}
+
+/* Logo icon styling for softness */
+.inv-row__icon, .opp-item__icon {
+    border-radius: 12px !important;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05) !important;
+}
+
+/* Hide footer globally if it leaked in anyway */
+footer { display: none !important; }

@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
         rel="stylesheet">
     <style>
         *,
@@ -22,12 +22,12 @@
         }
 
         :root {
-            --bg: #f0f4ff;
-            --bg-hero-end: #faf6f0;
+            --bg: aliceblue;
+            --bg-hero-end: aliceblue;
             --surface: #ffffff;
-            --surface-muted: #f7f7f5;
-            --border: #e8e6e0;
-            --border-strong: #d4d0c8;
+            --surface-muted: #e6f0fa;
+            --border: #e1e8f0;
+            --border-strong: #c2d0e0;
             --text: #0a0a0a;
             --text-secondary: #5a5a52;
             --text-muted: #9a9890;
@@ -36,8 +36,8 @@
             --success: #059669;
             --warning: #d97706;
             --danger: #dc2626;
-            --serif: 'DM Serif Display', serif;
-            --sans: 'DM Sans', sans-serif;
+            --serif: 'Outfit', sans-serif;
+            --sans: 'Outfit', sans-serif;
             --mono: 'JetBrains Mono', monospace;
             --radius: 16px;
             --radius-sm: 8px;
@@ -77,7 +77,7 @@
             position: fixed;
             inset: 0;
             z-index: -1;
-            background: radial-gradient(ellipse 120% 60% at 50% -10%, #c7d9ff 0%, #e8f0ff 30%, #f5f0ea 65%, #faf6f0 100%);
+            background: linear-gradient(135deg, aliceblue 0%, #ffffff 100%);
         }
 
         /* Grain overlay */
@@ -106,7 +106,7 @@
         }
 
         nav.scrolled {
-            background: rgba(240, 244, 255, 0.85);
+            background: rgba(240, 248, 255, 0.85);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             box-shadow: 0 1px 0 var(--border);
@@ -559,56 +559,80 @@
 
         /* ── FEATURE STRIP ── */
         .feature-strip {
-            background: var(--surface);
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
-            padding: 48px 24px;
+            background: #F8FAFC;
+            padding: 80px 24px;
         }
 
         .feature-strip .container {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 0;
+            gap: 24px;
         }
 
         .feature-item {
-            padding: 0 32px;
-            border-right: 1px solid var(--border);
+            background: white;
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            border-radius: 20px;
+            padding: 32px 24px;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 12px -2px rgba(15, 23, 42, 0.03);
+            text-align: left;
         }
 
-        .feature-item:first-child {
-            padding-left: 0;
+        .feature-item::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 4px;
+            background: linear-gradient(90deg, #3B82F6, #8B5CF6);
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
-        .feature-item:last-child {
-            border-right: none;
+        .feature-item:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px -8px rgba(15, 23, 42, 0.08);
+            border-color: transparent;
+        }
+        
+        .feature-item:hover::before {
+            opacity: 1;
         }
 
         .feature-num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             font-size: 11px;
-            color: var(--text-muted);
+            font-weight: 600;
+            color: #3B82F6;
+            background: #EFF6FF;
+            padding: 6px 12px;
+            border-radius: 100px;
             font-family: var(--sans);
-            margin-bottom: 10px;
-            letter-spacing: 0.04em;
+            margin-bottom: 24px;
+            letter-spacing: 0.06em;
         }
 
         .feature-verb {
             font-family: var(--serif);
-            font-size: 22px;
+            font-size: 24px;
+            font-weight: 600;
             color: var(--text);
-            margin-bottom: 6px;
-            letter-spacing: -0.02em;
+            margin-bottom: 12px;
+            letter-spacing: -0.01em;
             transition: color 0.2s;
         }
 
         .feature-item:hover .feature-verb {
-            color: var(--accent-blue);
+            color: #3B82F6;
         }
 
         .feature-desc {
-            font-size: 13px;
+            font-size: 14px;
             color: var(--text-muted);
-            line-height: 1.55;
+            line-height: 1.6;
         }
 
         /* ── EDITORIAL SPLIT ── */
@@ -1256,17 +1280,11 @@
 
             .feature-strip .container {
                 grid-template-columns: 1fr 1fr;
-                gap: 24px;
+                gap: 20px;
             }
 
             .feature-item {
-                border-right: none;
-                padding: 0 0 24px;
-                border-bottom: 1px solid var(--border);
-            }
-
-            .feature-item:last-child {
-                border-bottom: none;
+                padding: 24px 20px;
             }
 
             .editorial .container,
@@ -1306,6 +1324,7 @@
             }
         }
     </style>
+    <link rel="stylesheet" href="/assets/spendly-polish.css">
 </head>
 
 <body>
@@ -1340,7 +1359,7 @@
     <section class="hero">
         <div class="hero-badge">
             <span class="hero-badge-dot"></span>
-            AI-powered SaaS spend intelligence
+            SpenDLy
         </div>
 
         <h1>Stop wasting money on SaaS<br><em>no one uses.</em></h1>
@@ -1484,7 +1503,7 @@
     </div>
 
     <!-- EDITORIAL SPLIT -->
-    <section class="editorial fade-in">
+    <section class="reveal editorial fade-in">
         <div class="container">
             <div>
                 <span class="section-label">The problem</span>
@@ -1497,7 +1516,7 @@
                     creates a single intelligence layer across all three — giving every team the visibility they've been
                     missing.
                 </p>
-                <div class="editorial-stats">
+                <div class="editorial-stats stagger-children">
                     <div class="editorial-stat">
                         <div class="editorial-stat-num" data-counter data-prefix="$" data-suffix="M" data-target="4">
                             $4M+</div>
@@ -1586,14 +1605,14 @@
     </section>
 
     <!-- VALUES PILLARS -->
-    <section class="pillars fade-in">
+    <section class="reveal pillars fade-in">
         <div class="container">
             <div class="pillars-header">
                 <span class="section-label">Our principles</span>
                 <h2>We believe in ruthless clarity over comfortable guesswork</h2>
                 <p>Every dollar should be visible. Every decision should be easy.</p>
             </div>
-            <div class="pillars-grid">
+            <div class="pillars-grid stagger-children">
                 <div class="pillar">
                     <svg class="pillar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
                         stroke-linecap="round">
@@ -1631,7 +1650,7 @@
     </section>
 
     <!-- CASE STUDY -->
-    <section class="case-study fade-in">
+    <section class="reveal case-study fade-in">
         <div class="container">
             <div class="case-study-img">
                 <div class="case-study-img-inner">
@@ -1655,7 +1674,7 @@
     </section>
 
     <!-- TESTIMONIAL -->
-    <section class="testimonial fade-in">
+    <section class="reveal testimonial fade-in">
         <div class="container">
             <span class="quote-mark">"</span>
             <p class="testimonial-quote">We finally stopped guessing. Spendly found $61,000 in waste we didn't know
@@ -1671,7 +1690,7 @@
     </section>
 
     <!-- INSIGHTS -->
-    <section class="insights fade-in">
+    <section class="reveal insights fade-in">
         <div class="container">
             <div class="insights-header">
                 <div>
@@ -1742,7 +1761,7 @@
     </section>
 
     <!-- FINAL CTA -->
-    <section class="final-cta fade-in">
+    <section class="reveal final-cta fade-in">
         <div class="container">
             <h2>Ready to see what<br><em>you're wasting?</em></h2>
             <p>Connect in 12 minutes. Get your first insight within the hour. No credit card required.</p>
@@ -1845,6 +1864,7 @@
         }, { threshold: 0.3 });
         document.querySelectorAll('[data-counter]').forEach(el => counterObserver.observe(el));
     </script>
+<script src="/assets/spendly-polish.js"></script>
 </body>
 
 </html>
