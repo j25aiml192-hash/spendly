@@ -1,2771 +1,753 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spendly — AI-Powered SaaS Spend Intelligence</title>
-    <meta name="description"
-        content="Spendly detects unused licenses, eliminates duplicate tools, and forecasts renewal waste. Recover 20–30% of your SaaS budget in 90 days.">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
-        rel="stylesheet">
-    <style>
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        :root {
-            --bg: aliceblue;
-            --bg-hero-end: aliceblue;
-            --surface: #ffffff;
-            --surface-muted: #e6f0fa;
-            --border: #e1e8f0;
-            --border-strong: #c2d0e0;
-            --text: #0a0a0a;
-            --text-secondary: #5a5a52;
-            --text-muted: #9a9890;
-            --accent: #0a0a0a;
-            --accent-blue: #2563eb;
-            --success: #059669;
-            --warning: #d97706;
-            --danger: #dc2626;
-            --serif: 'Outfit', sans-serif;
-            --sans: 'Outfit', sans-serif;
-            --mono: 'JetBrains Mono', monospace;
-            --radius: 16px;
-            --radius-sm: 8px;
-            --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.06), 0 16px 48px rgba(0, 0, 0, 0.08);
-            --shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.08), 0 24px 64px rgba(0, 0, 0, 0.12);
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: var(--sans);
-            background: #f0f4ff;
-            min-height: 100vh;
-            color: var(--text);
-            line-height: 1.6;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        /* ── SCROLLBAR ── */
-        ::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--border-strong);
-            border-radius: 4px;
-        }
-
-        /* ── GRADIENT BACKGROUND ── */
-        .page-bg {
-            position: fixed;
-            inset: 0;
-            z-index: -1;
-            background: radial-gradient(
-                ellipse 140% 70% at 50% -10%,
-                #c7d9ff 0%,
-                #e8f0ff 35%,
-                #f5f0ea 65%,
-                #faf6f0 100%
-            );
-        }
-
-        /* Grain overlay */
-        .page-bg::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            opacity: 0.025;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-            background-size: 128px;
-            pointer-events: none;
-        }
-
-        /* ── NAVBAR ── */
-        nav, #navbar {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 200;
-            height: 64px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 44px;
-            transition: background 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        nav.scrolled, #navbar.scrolled {
-            background: rgba(240, 244, 255, 0.88);
-            backdrop-filter: blur(24px) saturate(180%);
-            -webkit-backdrop-filter: blur(24px) saturate(180%);
-            box-shadow: 0 1px 0 #E8E6E0, 0 4px 24px rgba(0,0,0,0.04);
-        }
-
-        .nav-logo {
-            font-family: var(--serif);
-            font-size: 20px;
-            color: var(--text);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            letter-spacing: -0.02em;
-        }
-
-        .nav-logo-icon {
-            width: 26px;
-            height: 26px;
-        }
-
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 32px;
-            list-style: none;
-        }
-
-        .nav-links a {
-            font-size: 14px;
-            font-weight: 400;
-            color: #6B7280;
-            text-decoration: none;
-            transition: color 0.2s;
-            position: relative;
-            padding-bottom: 2px;
-        }
-        
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -2px; left: 0;
-            width: 0; height: 1.5px;
-            background: #0C0C0A;
-            transition: width 0.25s ease;
-        }
-
-        .nav-links a:hover {
-            color: #0C0C0A;
-        }
-        
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        .nav-cta {
-            font-family: var(--sans);
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--surface) !important;
-            background: var(--text);
-            padding: 9px 20px;
-            border-radius: 100px;
-            text-decoration: none;
-            transition: background 0.2s, transform 0.2s !important;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .nav-cta:hover {
-            background: #2563eb !important;
-            transform: translateY(-1px) !important;
-        }
-
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            gap: 5px;
-            cursor: pointer;
-            background: none;
-            border: none;
-            padding: 4px;
-        }
-
-        .hamburger span {
-            display: block;
-            width: 22px;
-            height: 1.5px;
-            background: var(--text);
-            border-radius: 2px;
-            transition: all 0.25s;
-        }
-
-        /* ── HERO ── */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 140px 24px 100px;
-        }
-
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            background: rgba(255,255,255,0.75);
-            border: 1px solid #E8E6E0;
-            border-radius: 9999px;
-            padding: 6px 16px;
-            font-size: 12.5px;
-            font-weight: 500;
-            color: #6B7280;
-            margin-bottom: 28px;
-            backdrop-filter: blur(8px);
-            opacity: 0;
-            animation: fadeUp 0.6s ease forwards;
-        }
-
-        .hero-badge-dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background: #059669;
-            flex-shrink: 0;
-        }
-
-        .hero h1 {
-            font-family: 'DM Serif Display', Georgia, serif;
-            font-size: clamp(44px, 7vw, 88px);
-            font-weight: 400;
-            line-height: 1.04;
-            letter-spacing: -0.03em;
-            color: #0C0C0A;
-            max-width: 820px;
-            margin-bottom: 24px;
-            opacity: 0;
-            animation: fadeUp 0.6s ease 0.1s forwards;
-        }
-        
-        .hero h1 em { font-style: italic; }
-        
-
-        .hero h1 em {
-            font-style: italic;
-            color: var(--text);
-        }
-
-        .hero-sub, .hero p {
-            font-size: clamp(16px, 2vw, 19px);
-            color: #44443C;
-            max-width: 520px;
-            line-height: 1.7;
-            margin-bottom: 40px;
-            opacity: 0;
-            animation: fadeUp 0.6s ease 0.2s forwards;
-        }
-
-        .hero-actions {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 16px;
-            opacity: 0;
-            animation: fadeUp 0.6s ease 0.3s forwards;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .btn-primary {
-            background: #0C0C0A;
-            color: white;
-            font-size: 14.5px;
-            font-weight: 500;
-            padding: 13px 28px;
-            border-radius: 9999px;
-            border: none;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            transition: background 0.25s, transform 0.2s, box-shadow 0.2s;
-        }
-
-        .btn-primary:hover {
-            background: #2563EB;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(37,99,235,0.28);
-        }
-
-        .btn-ghost {
-            background: transparent;
-            color: #0C0C0A;
-            font-size: 14.5px;
-            font-weight: 500;
-            padding: 12px 28px;
-            border-radius: 9999px;
-            border: 1.5px solid #D0CEC6;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            transition: border-color 0.2s, background 0.2s, transform 0.2s;
-        }
-
-        .btn-ghost:hover {
-            border-color: #0C0C0A;
-            background: rgba(0,0,0,0.03);
-            transform: translateY(-1px);
-        }
-
-        .hero-trust {
-            font-size: 13px;
-            color: #9A9890;
-            margin-bottom: 72px;
-            opacity: 0;
-            animation: fadeUp 0.6s ease 0.35s forwards;
-        }
-
-        /* ── DASHBOARD CARD ── */
-        .dashboard-wrap {
-            width: 100%;
-            max-width: 880px;
-            margin: 0 auto;
-            opacity: 0;
-            animation: fadeUp 0.8s ease 0.45s forwards;
-        }
-
-        .dashboard-card {
-            background: #ffffff;
-            border-radius: 20px;
-            border: 1px solid #E8E6E0;
-            box-shadow:
-                0 0 0 1px rgba(0,0,0,0.03),
-                0 4px 16px rgba(0,0,0,0.06),
-                0 24px 64px rgba(0,0,0,0.10),
-                0 48px 100px rgba(0,0,0,0.08);
-            overflow: hidden;
-            animation: float 6s ease-in-out infinite;
-            transform-origin: center bottom;
-        }
-
-        .db-titlebar {
-            background: #f5f5f3;
-            border-bottom: 1px solid var(--border);
-            padding: 10px 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .db-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-        }
-
-        .db-dot.r {
-            background: #ff5f57;
-        }
-
-        .db-dot.y {
-            background: #febc2e;
-        }
-
-        .db-dot.g {
-            background: #28c840;
-        }
-
-        .db-title-text {
-            flex: 1;
-            text-align: center;
-            font-size: 12px;
-            color: var(--text-muted);
-            font-family: var(--sans);
-            margin-left: -40px;
-        }
-
-        .db-body {
-            font-family: var(--sans);
-            background: #f0f4ff;
-            min-height: 100vh;
-            color: var(--text);
-            line-height: 1.6;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        .db-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 24px;
-        }
-
-        .db-greeting {
-            font-family: var(--serif);
-            font-size: 22px;
-            color: var(--text);
-            letter-spacing: -0.02em;
-            line-height: 1.2;
-        }
-
-        .db-greeting span {
-            font-style: italic;
-        }
-
-        .db-date {
-            font-size: 12px;
-            color: var(--text-muted);
-            font-family: var(--sans);
-            text-align: right;
-            line-height: 1.5;
-        }
-
-        .db-kpis {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .db-kpi {
-            background: var(--surface-muted);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 14px 16px;
-        }
-
-        .db-kpi-label {
-            font-size: 11px;
-            color: var(--text-muted);
-            font-family: var(--sans);
-            margin-bottom: 6px;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-        }
-
-        .db-kpi-value {
-            font-family: var(--mono);
-            font-size: 20px;
-            font-weight: 500;
-            color: var(--text);
-            line-height: 1;
-            margin-bottom: 4px;
-        }
-
-        .db-kpi-delta {
-            font-size: 11px;
-            font-family: var(--sans);
-        }
-
-        .delta-up {
-            color: var(--danger);
-        }
-
-        .delta-down {
-            color: var(--success);
-        }
-
-        .db-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-
-        .db-chart-card {
-            background: var(--surface-muted);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 16px;
-        }
-
-        .db-chart-label {
-            font-size: 11px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            margin-bottom: 12px;
-            font-family: var(--sans);
-        }
-
-        .spend-bars {
-            display: flex;
-            align-items: flex-end;
-            gap: 5px;
-            height: 64px;
-        }
-
-        .spend-bar {
-            flex: 1;
-            border-radius: 3px 3px 0 0;
-            background: #dde4f5;
-            transition: background 0.2s;
-            position: relative;
-        }
-
-        .spend-bar.active {
-            background: #2563eb;
-        }
-
-        .spend-bar:hover {
-            background: #2563eb;
-        }
-
-        .db-alerts {
-            background: var(--surface-muted);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 16px;
-        }
-
-        .db-alert-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            padding: 8px 0;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .db-alert-item:last-child {
-            border-bottom: none;
-            padding-bottom: 0;
-        }
-
-        .db-alert-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            margin-top: 5px;
-            flex-shrink: 0;
-        }
-
-        .dot-red {
-            background: var(--danger);
-        }
-
-        .dot-amber {
-            background: var(--warning);
-        }
-
-        .dot-blue {
-            background: var(--accent-blue);
-        }
-
-        .db-alert-text {
-            font-size: 12px;
-            color: var(--text-secondary);
-            font-family: var(--sans);
-            line-height: 1.4;
-        }
-
-        .db-alert-text strong {
-            color: var(--text);
-            font-weight: 500;
-            display: block;
-        }
-
-        /* ── SECTIONS ── */
-        section {
-            padding: 120px 40px;
-        }
-
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-
-        .section-label {
-            display: inline-block;
-            font-size: 11px;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--accent-blue);
-            margin-bottom: 16px;
-        }
-
-        /* ── FEATURE STRIP ── */
-        .feature-strip {
-            background: #ffffff;
-            border-top: 1px solid #E8E6E0;
-            border-bottom: 1px solid #E8E6E0;
-            padding: 56px 40px;
-        }
-
-        .feature-strip .container {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 0;
-        }
-
-        .feature-item {
-            padding: 0 36px;
-            border-right: 1px solid #E8E6E0;
-            transition: all 0.2s ease;
-        }
-        .feature-item:first-child { padding-left: 0; }
-        .feature-item:last-child { border-right: none; }
-
-        .feature-item::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; height: 4px;
-            background: linear-gradient(90deg, #3B82F6, #8B5CF6);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .feature-item:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 20px 40px -8px rgba(15, 23, 42, 0.08);
-            border-color: transparent;
-        }
-        
-        .feature-item:hover::before {
-            opacity: 1;
-        }
-
-        .feature-num {
-            font-size: 11px;
-            color: #9A9890;
-            margin-bottom: 12px;
-            letter-spacing: 0.04em;
-            font-family: 'DM Sans', sans-serif;
-        }
-
-        .feature-verb {
-            font-family: 'DM Serif Display', Georgia, serif;
-            font-size: 26px;
-            color: #0C0C0A;
-            letter-spacing: -0.02em;
-            margin-bottom: 8px;
-            transition: color 0.2s ease;
-            line-height: 1.1;
-        }
-
-        .feature-item:hover .feature-verb {
-            font-family: 'DM Serif Display', Georgia, serif;
-            font-size: 26px;
-            color: #0C0C0A;
-            letter-spacing: -0.02em;
-            margin-bottom: 8px;
-            transition: color 0.2s ease;
-            line-height: 1.1;
-        }
-
-        .feature-desc {
-            font-size: 13.5px;
-            color: #6B7280;
-            line-height: 1.6;
-        }
-
-        /* ── EDITORIAL SPLIT ── */
-        .editorial {
-            background: #faf9f6;
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
-        }
-
-        .editorial .container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 80px;
-            align-items: center;
-        }
-
-        .editorial-headline {
-            font-family: var(--serif);
-            font-size: clamp(36px, 4vw, 56px);
-            line-height: 1.1;
-            letter-spacing: -0.03em;
-            color: var(--text);
-        }
-
-        .editorial-headline em {
-            display: block;
-            font-style: italic;
-        }
-
-        .editorial-body {
-            font-family: var(--sans);
-            background: #f0f4ff;
-            min-height: 100vh;
-            color: var(--text);
-            line-height: 1.6;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        .editorial-stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-            margin-top: 40px;
-        }
-
-        .editorial-stat {}
-
-        .editorial-stat-num {
-            font-family: var(--mono);
-            font-size: 32px;
-            font-weight: 500;
-            color: var(--text);
-            line-height: 1;
-            margin-bottom: 4px;
-        }
-
-        .editorial-stat-label {
-            font-size: 13px;
-            color: var(--text-muted);
-        }
-
-        /* Right side — feature list */
-        .feature-list {
-            list-style: none;
-        }
-
-        .feature-list li {
-            display: flex;
-            gap: 16px;
-            padding: 20px 0;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .feature-list li:last-child {
-            border-bottom: none;
-        }
-
-        .feature-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 8px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .feature-text h4 {
-            font-size: 15px;
-            font-weight: 500;
-            color: var(--text);
-            margin-bottom: 4px;
-        }
-
-        .feature-text p {
-            font-size: 13px;
-            color: var(--text-muted);
-            line-height: 1.5;
-        }
-
-        /* ── VALUES PILLARS ── */
-        .pillars {
-            background: var(--surface);
-        }
-
-        .pillars-header {
-            text-align: center;
-            max-width: 560px;
-            margin: 0 auto 64px;
-        }
-
-        .pillars-header h2 {
-            font-family: var(--serif);
-            font-size: clamp(32px, 4vw, 48px);
-            letter-spacing: -0.03em;
-            line-height: 1.15;
-            margin-bottom: 16px;
-        }
-
-        .pillars-header p {
-            font-size: 16px;
-            color: var(--text-secondary);
-        }
-
-        .pillars-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 40px;
-        }
-
-        .pillar {}
-
-        .pillar-icon {
-            width: 40px;
-            height: 40px;
-            margin-bottom: 20px;
-            color: var(--accent-blue);
-        }
-
-        .pillar h3 {
-            font-family: var(--serif);
-            font-size: 22px;
-            letter-spacing: -0.02em;
-            color: var(--text);
-            margin-bottom: 10px;
-        }
-
-        .pillar p {
-            font-size: 14px;
-            color: var(--text-secondary);
-            line-height: 1.65;
-        }
-
-        /* ── CASE STUDY ── */
-        .case-study {
-            background: #f5f4f0;
-        }
-
-        .case-study .container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 80px;
-            align-items: center;
-        }
-
-        .case-study-img {
-            background: linear-gradient(160deg, #ddeeff 0%, #c5d8ff 100%);
-            border-radius: 20px;
-            height: 360px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-            border: 1px solid rgba(37, 99, 235, 0.12);
-        }
-
-        .case-study-img-inner {
-            text-align: center;
-        }
-
-        .case-study-company {
-            font-family: var(--serif);
-            font-size: 28px;
-            color: #1a3a6b;
-            margin-bottom: 8px;
-            letter-spacing: -0.02em;
-        }
-
-        .case-study-result {
-            font-size: 13px;
-            color: #4a6fa5;
-            font-family: var(--sans);
-        }
-
-        .case-study-badge {
-            position: absolute;
-            bottom: 24px;
-            left: 24px;
-            background: white;
-            border-radius: 10px;
-            padding: 10px 16px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-            border: 1px solid var(--border);
-        }
-
-        .case-study-badge-num {
-            font-family: var(--mono);
-            font-size: 20px;
-            font-weight: 500;
-            color: var(--success);
-        }
-
-        .case-study-badge-label {
-            font-size: 11px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-        }
-
-        .case-study-content h2 {
-            font-family: var(--serif);
-            font-size: clamp(28px, 3vw, 40px);
-            letter-spacing: -0.02em;
-            line-height: 1.15;
-            margin-bottom: 20px;
-        }
-
-        .case-study-content p {
-            font-size: 15px;
-            color: var(--text-secondary);
-            line-height: 1.7;
-            margin-bottom: 32px;
-        }
-
-        .case-study-link {
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text);
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            border-bottom: 1.5px solid var(--text);
-            padding-bottom: 2px;
-            transition: color 0.2s, border-color 0.2s;
-        }
-
-        .case-study-link:hover {
-            color: var(--accent-blue);
-            border-color: var(--accent-blue);
-        }
-
-        /* ── TESTIMONIAL ── */
-        .testimonial {
-            background: #F7F6F2;
-            padding: 120px 40px;
-        }
-
-        .testimonial .container {
-            max-width: 720px;
-            text-align: center;
-            margin: 0 auto;
-        }
-
-        .quote-mark {
-            font-family: 'DM Serif Display', Georgia, serif;
-            font-size: 140px;
-            line-height: 0.5;
-            color: #E8E6E0;
-            display: block;
-            margin-bottom: 36px;
-            letter-spacing: -0.05em;
-        }
-
-        .testimonial-quote {
-            font-family: 'DM Serif Display', Georgia, serif;
-            font-size: clamp(20px, 2.5vw, 30px);
-            font-style: italic;
-            line-height: 1.5;
-            color: #0C0C0A;
-            letter-spacing: -0.02em;
-            margin-bottom: 36px;
-        }
-
-        .testimonial-person {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            justify-content: center;
-        }
-
-        .testimonial-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #c7d9ff, #ddeeff);
-            border: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: var(--serif);
-            font-size: 16px;
-            color: #4a6fa5;
-        }
-
-        .testimonial-name {
-            font-size: 14px;
-            font-weight: 500;
-            color: #0C0C0A;
-        }
-
-        .testimonial-title {
-            font-size: 13px;
-            color: #9A9890;
-        }
-
-        /* ── INSIGHTS ── */
-        .insights {
-            background: #faf9f6;
-        }
-
-        .insights-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            margin-bottom: 48px;
-        }
-
-        .insights-header h2 {
-            font-family: var(--serif);
-            font-size: clamp(28px, 3vw, 40px);
-            letter-spacing: -0.02em;
-            line-height: 1.2;
-        }
-
-        .insights-link {
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text);
-            text-decoration: none;
-            border-bottom: 1.5px solid var(--text);
-            padding-bottom: 1px;
-            white-space: nowrap;
-            transition: color 0.2s, border-color 0.2s;
-        }
-
-        .insights-link:hover {
-            color: var(--accent-blue);
-            border-color: var(--accent-blue);
-        }
-
-        .insights-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-        }
-
-        .article-card {
-            background: #ffffff;
-            border: 1px solid #E8E6E0;
-            border-radius: 16px;
-            overflow: hidden;
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
-            text-decoration: none;
-            color: inherit;
-            display: block;
-        }
-
-        .article-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 4px 16px rgba(0,0,0,0.08),
-                        0 20px 48px rgba(0,0,0,0.10);
-        }
-
-        .article-img {
-            height: 180px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            border-radius: 0;
-        }
-
-        .article-img svg {
-            opacity: 0.5;
-        }
-
-        .article-body {
-            padding: 22px 24px 26px;
-        }
-
-        .article-tag {
-            display: inline-block;
-            font-size: 10px;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: var(--accent-blue);
-            background: #eff6ff;
-            padding: 3px 8px;
-            border-radius: 4px;
-            margin-bottom: 10px;
-        }
-
-        .article-title {
-            font-size: 15.5px;
-            font-weight: 500;
-            color: #0C0C0A;
-            line-height: 1.45;
-            margin-bottom: 14px;
-        }
-
-        .article-meta {
-            font-size: 12px;
-            color: var(--text-muted);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .article-meta-dot {
-            width: 3px;
-            height: 3px;
-            border-radius: 50%;
-            background: var(--text-muted);
-        }
-
-        /* ── FINAL CTA ── */
-        .final-cta {
-            background: #0C0C0A;
-            padding: 140px 40px;
-            text-align: center;
-        }
-
-        .final-cta .container {
-            text-align: center;
-            max-width: 600px;
-        }
-
-        .final-cta h2 {
-            font-family: 'DM Serif Display', Georgia, serif;
-            font-size: clamp(36px, 5vw, 64px);
-            font-weight: 400;
-            color: #F5F4EF;
-            letter-spacing: -0.03em;
-            line-height: 1.08;
-            margin-bottom: 18px;
-        }
-
-        .final-cta h2 em {
-            font-style: italic;
-        }
-
-        .final-cta p {
-            font-size: 17px;
-            color: #6E6E62;
-            line-height: 1.65;
-            margin-bottom: 44px;
-            max-width: 440px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .btn-light {
-            background: #ffffff;
-            color: #0C0C0A;
-            font-size: 15px;
-            font-weight: 500;
-            padding: 14px 34px;
-            border-radius: 9999px;
-            border: none;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            transition: background 0.2s, transform 0.2s;
-        }
-
-        .btn-light:hover {
-            background: #EFF6FF;
-            transform: translateY(-2px);
-        }
-
-        .final-cta-note {
-            margin-top: 18px;
-            font-size: 13px;
-            color: #4A4A42;
-        }
-
-        /* ── FOOTER ── */
-        footer {
-            background: #0a0a0a;
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
-            padding: 48px 40px 32px;
-            color: #f8f8f5;
-        }
-
-        .footer-top {
-            display: grid;
-            grid-template-columns: 1.5fr 1fr 1fr 1fr;
-            gap: 48px;
-            margin-bottom: 48px;
-        }
-
-        .footer-brand h3 {
-            font-family: var(--serif);
-            font-size: 20px;
-            letter-spacing: -0.02em;
-            margin-bottom: 10px;
-        }
-
-        .footer-brand p {
-            font-size: 13px;
-            color: #5a5a52;
-            line-height: 1.6;
-        }
-
-        .footer-col h4 {
-            font-size: 11px;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: #5a5a52;
-            margin-bottom: 16px;
-        }
-
-        .footer-col ul {
-            list-style: none;
-        }
-
-        .footer-col ul li {
-            margin-bottom: 10px;
-        }
-
-        .footer-col ul li a {
-            font-size: 14px;
-            color: #6e6e62;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-
-        .footer-col ul li a:hover {
-            color: #f8f8f5;
-        }
-
-        .footer-bottom {
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
-            padding-top: 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .footer-bottom p {
-            font-size: 13px;
-            color: #5a5a52;
-        }
-
-        .footer-bottom a {
-            color: #5a5a52;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-
-        .footer-bottom a:hover {
-            color: #f8f8f5;
-        }
-
-        /* ── ANIMATIONS ── */
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(24px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(-1.5deg); }
-            50%       { transform: translateY(-14px) rotate(-1.5deg); }
-        }
-
-        .fade-in {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* ── MOBILE ── */
-        @media (max-width: 768px) {
-            nav, #navbar {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 200;
-            height: 64px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 44px;
-            transition: background 0.3s ease, box-shadow 0.3s ease;
-        }
-
-            .nav-links {
-                display: none;
-            }
-
-            .nav-links.open {
-                display: flex;
-                flex-direction: column;
-                position: fixed;
-                top: 60px;
-                left: 0;
-                right: 0;
-                background: rgba(240, 244, 255, 0.97);
-                backdrop-filter: blur(20px);
-                padding: 24px 20px;
-                border-bottom: 1px solid var(--border);
-                z-index: 99;
-                gap: 20px;
-            }
-
-            .nav-links.open a {
-                font-size: 16px;
-            }
-
-            .hamburger {
-                display: flex;
-            }
-
-            .hero {
-                padding: 100px 20px 60px;
-            }
-
-            .hero h1 {
-            font-family: 'DM Serif Display', Georgia, serif;
-            font-size: clamp(44px, 7vw, 88px);
-            font-weight: 400;
-            line-height: 1.04;
-            letter-spacing: -0.03em;
-            color: #0C0C0A;
-            max-width: 820px;
-            margin-bottom: 24px;
-            opacity: 0;
-            animation: fadeUp 0.6s ease 0.1s forwards;
-        }
-        
-        .hero h1 em { font-style: italic; }
-        
-
-            .db-kpis {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            .db-row {
-                grid-template-columns: 1fr;
-            }
-
-            .feature-strip .container {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 0;
-        }
-
-            .feature-item {
-                padding: 24px 20px;
-            }
-
-            .editorial .container,
-            .case-study .container {
-                grid-template-columns: 1fr;
-                gap: 40px;
-            }
-
-            .pillars-grid {
-                grid-template-columns: 1fr;
-                gap: 32px;
-            }
-
-            .insights-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .insights-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 12px;
-            }
-
-            .footer-top {
-                grid-template-columns: 1fr 1fr;
-                gap: 32px;
-            }
-
-            .footer-bottom {
-                flex-direction: column;
-                gap: 12px;
-                text-align: center;
-            }
-
-            section {
-                padding: 72px 20px;
-            }
-        }
-
-        /* ── SCROLL REVEAL ── */
-        .reveal {
-          opacity: 0;
-          transform: translateY(24px);
-          transition: opacity 0.65s ease, transform 0.65s ease;
-        }
-        .reveal.visible {
-          opacity: 1;
-          transform: translateY(0);
-        }
-
-        .stagger > * {
-          opacity: 0;
-          transform: translateY(18px);
-          transition: opacity 0.55s ease, transform 0.55s ease;
-        }
-        .stagger.visible > *:nth-child(1) { opacity:1; transform:none; transition-delay:0.05s; }
-        .stagger.visible > *:nth-child(2) { opacity:1; transform:none; transition-delay:0.13s; }
-        .stagger.visible > *:nth-child(3) { opacity:1; transform:none; transition-delay:0.21s; }
-        .stagger.visible > *:nth-child(4) { opacity:1; transform:none; transition-delay:0.29s; }
-        .stagger.visible > *:nth-child(5) { opacity:1; transform:none; transition-delay:0.37s; }
-        .stagger.visible > *:nth-child(6) { opacity:1; transform:none; transition-delay:0.45s; }
-        .stagger.visible > *:nth-child(7) { opacity:1; transform:none; transition-delay:0.53s; }
-        .stagger.visible > *:nth-child(8) { opacity:1; transform:none; transition-delay:0.61s; }
-        .stagger.visible > *:nth-child(9) { opacity:1; transform:none; transition-delay:0.69s; }
-        .stagger.visible > *:nth-child(10){ opacity:1; transform:none; transition-delay:0.77s; }
-        .stagger.visible > *:nth-child(11){ opacity:1; transform:none; transition-delay:0.85s; }
-        .stagger.visible > *:nth-child(12){ opacity:1; transform:none; transition-delay:0.93s; }
-
-        /* ── PAGE LOAD STAGGER ── */
-        .anim-1 { opacity:0; animation: fadeUp 0.65s ease 0.00s forwards; }
-        .anim-2 { opacity:0; animation: fadeUp 0.65s ease 0.12s forwards; }
-        .anim-3 { opacity:0; animation: fadeUp 0.65s ease 0.22s forwards; }
-        .anim-4 { opacity:0; animation: fadeUp 0.65s ease 0.32s forwards; }
-        .anim-5 { opacity:0; animation: fadeUp 0.65s ease 0.42s forwards; }
-        .anim-6 { opacity:0; animation: fadeUp 0.80s ease 0.54s forwards; }
-
-        /* ── LOGO SCROLL STRIP ── */
-        .logo-strip {
-          background: #ffffff;
-          border-top: 1px solid #E8E6E0;
-          border-bottom: 1px solid #E8E6E0;
-          padding: 32px 40px;
-          overflow: hidden;
-        }
-        .logo-strip-label {
-          font-size: 11px;
-          font-weight: 500;
-          text-transform: uppercase;
-          letter-spacing: 0.1em;
-          color: #9A9890;
-          text-align: center;
-          margin-bottom: 22px;
-          font-family: 'DM Sans', sans-serif;
-        }
-        .logo-track-wrap { overflow: hidden; }
-        .logo-track {
-          display: flex;
-          align-items: center;
-          gap: 64px;
-          width: max-content;
-          animation: scrollLogos 30s linear infinite;
-        }
-        .logo-track:hover { animation-play-state: paused; }
-        @keyframes scrollLogos {
-          from { transform: translateX(0); }
-          to   { transform: translateX(-50%); }
-        }
-        .logo-item {
-          font-family: 'DM Serif Display', Georgia, serif;
-          font-size: 17px;
-          color: #C8C6C0;
-          white-space: nowrap;
-          letter-spacing: -0.02em;
-          transition: color 0.25s ease;
-          cursor: default;
-          user-select: none;
-        }
-        .logo-item:hover { color: #6B7280; }
-
-        /* ── PROBLEM SECTION ── */
-        .problem-section {
-          background: #ffffff;
-          padding: 120px 40px;
-        }
-        .problem-grid {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 1px;
-          background: #E8E6E0;
-          border-radius: 20px;
-          overflow: hidden;
-          margin-top: 56px;
-          border: 1px solid #E8E6E0;
-        }
-        .problem-card {
-          background: #ffffff;
-          padding: 44px 40px;
-          transition: background 0.25s ease;
-        }
-        .problem-card:hover { background: #FAFAF8; }
-        .problem-number {
-          font-family: 'DM Serif Display', Georgia, serif;
-          font-size: 56px;
-          font-weight: 400;
-          line-height: 1;
-          color: #E0DED8;
-          margin-bottom: 20px;
-          letter-spacing: -0.03em;
-        }
-        .problem-title {
-          font-family: 'DM Serif Display', Georgia, serif;
-          font-size: 22px;
-          color: #0C0C0A;
-          margin-bottom: 12px;
-          letter-spacing: -0.02em;
-          line-height: 1.2;
-        }
-        .problem-desc {
-          font-size: 14px;
-          color: #6B7280;
-          line-height: 1.7;
-        }
-        .problem-accent-line {
-          width: 32px;
-          height: 2px;
-          border-radius: 2px;
-          margin-bottom: 28px;
-        }
-
-        /* ── HOW IT WORKS ── */
-        .how-section {
-          background: #F7F6F2;
-          padding: 120px 40px;
-        }
-        .how-steps {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 0;
-          margin-top: 72px;
-          position: relative;
-        }
-        .how-connector {
-          position: absolute;
-          top: 27px;
-          left: calc(12.5% + 16px);
-          width: calc(75% - 32px);
-          height: 1px;
-          background: #E8E6E0;
-        }
-        .how-step {
-          padding: 0 28px;
-          text-align: center;
-          position: relative;
-        }
-        .how-step-num {
-          width: 54px;
-          height: 54px;
-          border-radius: 50%;
-          background: #ffffff;
-          border: 1px solid #E8E6E0;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          margin: 0 auto 28px;
-          font-family: 'JetBrains Mono', monospace;
-          font-size: 13px;
-          font-weight: 500;
-          color: #9A9890;
-          position: relative;
-          z-index: 1;
-          transition:
-            background 0.25s ease,
-            border-color 0.25s ease,
-            color 0.25s ease,
-            box-shadow 0.25s ease;
-        }
-        .how-step:hover .how-step-num {
-          background: #0C0C0A;
-          border-color: #0C0C0A;
-          color: #ffffff;
-          box-shadow: 0 4px 16px rgba(0,0,0,0.15);
-        }
-        .how-step-title {
-          font-family: 'DM Serif Display', Georgia, serif;
-          font-size: 20px;
-          color: #0C0C0A;
-          margin-bottom: 12px;
-          letter-spacing: -0.02em;
-          line-height: 1.2;
-        }
-        .how-step-desc {
-          font-size: 13.5px;
-          color: #6B7280;
-          line-height: 1.65;
-        }
-
-        /* ── BEFORE / AFTER ── */
-        .comparison-section {
-          background: #ffffff;
-          padding: 120px 40px;
-        }
-        .comparison-wrap {
-          display: grid;
-          grid-template-columns: 1fr 64px 1fr;
-          gap: 0;
-          margin-top: 64px;
-          align-items: start;
-        }
-        .comparison-col {
-          border: 1px solid #E8E6E0;
-          border-radius: 16px;
-          overflow: hidden;
-        }
-        .comparison-col.col-after {
-          border-color: #0C0C0A;
-          box-shadow: 0 4px 24px rgba(0,0,0,0.08);
-        }
-        .col-header {
-          padding: 18px 26px;
-          border-bottom: 1px solid #E8E6E0;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          background: #F9F9F7;
-        }
-        .col-after .col-header {
-          background: #0C0C0A;
-          border-bottom-color: rgba(255,255,255,0.08);
-        }
-        .col-header-left {
-          display: flex;
-          align-items: center;
-          gap: 9px;
-        }
-        .col-dot {
-          width: 7px;
-          height: 7px;
-          border-radius: 50%;
-          flex-shrink: 0;
-        }
-        .col-title {
-          font-size: 13px;
-          font-weight: 500;
-          color: #0C0C0A;
-          font-family: 'DM Sans', sans-serif;
-        }
-        .col-after .col-title { color: #F5F4EF; }
-        .col-sub {
-          font-size: 11px;
-          color: #9A9890;
-          font-family: 'DM Sans', sans-serif;
-        }
-        .col-after .col-sub { color: #4A4A42; }
-        .col-items { padding: 8px 0; }
-        .col-item {
-          display: flex;
-          align-items: flex-start;
-          gap: 12px;
-          padding: 12px 26px;
-          transition: background 0.18s ease;
-        }
-        .col-item:hover { background: #F7F6F2; }
-        .col-after .col-item:hover { background: #F5F4EF; }
-        .ci-marker {
-          width: 18px;
-          height: 18px;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-shrink: 0;
-          margin-top: 2px;
-          font-size: 10px;
-          font-weight: 700;
-        }
-        .ci-marker.bad  { background: #FEF2F2; color: #DC2626; }
-        .ci-marker.good { background: #ECFDF5; color: #059669; }
-        .ci-text {
-          font-size: 13.5px;
-          color: #44443C;
-          line-height: 1.55;
-          font-family: 'DM Sans', sans-serif;
-        }
-        .ci-text strong {
-          color: #0C0C0A;
-          font-weight: 500;
-        }
-        .vs-col {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-        .vs-badge {
-          font-family: 'DM Sans', sans-serif;
-          font-size: 11px;
-          font-weight: 500;
-          color: #9A9890;
-          background: #F7F6F2;
-          border: 1px solid #E8E6E0;
-          border-radius: 9999px;
-          padding: 6px 12px;
-          letter-spacing: 0.04em;
-        }
-
-        /* ── METRICS BAND ── */
-        .metrics-band {
-          background: #0C0C0A;
-          padding: 80px 40px;
-        }
-        .metrics-grid {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          max-width: 1000px;
-          margin: 0 auto;
-        }
-        .metric-divider {
-          width: 1px;
-          background: rgba(255,255,255,0.06);
-          margin: 20px 0;
-        }
-        .metric-item {
-          padding: 40px 36px;
-          text-align: center;
-          position: relative;
-        }
-        .metric-item + .metric-item {
-          border-left: 1px solid rgba(255,255,255,0.06);
-        }
-        .metric-num {
-          font-family: 'JetBrains Mono', monospace;
-          font-size: 42px;
-          font-weight: 500;
-          color: #F5F4EF;
-          line-height: 1;
-          margin-bottom: 12px;
-          letter-spacing: -0.03em;
-          font-feature-settings: 'tnum';
-        }
-        .metric-label {
-          font-size: 13px;
-          color: #4A4A42;
-          line-height: 1.6;
-          font-family: 'DM Sans', sans-serif;
-        }
-
-        /* ── INTEGRATIONS ── */
-        .integrations-section {
-          background: #F7F6F2;
-          padding: 120px 40px;
-        }
-        .integrations-header {
-          text-align: center;
-          max-width: 480px;
-          margin: 0 auto 56px;
-        }
-        .integrations-grid {
-          display: grid;
-          grid-template-columns: repeat(6, 1fr);
-          gap: 10px;
-          max-width: 880px;
-          margin: 0 auto;
-        }
-        .integration-card {
-          background: #ffffff;
-          border: 1px solid #E8E6E0;
-          border-radius: 14px;
-          padding: 20px 14px 18px;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 8px;
-          transition:
-            transform 0.22s ease,
-            box-shadow 0.22s ease,
-            border-color 0.22s ease;
-          cursor: default;
-        }
-        .integration-card:hover {
-          transform: translateY(-3px);
-          box-shadow: 0 6px 20px rgba(0,0,0,0.07);
-          border-color: #C8C6C0;
-        }
-        .int-logo {
-          width: 36px;
-          height: 36px;
-          border-radius: 8px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 12px;
-          font-weight: 600;
-          font-family: 'DM Sans', sans-serif;
-        }
-        .int-name {
-          font-size: 11px;
-          color: #6B7280;
-          font-weight: 500;
-          text-align: center;
-          font-family: 'DM Sans', sans-serif;
-          line-height: 1.3;
-        }
-        .int-status {
-          font-size: 9px;
-          font-weight: 500;
-          padding: 2px 7px;
-          border-radius: 20px;
-          text-transform: uppercase;
-          letter-spacing: 0.05em;
-          font-family: 'DM Sans', sans-serif;
-        }
-        .s-live { background: #ECFDF5; color: #065F46; }
-        .s-soon { background: #F7F6F2; color: #9A9890; }
-
-        /* ── FAQ ── */
-        .faq-section {
-          background: #ffffff;
-          padding: 120px 40px;
-        }
-        .faq-inner {
-          max-width: 660px;
-          margin: 0 auto;
-        }
-        .faq-list { margin-top: 56px; }
-        .faq-item {
-          border-bottom: 1px solid #E8E6E0;
-        }
-        .faq-item:first-child { border-top: 1px solid #E8E6E0; }
-        .faq-btn {
-          width: 100%;
-          background: none;
-          border: none;
-          padding: 22px 0;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 20px;
-          font-family: 'DM Sans', sans-serif;
-          font-size: 15.5px;
-          font-weight: 500;
-          color: #0C0C0A;
-          cursor: pointer;
-          text-align: left;
-          transition: color 0.2s;
-        }
-        .faq-btn:hover { color: #2563EB; }
-        .faq-icon {
-          width: 24px;
-          height: 24px;
-          border-radius: 50%;
-          border: 1.5px solid #E8E6E0;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-shrink: 0;
-          font-size: 16px;
-          color: #9A9890;
-          line-height: 1;
-          transition:
-            background 0.25s ease,
-            border-color 0.25s ease,
-            color 0.25s ease,
-            transform 0.25s ease;
-        }
-        .faq-item.open .faq-icon {
-          background: #0C0C0A;
-          border-color: #0C0C0A;
-          color: #ffffff;
-          transform: rotate(45deg);
-        }
-        .faq-body {
-          font-size: 14.5px;
-          color: #6B7280;
-          line-height: 1.75;
-          max-height: 0;
-          overflow: hidden;
-          transition: max-height 0.35s ease, padding-bottom 0.35s ease;
-          padding-bottom: 0;
-          font-family: 'DM Sans', sans-serif;
-        }
-        .faq-item.open .faq-body {
-          max-height: 200px;
-          padding-bottom: 22px;
-        }
-
-        /* ── NEW RESPONSIVE ── */
-        @media (max-width: 1024px) {
-          .integrations-grid { grid-template-columns: repeat(4, 1fr); }
-        }
-        @media (max-width: 768px) {
-          .problem-grid       { grid-template-columns: 1fr; }
-          .how-steps          { grid-template-columns: 1fr 1fr; }
-          .how-connector      { display: none; }
-          .comparison-wrap    { grid-template-columns: 1fr; }
-          .vs-col             { display: none; }
-          .metrics-grid       { grid-template-columns: 1fr 1fr; }
-          .integrations-grid  { grid-template-columns: repeat(3, 1fr); }
-          .logo-strip         { padding: 24px 20px; }
-        }
-        @media (max-width: 480px) {
-          .integrations-grid  { grid-template-columns: repeat(2, 1fr); }
-          .how-steps          { grid-template-columns: 1fr; }
-          .metrics-grid       { grid-template-columns: 1fr 1fr; }
-          .metric-num         { font-size: 32px; }
-        }
-
-    </style>
-    <link rel="stylesheet" href="assets/spendly-polish.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spendly — Stop Paying For Software Nobody Uses</title>
+<meta name="description" content="Spendly connects finance, HR, and IT data to surface unused software, duplicate tools, and upcoming renewals — before they hit your budget.">
+<link rel="icon" href="./favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',system-ui,sans-serif;background:#fff;color:#0C0C0A;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+:root{
+  --text:#0C0C0A;--text-body:#3D3D38;--text-muted:#6B7280;--text-light:#9A9890;
+  --bg:#ffffff;--bg-alt:#F5F4EF;--bg-dark:#0C0C0A;
+  --border:#E8E6E0;--border-strong:#D0CEC6;
+  --accent:#2563EB;--success:#059669;--warning:#D97706;--danger:#DC2626;
+  --serif:'DM Serif Display',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;--mono:'JetBrains Mono',monospace;
+  --shadow-sm:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);
+  --shadow-md:0 2px 8px rgba(0,0,0,.06),0 12px 40px rgba(0,0,0,.08);
+  --shadow-lg:0 4px 16px rgba(0,0,0,.08),0 24px 64px rgba(0,0,0,.10);
+}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--border-strong);border-radius:99px}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-1.5deg)}50%{transform:translateY(-12px) rotate(-1.5deg)}}
+.anim-1{opacity:0;animation:fadeUp .65s ease 0s forwards}
+.anim-2{opacity:0;animation:fadeUp .65s ease .12s forwards}
+.anim-3{opacity:0;animation:fadeUp .65s ease .22s forwards}
+.anim-4{opacity:0;animation:fadeUp .65s ease .32s forwards}
+.anim-5{opacity:0;animation:fadeUp .65s ease .42s forwards}
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .65s ease,transform .65s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.stagger>*{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s ease}
+.stagger.visible>*:nth-child(1){opacity:1;transform:none;transition-delay:.05s}
+.stagger.visible>*:nth-child(2){opacity:1;transform:none;transition-delay:.13s}
+.stagger.visible>*:nth-child(3){opacity:1;transform:none;transition-delay:.21s}
+.stagger.visible>*:nth-child(4){opacity:1;transform:none;transition-delay:.29s}
+.stagger.visible>*:nth-child(5){opacity:1;transform:none;transition-delay:.37s}
+.stagger.visible>*:nth-child(6){opacity:1;transform:none;transition-delay:.45s}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 40px;transition:background .3s,box-shadow .3s}
+nav.scrolled{background:rgba(255,255,255,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:0 1px 0 var(--border)}
+.nav-logo{display:flex;align-items:center;gap:8px;text-decoration:none;font-size:18px;font-weight:500;color:var(--text);letter-spacing:-.02em}
+.nav-logo-box{width:28px;height:28px;background:#0C0C0A;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.nav-links{display:flex;align-items:center;gap:28px;list-style:none}
+.nav-links a{font-size:14px;color:var(--text-muted);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--text)}
+.nav-right{display:flex;align-items:center;gap:16px}
+.nav-signin{font-size:14px;color:var(--text-muted);text-decoration:none;transition:color .2s}
+.nav-signin:hover{color:var(--text)}
+.nav-cta{background:var(--text);color:#fff;font-size:13.5px;font-weight:500;padding:9px 20px;border-radius:99px;text-decoration:none;transition:background .2s,transform .2s;display:inline-flex;align-items:center;gap:4px}
+.nav-cta:hover{background:var(--accent);transform:translateY(-1px)}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+.hamburger span{display:block;width:20px;height:1.5px;background:var(--text);border-radius:99px;transition:all .25s}
+
+/* DOT GRID */
+.dot-bg{position:fixed;inset:0;z-index:-1;background:#fff;background-image:radial-gradient(circle,#D4D2CA 1px,transparent 1px);background-size:28px 28px}
+.dot-bg::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 120% 55% at 50% 0%,rgba(199,217,255,.45) 0%,rgba(232,240,255,.25) 35%,rgba(255,255,255,0) 70%)}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 24px 60px}
+.hero-pill{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.9);border:1px solid var(--border);border-radius:99px;padding:6px 14px 6px 10px;font-size:12.5px;color:var(--text-muted);margin-bottom:32px;cursor:pointer;transition:border-color .2s,box-shadow .2s;text-decoration:none}
+.hero-pill:hover{border-color:var(--border-strong);box-shadow:var(--shadow-sm)}
+.hero-pill-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0}
+.hero-pill-text{font-weight:500;color:var(--text-body)}
+.hero h1{font-family:var(--serif);font-size:clamp(48px,7.5vw,94px);font-weight:400;line-height:1.03;letter-spacing:-.035em;color:var(--text);max-width:880px;margin-bottom:24px}
+.hero h1 .blue{color:var(--accent);font-style:italic}
+.hero-sub{font-size:clamp(16px,1.8vw,19px);color:var(--text-muted);max-width:520px;line-height:1.7;margin-bottom:40px}
+.hero-actions{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap;justify-content:center}
+.btn-primary{background:var(--text);color:#fff;font-size:14.5px;font-weight:500;padding:13px 28px;border-radius:99px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:background .25s,transform .2s,box-shadow .2s}
+.btn-primary:hover{background:var(--accent);transform:translateY(-2px);box-shadow:0 8px 24px rgba(37,99,235,.25)}
+.btn-ghost{background:transparent;color:var(--text);font-size:14.5px;font-weight:500;padding:12px 28px;border-radius:99px;border:1.5px solid var(--border-strong);cursor:pointer;text-decoration:none;display:inline-block;transition:border-color .2s,background .2s,transform .2s}
+.btn-ghost:hover{border-color:var(--text);background:rgba(0,0,0,.03);transform:translateY(-1px)}
+
+/* LOGO STRIP */
+.logo-strip{background:#fff;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:30px 40px}
+.logo-strip-label{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.14em;color:var(--text-light);text-align:center;margin-bottom:20px}
+.logo-names{display:flex;align-items:center;justify-content:center;gap:52px;flex-wrap:wrap}
+.logo-name{font-family:var(--serif);font-size:18px;color:#C8C6BE;letter-spacing:-.02em;transition:color .2s;cursor:default;user-select:none}
+.logo-name:hover{color:var(--text-muted)}
+
+/* DASHBOARD */
+.db-section{background:#fff;padding:0 40px 80px;display:flex;justify-content:center}
+.db-window{background:#fff;border-radius:18px;border:1px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,.05),0 20px 60px rgba(0,0,0,.10),0 48px 100px rgba(0,0,0,.07);overflow:hidden;width:100%;max-width:900px;animation:float 6s ease-in-out infinite}
+.db-bar-top{background:#F2F1ED;border-bottom:1px solid var(--border);padding:11px 16px;display:flex;align-items:center;gap:7px}
+.db-dot{width:11px;height:11px;border-radius:50%}
+.db-url-wrap{flex:1;text-align:center;margin-left:-44px}
+.db-url{display:inline-flex;align-items:center;gap:5px;background:#fff;border:1px solid var(--border);border-radius:6px;padding:4px 12px;font-size:11px;color:var(--text-muted);font-family:var(--sans)}
+.db-inner{padding:22px 26px}
+.db-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px}
+.db-greet{font-family:var(--serif);font-size:20px;letter-spacing:-.02em;color:var(--text)}
+.db-sync{font-size:11px;color:var(--text-light);margin-top:3px}
+.db-qtr{font-size:12px;font-weight:500;color:var(--text);text-align:right}
+.db-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+.db-kpi{background:#F9F9F7;border:1px solid var(--border);border-radius:9px;padding:13px 14px}
+.db-kpi.kred{border-top:2px solid var(--danger)}
+.db-kpi.kamb{border-top:2px solid var(--warning)}
+.dkl{font-size:9.5px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:var(--text-light);margin-bottom:5px}
+.dkv{font-family:var(--mono);font-size:20px;font-weight:500;color:var(--text);line-height:1;margin-bottom:3px}
+.dkv.red{color:var(--danger)}
+.dkd{font-size:10.5px;color:var(--text-light)}
+.dkd.red{color:var(--danger)}.dkd.amb{color:var(--warning)}.dkd.grn{color:var(--success)}
+.db-row{display:grid;grid-template-columns:1.1fr 1fr;gap:10px;margin-bottom:12px}
+.db-panel{background:#F9F9F7;border:1px solid var(--border);border-radius:9px;padding:14px}
+.dpl{font-size:9.5px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:var(--text-light);margin-bottom:12px}
+.dbs{display:flex;align-items:flex-end;gap:3px;height:64px}
+.db{flex:1;border-radius:3px 3px 0 0;background:#E8E6F0;transition:background .2s;cursor:pointer}
+.db.hi{background:var(--accent)}.db:hover{background:#C7D2FE}
+.dbl{display:flex;justify-content:space-between;margin-top:4px}
+.dblt{font-size:9px;color:var(--text-light)}
+.da{display:flex;flex-direction:column}
+.dai{display:flex;align-items:flex-start;gap:9px;padding:8px 0;border-bottom:1px solid var(--border)}
+.dai:last-child{border-bottom:none;padding-bottom:0}
+.dad{width:6px;height:6px;border-radius:50%;margin-top:5px;flex-shrink:0}
+.dat{flex:1;font-size:11.5px;color:var(--text-body);line-height:1.4}
+.dat strong{color:var(--text);font-weight:500;display:block;font-size:12px}
+.dab{font-size:9px;font-weight:500;padding:2px 7px;border-radius:20px;white-space:nowrap;align-self:flex-start;margin-top:2px}
+.sb{display:flex;align-items:center;gap:12px;background:#F9F9F7;border:1px solid var(--border);border-radius:9px;padding:12px 14px}
+.sbl{font-size:11.5px;color:var(--text-muted);white-space:nowrap}
+.sbt{flex:1;height:5px;background:var(--border);border-radius:3px;overflow:hidden}
+.sbf{height:100%;border-radius:3px;background:var(--success);width:0%;transition:width 1.5s ease}
+.sbv{font-family:var(--mono);font-size:12px;font-weight:500;color:var(--success);white-space:nowrap}
+
+/* SECTIONS */
+section{padding:100px 40px}
+.container{max-width:1120px;margin:0 auto}
+.slabel{font-size:10.5px;font-weight:500;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);display:block;margin-bottom:16px}
+.sh2{font-family:var(--serif);font-size:clamp(32px,4vw,54px);font-weight:400;line-height:1.08;letter-spacing:-.03em;color:var(--text)}
+.sh2 em{font-style:italic}
+
+/* HOW IT WORKS */
+.how-bg{background:#fff}
+.how-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:72px;position:relative}
+.how-line{position:absolute;top:22px;left:calc(12.5% + 8px);width:calc(75% - 16px);height:1px;background:var(--border)}
+.hi{padding:0 24px;text-align:left;position:relative}
+.hn{font-size:11px;color:#C8C6BE;position:absolute;top:0;right:24px}
+.hicon{width:44px;height:44px;margin-bottom:22px;position:relative;z-index:1}
+.htag{font-size:10.5px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;display:block}
+.htitle{font-family:var(--serif);font-size:22px;color:var(--text);margin-bottom:10px;letter-spacing:-.02em;line-height:1.2}
+.hdesc{font-size:13.5px;color:var(--text-muted);line-height:1.65}
+
+/* DATA SOURCES */
+.data-bg{background:var(--bg-alt)}
+.data-layout{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.dhead{font-family:var(--serif);font-size:clamp(30px,4vw,50px);font-weight:400;line-height:1.08;letter-spacing:-.03em;color:var(--text);margin-bottom:18px}
+.dbody{font-size:15.5px;color:var(--text-muted);line-height:1.7;margin-bottom:26px}
+.dchecks{display:flex;flex-direction:column;gap:12px}
+.dcheck{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--text-body);line-height:1.5}
+.dcheck-icon{width:18px;height:18px;border-radius:50%;background:#ECFDF5;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+/* diagram */
+.diagram{display:flex;flex-direction:column;align-items:stretch;gap:0}
+.dsrc-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.dsrc{background:#fff;border:1px solid var(--border);border-radius:12px;padding:16px;transition:box-shadow .2s,transform .2s}
+.dsrc:hover{box-shadow:var(--shadow-sm);transform:translateY(-2px)}
+.dsrc-icon{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;margin-bottom:10px}
+.dsrc-title{font-size:13px;font-weight:500;color:var(--text);margin-bottom:3px}
+.dsrc-desc{font-size:11px;color:var(--text-light);line-height:1.4}
+.dconn{height:36px;position:relative;display:flex;justify-content:center}
+.dconn::before{content:'';position:absolute;top:0;left:50%;width:1px;height:100%;background:var(--border)}
+.dintel{background:#fff;border:1.5px solid var(--text);border-radius:14px;padding:18px 20px;transition:box-shadow .2s}
+.dintel:hover{box-shadow:0 8px 32px rgba(0,0,0,.10)}
+.di-head{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.di-logo-box{width:28px;height:28px;background:var(--text);border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.di-title{font-size:14px;font-weight:500;color:var(--text)}
+.di-sub{font-size:11.5px;color:var(--text-muted)}
+.di-badges{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px}
+.dib{font-size:11px;font-weight:500;padding:4px 10px;border-radius:99px}
+.dib-b{background:#EFF6FF;color:#1D4ED8}
+.dib-r{background:#FEF2F2;color:#991B1B}
+.dib-a{background:#FFFBEB;color:#92400E}
+.di-foot{display:flex;justify-content:space-between;font-size:11px;color:var(--text-light)}
+.di-live{display:flex;align-items:center;gap:5px}
+.di-dot{width:6px;height:6px;border-radius:50%;background:var(--success)}
+
+/* PRINCIPLES */
+.prin-bg{background:#fff}
+.prin-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:56px;margin-top:64px}
+.prin-icon{width:36px;height:36px;color:var(--accent);margin-bottom:18px}
+.prin-title{font-family:var(--serif);font-size:22px;color:var(--text);margin-bottom:12px;letter-spacing:-.02em}
+.prin-desc{font-size:14px;color:var(--text-muted);line-height:1.7}
+
+/* CASE STUDY */
+.case-bg{background:var(--bg-alt)}
+.case-layout{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.case-visual{background:linear-gradient(145deg,#ddeeff,#c5d8f5);border-radius:20px;padding:32px;position:relative;min-height:340px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:1px solid rgba(37,99,235,.1)}
+.case-co{font-family:var(--serif);font-size:26px;color:#1a3a6b;letter-spacing:-.02em;margin-bottom:6px;text-align:center}
+.case-co-sub{font-size:12px;color:#4a6fa5;text-align:center;margin-bottom:24px}
+.case-dotgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:16px}
+.cg{width:32px;height:32px;border-radius:7px}
+.cg.a{background:#4ADE80}.cg.f{background:#FCA5A5}
+.case-legend{display:flex;align-items:center;gap:16px;font-size:11px;color:#4a6fa5}
+.cl-item{display:flex;align-items:center;gap:5px}
+.cl-dot{width:8px;height:8px;border-radius:50%}
+.case-badge{position:absolute;bottom:24px;left:24px;background:#fff;border-radius:10px;padding:10px 16px;box-shadow:0 4px 16px rgba(0,0,0,.12);border:1px solid var(--border)}
+.cb-num{font-family:var(--mono);font-size:20px;font-weight:500;color:var(--success)}
+.cb-label{font-size:9.5px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:var(--text-light);margin-top:1px}
+.case-quote{font-family:var(--serif);font-size:clamp(22px,2.8vw,36px);color:var(--text);line-height:1.2;letter-spacing:-.025em;margin-bottom:20px}
+.case-story{font-size:15px;color:var(--text-muted);line-height:1.7;margin-bottom:24px}
+.case-stats{display:flex;gap:28px;margin-bottom:24px;flex-wrap:wrap}
+.cs-num{font-family:var(--serif);font-size:28px;letter-spacing:-.02em;line-height:1}
+.cs-label{font-size:12px;color:var(--text-muted);margin-top:3px}
+.case-link{display:inline-flex;align-items:center;gap:5px;font-size:14px;font-weight:500;color:var(--text);text-decoration:none;border-bottom:1.5px solid var(--text);padding-bottom:1px;margin-bottom:24px;transition:color .2s,border-color .2s}
+.case-link:hover{color:var(--accent);border-color:var(--accent)}
+.case-person{display:flex;align-items:center;gap:12px}
+.case-avatar{width:40px;height:40px;border-radius:50%;background:var(--bg-alt);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.case-name{font-size:14px;font-weight:500;color:var(--text)}
+.case-role{font-size:12px;color:var(--text-muted)}
+
+/* BLOG */
+.blog-bg{background:#fff}
+.blog-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:44px}
+.blog-all{font-size:13.5px;font-weight:500;color:var(--text);text-decoration:none;border-bottom:1.5px solid var(--border-strong);padding-bottom:1px;transition:color .2s,border-color .2s;white-space:nowrap;display:inline-flex;align-items:center;gap:4px}
+.blog-all:hover{color:var(--accent);border-color:var(--accent)}
+.blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.bcard{background:#fff;border:1px solid var(--border);border-radius:16px;overflow:hidden;text-decoration:none;color:inherit;display:block;transition:transform .25s,box-shadow .25s}
+.bcard:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+.bimg{height:200px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.bimg-icon{position:relative;z-index:1;width:44px;height:44px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(0,0,0,.1)}
+.bimg-tag{position:absolute;bottom:12px;right:12px;font-size:10px;font-weight:500;padding:3px 9px;border-radius:99px;text-transform:uppercase;letter-spacing:.06em}
+.bbody{padding:20px 22px 24px}
+.bcat{font-size:10.5px;font-weight:500;text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px;display:block}
+.btitle{font-size:15.5px;font-weight:500;color:var(--text);line-height:1.4;margin-bottom:10px}
+.bexcerpt{font-size:13px;color:var(--text-muted);line-height:1.6;margin-bottom:14px}
+.bmeta{font-size:12px;color:var(--text-light);display:flex;align-items:center;gap:8px}
+.bmdot{width:3px;height:3px;border-radius:50%;background:var(--text-light)}
+
+/* FINAL CTA */
+.cta-section{background:var(--bg-dark);padding:120px 40px;text-align:center}
+.cta-label{font-size:10.5px;font-weight:500;text-transform:uppercase;letter-spacing:.12em;color:#4A4A42;display:block;margin-bottom:28px}
+.cta-h2{font-family:var(--serif);font-size:clamp(40px,6vw,80px);font-weight:400;line-height:1.04;letter-spacing:-.035em;color:#F5F4EF;max-width:860px;margin:0 auto 18px}
+.cta-h2 .blue{color:#60A5FA;font-style:italic}
+.cta-sub{font-size:17px;color:#6E6E62;line-height:1.65;max-width:480px;margin:0 auto 44px}
+.cta-btns{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:28px}
+.btn-light{background:#fff;color:var(--text);font-size:14.5px;font-weight:500;padding:13px 28px;border-radius:99px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:background .2s,transform .2s}
+.btn-light:hover{background:#EFF6FF;transform:translateY(-2px)}
+.btn-dg{background:transparent;color:#F5F4EF;font-size:14.5px;font-weight:500;padding:12px 28px;border-radius:99px;border:1.5px solid rgba(255,255,255,.15);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:5px;transition:border-color .2s,background .2s}
+.btn-dg:hover{border-color:rgba(255,255,255,.35);background:rgba(255,255,255,.05)}
+.cta-trust{display:flex;align-items:center;justify-content:center;gap:24px;flex-wrap:wrap}
+.cta-ti{display:flex;align-items:center;gap:6px;font-size:13px;color:#4A4A42}
+
+/* FOOTER */
+footer{background:var(--bg-dark);border-top:1px solid rgba(255,255,255,.06);padding:60px 40px 36px}
+.ft{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px}
+.fb-name{display:flex;align-items:center;gap:8px;font-size:16px;font-weight:500;color:#F5F4EF;margin-bottom:12px}
+.fb-desc{font-size:13px;color:#4A4A42;line-height:1.6}
+.fc-title{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.12em;color:#3A3A32;margin-bottom:16px}
+.fc ul{list-style:none}
+.fc ul li{margin-bottom:10px}
+.fc ul li a{font-size:13.5px;color:#5A5A52;text-decoration:none;transition:color .2s}
+.fc ul li a:hover{color:#F5F4EF}
+.fb-bar{border-top:1px solid rgba(255,255,255,.06);padding-top:24px;display:flex;justify-content:space-between;align-items:center}
+.fb-copy{font-size:12.5px;color:#3A3A32}
+.fb-legal{display:flex;gap:20px}
+.fb-legal a{font-size:12.5px;color:#3A3A32;text-decoration:none;transition:color .2s}
+.fb-legal a:hover{color:#F5F4EF}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .data-layout,.case-layout{grid-template-columns:1fr;gap:40px}
+  .ft{grid-template-columns:1fr 1fr 1fr}
+}
+@media(max-width:768px){
+  nav{padding:0 20px}
+  .nav-links{display:none}
+  .nav-links.open{display:flex;flex-direction:column;position:fixed;top:60px;left:0;right:0;background:rgba(255,255,255,.97);backdrop-filter:blur(20px);padding:24px;border-bottom:1px solid var(--border);z-index:199;gap:20px}
+  .hamburger{display:flex}
+  .hero{padding:100px 20px 60px}
+  .how-grid{grid-template-columns:1fr 1fr;gap:32px}.how-line{display:none}
+  .prin-grid{grid-template-columns:1fr;gap:36px}
+  .blog-grid{grid-template-columns:1fr;gap:16px}
+  .blog-header{flex-direction:column;align-items:flex-start;gap:12px}
+  .case-stats{flex-direction:column;gap:16px}
+  .ft{grid-template-columns:1fr 1fr;gap:28px}
+  .fb-bar{flex-direction:column;gap:12px;text-align:center}
+  section{padding:72px 20px}
+  .logo-names{gap:28px}
+  .db-kpis{grid-template-columns:1fr 1fr}
+  .db-row{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+  .how-grid{grid-template-columns:1fr}
+  .ft{grid-template-columns:1fr}
+  .dsrc-row{grid-template-columns:repeat(3,1fr)}
+}
+</style>
 </head>
-
 <body>
 
-    <div class="page-bg"></div>
+<div class="dot-bg"></div>
 
-    <!-- NAVBAR -->
-    <nav id="navbar">
-        <a href="index.html" class="nav-logo">
-            <svg class="nav-logo-icon" viewBox="0 0 26 26" fill="none">
-                <polygon points="13,2 24,8 24,18 13,24 2,18 2,8" stroke="#0a0a0a" stroke-width="1.5" fill="none" />
-                <polygon points="13,7 20,11 20,17 13,21 6,17 6,11" fill="#0a0a0a" opacity="0.08" />
-                <line x1="13" y1="2" x2="13" y2="24" stroke="#2563eb" stroke-width="1" opacity="0.4" />
-            </svg>
-            Spendly
-        </a>
+<!-- NAVBAR -->
+<nav id="navbar">
+  <a href="/" class="nav-logo">
+    <div class="nav-logo-box">
+      <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
+        <path d="M8 1L14 4.5V11.5L8 15L2 11.5V4.5L8 1Z" stroke="white" stroke-width="1.2" fill="none"/>
+        <path d="M8 5L11 6.75V10.25L8 12L5 10.25V6.75L8 5Z" fill="white" opacity=".35"/>
+      </svg>
+    </div>
+    Spendly
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="./features.html">Product</a></li>
+    <li><a href="./features.html">Solutions</a></li>
+    <li><a href="./pricing.html">Pricing</a></li>
+    <li><a href="./insights.html">Resources</a></li>
+    <li><a href="./about.html">Company</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="./dashboard.html" class="nav-signin">Sign in</a>
+    <a href="./dashboard.html" class="nav-cta">Get started →</a>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
 
-        <ul class="nav-links" id="navLinks">
-            <li><a href="features.html">Product</a></li>
-            <li><a href="insights.html">Insights</a></li>
-            <li><a href="pricing.html">Pricing</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="dashboard.html" class="nav-cta">Get started →</a></li>
-        </ul>
+<!-- HERO -->
+<section class="hero">
+  <a href="./features.html" class="hero-pill anim-1">
+    <span class="hero-pill-dot"></span>
+    <span class="hero-pill-text">Introducing AI Budget Alerts</span>
+    <span style="color:var(--text-muted);font-size:12px">→</span>
+  </a>
+  <h1 class="anim-2">Stop Paying For Software<br><span class="blue">Nobody Uses.</span></h1>
+  <p class="hero-sub anim-3">Spendly connects finance, HR, and IT data to surface unused software, duplicate tools, and upcoming renewals — before they hit your budget.</p>
+  <div class="hero-actions anim-4">
+    <a href="./dashboard.html" class="btn-primary">Get a free demo</a>
+    <a href="./features.html" class="btn-ghost">See how it works →</a>
+  </div>
+</section>
 
-        <button class="hamburger" id="hamburger" aria-label="Menu">
-            <span></span><span></span><span></span>
-        </button>
-    </nav>
+<!-- LOGO STRIP -->
+<div class="logo-strip reveal">
+  <div class="logo-strip-label">Trusted by finance teams at</div>
+  <div class="logo-names">
+    <span class="logo-name">Acme Corp</span>
+    <span class="logo-name">Meridian</span>
+    <span class="logo-name">Halcyon</span>
+    <span class="logo-name">Vertex</span>
+    <span class="logo-name">Northstar</span>
+    <span class="logo-name">Crestline</span>
+  </div>
+</div>
 
-    <!-- HERO -->
-    <section class="hero">
-        <div class="hero-badge">
-            <span class="hero-badge-dot"></span>
-            AI-powered SaaS spend intelligence
-        </div>
-        <h1>Stop wasting money on SaaS<br><em>no one uses.</em></h1>
-
-        <p class="hero-sub" style="margin-top: 12px;">
-            Spendly connects your finance, HR, and identity data to automatically detect waste, forecast renewals, and
-            recover 20–30% of your SaaS budget — in 90 days.
-        </p>
-
-        <div class="hero-actions">
-            <a href="dashboard.html" class="btn-primary">Request a demo</a>
-            <a href="features.html" class="btn-ghost">Explore the platform</a>
-        </div>
-
-        <p class="hero-trust">Used by 200+ finance teams · SOC 2 compliant · 4.9 ★ average rating</p>
-
-        <!-- DASHBOARD PREVIEW -->
-        <div class="dashboard-wrap">
-            <div class="dashboard-card">
-                <div class="db-titlebar">
-                    <div class="db-dot r"></div>
-                    <div class="db-dot y"></div>
-                    <div class="db-dot g"></div>
-                    <span class="db-title-text">spendly.io/dashboard</span>
-                </div>
-                <div class="db-body">
-                    <div class="db-header">
-                        <div>
-                            <div class="db-greeting">Good morning, <span>Acme Corp.</span></div>
-                            <div style="font-size:13px;color:var(--text-muted);margin-top:4px;font-family:var(--sans)">
-                                Last synced 2 minutes ago</div>
-                        </div>
-                        <div class="db-date">
-                            <div style="font-size:13px;font-weight:500;color:var(--text)">March 2025</div>
-                            <div style="font-size:12px;color:var(--text-muted)">Q1 Review</div>
-                        </div>
-                    </div>
-
-                    <div class="db-kpis">
-                        <div class="db-kpi">
-                            <div class="db-kpi-label">Total Spend</div>
-                            <div class="db-kpi-value" data-counter data-target="247830" data-prefix="$">$247,830</div>
-                            <div class="db-kpi-delta delta-up" style="font-size:11px">↑ 3.2% vs last month</div>
-                        </div>
-                        <div class="db-kpi" style="border-top:2px solid var(--danger)">
-                            <div class="db-kpi-label">Detected Waste</div>
-                            <div class="db-kpi-value" style="color:var(--danger)" data-counter data-target="61240"
-                                data-prefix="$">$61,240</div>
-                            <div class="db-kpi-delta" style="font-size:11px;color:var(--text-muted)">24.7% of total
-                                spend</div>
-                        </div>
-                        <div class="db-kpi">
-                            <div class="db-kpi-label">Active Tools</div>
-                            <div class="db-kpi-value" data-counter data-target="47">47</div>
-                            <div class="db-kpi-delta" style="font-size:11px;color:var(--warning)">12 flagged</div>
-                        </div>
-                        <div class="db-kpi" style="border-top:2px solid var(--warning)">
-                            <div class="db-kpi-label">Renewals Soon</div>
-                            <div class="db-kpi-value">6</div>
-                            <div class="db-kpi-delta delta-up" style="font-size:11px">Next in 8 days</div>
-                        </div>
-                    </div>
-
-                    <div class="db-row">
-                        <div class="db-chart-card">
-                            <div class="db-chart-label">Monthly Spend Trend</div>
-                            <div class="spend-bars">
-                                <div class="spend-bar" style="height:55%"></div>
-                                <div class="spend-bar" style="height:60%"></div>
-                                <div class="spend-bar" style="height:62%"></div>
-                                <div class="spend-bar" style="height:58%"></div>
-                                <div class="spend-bar" style="height:66%"></div>
-                                <div class="spend-bar" style="height:64%"></div>
-                                <div class="spend-bar" style="height:68%"></div>
-                                <div class="spend-bar" style="height:70%"></div>
-                                <div class="spend-bar" style="height:67%"></div>
-                                <div class="spend-bar" style="height:72%"></div>
-                                <div class="spend-bar" style="height:71%"></div>
-                                <div class="spend-bar active" style="height:64%"></div>
-                            </div>
-                            <div style="display:flex;justify-content:space-between;margin-top:6px">
-                                <span style="font-size:10px;color:var(--text-muted);font-family:var(--sans)">Mar</span>
-                                <span style="font-size:10px;color:var(--text-muted);font-family:var(--sans)">Feb</span>
-                            </div>
-                        </div>
-
-                        <div class="db-alerts">
-                            <div class="db-chart-label">Active Alerts</div>
-                            <div class="db-alert-item">
-                                <div class="db-alert-dot dot-red"></div>
-                                <div class="db-alert-text">
-                                    <strong>Figma renewal in 3 days</strong>
-                                    14 inactive seats · $960/yr at risk
-                                </div>
-                            </div>
-                            <div class="db-alert-item">
-                                <div class="db-alert-dot dot-amber"></div>
-                                <div class="db-alert-text">
-                                    <strong>Sketch vs Figma overlap</strong>
-                                    87% feature overlap · $720 waste
-                                </div>
-                            </div>
-                            <div class="db-alert-item">
-                                <div class="db-alert-dot dot-blue"></div>
-                                <div class="db-alert-text">
-                                    <strong>Notion AI trial converts Friday</strong>
-                                    $890/mo · approve or cancel
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-    <div class="logo-strip">
-      <div class="logo-strip-label">Trusted by finance teams at</div>
-      <div class="logo-track-wrap">
-        <div class="logo-track">
-          <span class="logo-item">Meridian Labs</span>
-          <span class="logo-item">Acme Corp</span>
-          <span class="logo-item">Flux Materials</span>
-          <span class="logo-item">Orbit Systems</span>
-          <span class="logo-item">Cascade Group</span>
-          <span class="logo-item">Nova Ventures</span>
-          <span class="logo-item">Apex Digital</span>
-          <span class="logo-item">Summit Tech</span>
-          <span class="logo-item">Meridian Labs</span>
-          <span class="logo-item">Acme Corp</span>
-          <span class="logo-item">Flux Materials</span>
-          <span class="logo-item">Orbit Systems</span>
-          <span class="logo-item">Cascade Group</span>
-          <span class="logo-item">Nova Ventures</span>
-          <span class="logo-item">Apex Digital</span>
-          <span class="logo-item">Summit Tech</span>
+<!-- DASHBOARD MOCKUP -->
+<div class="db-section reveal">
+  <div class="db-window">
+    <div class="db-bar-top">
+      <div class="db-dot" style="background:#FF5F57"></div>
+      <div class="db-dot" style="background:#FEBC2E"></div>
+      <div class="db-dot" style="background:#28C840"></div>
+      <div class="db-url-wrap">
+        <div class="db-url">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#9A9890" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          spendly.io/dashboard
         </div>
       </div>
     </div>
-
-    <!-- FEATURE STRIP -->
-    <div class="feature-strip fade-in">
-        <div class="container">
-            <div class="feature-item">
-                <div class="feature-num">001</div>
-                <div class="feature-verb">Detect</div>
-                <div class="feature-desc">Discover every SaaS tool across bank feeds and SSO logs automatically</div>
-            </div>
-            <div class="feature-item">
-                <div class="feature-num">002</div>
-                <div class="feature-verb">Analyze</div>
-                <div class="feature-desc">Surface unused seats, idle licenses, and duplicate tools instantly</div>
-            </div>
-            <div class="feature-item">
-                <div class="feature-num">003</div>
-                <div class="feature-verb">Forecast</div>
-                <div class="feature-desc">Predict renewal waste 90 days before it hits your budget</div>
-            </div>
-            <div class="feature-item">
-                <div class="feature-num">004</div>
-                <div class="feature-verb">Optimize</div>
-                <div class="feature-desc">Approve AI-generated actions that cut spend the same day</div>
-            </div>
+    <div class="db-inner">
+      <div class="db-header">
+        <div>
+          <div class="db-greet">Good morning, <em style="font-style:normal">Acme Corp.</em></div>
+          <div class="db-sync">Last synced 2 minutes ago</div>
         </div>
+        <div class="db-qtr">March 2025 / Q1 Review</div>
+      </div>
+      <div class="db-kpis">
+        <div class="db-kpi"><div class="dkl">Total Spend</div><div class="dkv" data-counter data-target="247830" data-prefix="$">$247,830</div><div class="dkd red">↑ 3.2% vs last month</div></div>
+        <div class="db-kpi kred"><div class="dkl">Detected Waste</div><div class="dkv red" data-counter data-target="61240" data-prefix="$">$61,240</div><div class="dkd" style="color:var(--text-muted)">24.7% of total spend</div></div>
+        <div class="db-kpi"><div class="dkl">Active Tools</div><div class="dkv" data-counter data-target="47">47</div><div class="dkd amb">12 flagged for review</div></div>
+        <div class="db-kpi kamb"><div class="dkl">Renewals Soon</div><div class="dkv">6</div><div class="dkd">Next in 8 days</div></div>
+      </div>
+      <div class="db-row">
+        <div class="db-panel">
+          <div class="dpl">Monthly Spend Trend</div>
+          <div class="dbs">
+            <div class="db" style="height:50%"></div><div class="db" style="height:44%"></div>
+            <div class="db" style="height:56%"></div><div class="db" style="height:52%"></div>
+            <div class="db" style="height:60%"></div><div class="db" style="height:58%"></div>
+            <div class="db" style="height:64%"></div><div class="db" style="height:68%"></div>
+            <div class="db" style="height:62%"></div><div class="db" style="height:70%"></div>
+            <div class="db" style="height:66%"></div><div class="db hi" style="height:72%"></div>
+          </div>
+          <div class="dbl"><span class="dblt">Mar</span><span class="dblt">Jun</span><span class="dblt">Sep</span><span class="dblt">Feb</span></div>
+        </div>
+        <div class="db-panel">
+          <div class="dpl">Active Alerts</div>
+          <div class="da">
+            <div class="dai"><div class="dad" style="background:var(--danger)"></div><div class="dat"><strong>Figma renewal in 3 days</strong>14 inactive seats · $960/yr</div><div class="dab" style="background:#FEF2F2;color:#991B1B">Critical</div></div>
+            <div class="dai"><div class="dad" style="background:var(--warning)"></div><div class="dat"><strong>Figma vs Sketch overlap</strong>87% feature overlap detected</div><div class="dab" style="background:#FFFBEB;color:#92400E">High</div></div>
+            <div class="dai"><div class="dad" style="background:var(--accent)"></div><div class="dat"><strong>Notion AI trial converts</strong>Friday · $890/mo</div><div class="dab" style="background:#EFF6FF;color:#1D4ED8">Medium</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="sb">
+        <span class="sbl">Savings approved this month</span>
+        <div class="sbt"><div class="sbf" id="sbf"></div></div>
+        <span class="sbv">$12,400 of $47,200</span>
+      </div>
     </div>
+  </div>
+</div>
 
-
-    <section class="problem-section">
-      <div class="container">
-        <div class="reveal">
-          <span class="section-label">The problem</span>
-          <h2 style="font-family:'DM Serif Display',Georgia,serif;font-size:clamp(32px,4vw,52px);letter-spacing:-0.025em;line-height:1.1;color:#0C0C0A;max-width:580px;margin-top:12px;margin-bottom:0">
-            Companies are bleeding money.<br><em>Nobody notices.</em>
-          </h2>
+<!-- HOW IT WORKS -->
+<section class="how-bg">
+  <div class="container">
+    <div class="reveal" style="text-align:center;max-width:580px;margin:0 auto">
+      <span class="slabel">How it works</span>
+      <h2 class="sh2">From data to decisions in minutes.</h2>
+    </div>
+    <div class="how-grid stagger">
+      <div class="how-line"></div>
+      <div class="hi">
+        <span class="hn">01</span>
+        <div class="hicon">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+            <circle cx="18" cy="18" r="10" stroke="#0C0C0A" stroke-width="1.5"/>
+            <path d="M25 25L32 32" stroke="#0C0C0A" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="14" cy="15" r="1.5" fill="#2563EB"/>
+            <circle cx="18" cy="15" r="1.5" fill="#2563EB"/>
+            <circle cx="22" cy="15" r="1.5" fill="#2563EB"/>
+            <circle cx="14" cy="19" r="1.5" fill="#2563EB"/>
+            <circle cx="18" cy="19" r="1.5" fill="#2563EB"/>
+          </svg>
         </div>
-        <div class="problem-grid stagger">
-          <div class="problem-card">
-            <div class="problem-accent-line" style="background:#DC2626"></div>
-            <div class="problem-number">$247k</div>
-            <div class="problem-title">Average annual SaaS spend</div>
-            <div class="problem-desc">The typical mid-size company spends a quarter million dollars a year on software — and has no idea where it all goes.</div>
-          </div>
-          <div class="problem-card">
-            <div class="problem-accent-line" style="background:#D97706"></div>
-            <div class="problem-number">30%</div>
-            <div class="problem-title">Goes completely wasted</div>
-            <div class="problem-desc">Unused licenses, forgotten trials, duplicate tools across departments. Industry data puts waste at 20–30% of total SaaS spend.</div>
-          </div>
-          <div class="problem-card">
-            <div class="problem-accent-line" style="background:#2563EB"></div>
-            <div class="problem-number">3×</div>
-            <div class="problem-title">More tools than they track</div>
-            <div class="problem-desc">IT knows about some tools. Finance sees payments for others. HR tracks headcount. Nobody has the full picture — until Spendly.</div>
-          </div>
+        <span class="htag">Detect</span>
+        <div class="htitle">SaaS Discovery</div>
+        <div class="hdesc">Automatically discover every tool in use across your organization — even shadow IT your team never approved.</div>
+      </div>
+      <div class="hi">
+        <span class="hn">02</span>
+        <div class="hicon">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+            <circle cx="12" cy="12" r="3" fill="#2563EB"/><circle cx="20" cy="12" r="3" fill="#2563EB"/><circle cx="28" cy="12" r="3" fill="#2563EB"/>
+            <circle cx="12" cy="20" r="3" fill="#2563EB"/><circle cx="20" cy="20" r="3" fill="#D97706"/><circle cx="28" cy="20" r="3" fill="#2563EB"/>
+            <circle cx="12" cy="28" r="3" fill="#D97706"/><circle cx="20" cy="28" r="3" fill="#2563EB"/><circle cx="28" cy="28" r="3" fill="#D97706"/>
+            <line x1="17" y1="9" x2="15" y2="11" stroke="#DC2626" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="23" y1="9" x2="25" y2="11" stroke="#DC2626" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <span class="htag">Analyze</span>
+        <div class="htitle">License Intelligence</div>
+        <div class="hdesc">See exactly which seats are active, idle, or wasted. Stop paying for software employees haven't opened in months.</div>
+      </div>
+      <div class="hi">
+        <span class="hn">03</span>
+        <div class="hicon">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+            <rect x="6" y="10" width="28" height="24" rx="3" stroke="#0C0C0A" stroke-width="1.5"/>
+            <path d="M6 17H34" stroke="#0C0C0A" stroke-width="1.5"/>
+            <path d="M13 7V13M27 7V13" stroke="#0C0C0A" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M24 23L27 26L32 21" stroke="#D97706" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <span class="htag">Forecast</span>
+        <div class="htitle">Renewal Prediction</div>
+        <div class="hdesc">Get 90-day advance warnings on every renewal. Negotiate from a position of knowledge, not panic.</div>
+      </div>
+      <div class="hi">
+        <span class="hn">04</span>
+        <div class="hicon">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+            <path d="M8 28L16 20L22 24L32 12" stroke="#0C0C0A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M28 12H32V16" stroke="#0C0C0A" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="28" cy="30" r="5" stroke="#2563EB" stroke-width="1.5"/>
+            <path d="M26 30H30M28 28V32" stroke="#2563EB" stroke-width="1.2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <span class="htag">Optimize</span>
+        <div class="htitle">Cost Savings</div>
+        <div class="hdesc">Eliminate duplicate tools, consolidate overlapping products, and approve savings in a single workflow.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DATA SOURCES -->
+<section class="data-bg">
+  <div class="container">
+    <div class="data-layout">
+      <div class="reveal">
+        <span class="slabel">Built for finance teams</span>
+        <h2 class="dhead">One platform.<br>Every data source.<br>Full picture.</h2>
+        <p class="dbody">Finance can't manage what they can't see. Spendly ingests data from your bank feeds, HR systems, and SSO provider to give you a single, always-current view of every dollar spent on software.</p>
+        <div class="dchecks">
+          <div class="dcheck"><div class="dcheck-icon"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><polyline points="2 6 5 9 10 3" stroke="#059669" stroke-width="1.5" stroke-linecap="round"/></svg></div>Connects to your bank, ERP, and billing systems automatically</div>
+          <div class="dcheck"><div class="dcheck-icon"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><polyline points="2 6 5 9 10 3" stroke="#059669" stroke-width="1.5" stroke-linecap="round"/></svg></div>Syncs with your HR system to track employee status and offboarding</div>
+          <div class="dcheck"><div class="dcheck-icon"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><polyline points="2 6 5 9 10 3" stroke="#059669" stroke-width="1.5" stroke-linecap="round"/></svg></div>Reads SSO login data to detect actual usage vs. assigned licenses</div>
+          <div class="dcheck"><div class="dcheck-icon"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><polyline points="2 6 5 9 10 3" stroke="#059669" stroke-width="1.5" stroke-linecap="round"/></svg></div>No manual spreadsheets. No CSV uploads. No engineering required.</div>
         </div>
       </div>
-    </section>
-
-    <!-- EDITORIAL SPLIT -->
-    <section class="reveal editorial fade-in">
-        <div class="container">
-            <div>
-                <span class="section-label">The problem</span>
-                <div class="editorial-headline">
-                    Built for finance.<br>
-                    <em>Designed for IT.</em>
-                </div>
-                <p class="editorial-body">
-                    Finance sees payments. IT sees users. HR sees employees. But no system connects them. Spendly
-                    creates a single intelligence layer across all three — giving every team the visibility they've been
-                    missing.
-                </p>
-                <div class="editorial-stats stagger-children">
-                    <div class="editorial-stat">
-                        <div class="editorial-stat-num" data-counter data-prefix="$" data-suffix="M" data-target="4">
-                            $4M+</div>
-                        <div class="editorial-stat-label">Average waste recovered</div>
-                    </div>
-                    <div class="editorial-stat">
-                        <div class="editorial-stat-num" data-counter data-target="47" data-suffix=" min">47 min</div>
-                        <div class="editorial-stat-label">To first insight</div>
-                    </div>
-                    <div class="editorial-stat">
-                        <div class="editorial-stat-num" data-counter data-target="94" data-suffix="%">94%</div>
-                        <div class="editorial-stat-label">Flagged waste confirmed</div>
-                    </div>
-                    <div class="editorial-stat">
-                        <div class="editorial-stat-num" data-counter data-target="200" data-suffix="+">200+</div>
-                        <div class="editorial-stat-label">Finance teams using Spendly</div>
-                    </div>
-                </div>
-            </div>
-
-            <ul class="feature-list">
-                <li>
-                    <div class="feature-icon">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="1.5"
-                            stroke-linecap="round">
-                            <circle cx="11" cy="11" r="8" />
-                            <path d="m21 21-4.35-4.35" />
-                        </svg>
-                    </div>
-                    <div class="feature-text">
-                        <h4>Automatic SaaS discovery</h4>
-                        <p>Connect your bank feed or accounting tool and Spendly maps every subscription within minutes
-                            — no manual entry.</p>
-                    </div>
-                </li>
-                <li>
-                    <div class="feature-icon">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="1.5"
-                            stroke-linecap="round">
-                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                            <circle cx="9" cy="7" r="4" />
-                            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-                            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                        </svg>
-                    </div>
-                    <div class="feature-text">
-                        <h4>Seat-level license intelligence</h4>
-                        <p>See which employees haven't logged into a tool in 30, 60, or 90 days. Reclaim idle seats
-                            before renewal.</p>
-                    </div>
-                </li>
-                <li>
-                    <div class="feature-icon">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="1.5"
-                            stroke-linecap="round">
-                            <rect x="3" y="3" width="7" height="7" />
-                            <rect x="14" y="3" width="7" height="7" />
-                            <rect x="14" y="14" width="7" height="7" />
-                            <rect x="3" y="14" width="7" height="7" />
-                        </svg>
-                    </div>
-                    <div class="feature-text">
-                        <h4>Duplicate tool detection</h4>
-                        <p>AI clusters tools by feature overlap across departments. Figma vs Sketch. Slack vs Teams.
-                            Notion vs Confluence.</p>
-                    </div>
-                </li>
-                <li>
-                    <div class="feature-icon">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="1.5"
-                            stroke-linecap="round">
-                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-                            <line x1="16" y1="2" x2="16" y2="6" />
-                            <line x1="8" y1="2" x2="8" y2="6" />
-                            <line x1="3" y1="10" x2="21" y2="10" />
-                        </svg>
-                    </div>
-                    <div class="feature-text">
-                        <h4>90-day renewal forecasting</h4>
-                        <p>Know which contracts are renewing, their risk level, and the recommended action — weeks in
-                            advance.</p>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </section>
-
-
-    <section class="how-section">
-      <div class="container">
-        <div class="reveal" style="text-align:center;max-width:540px;margin:0 auto">
-          <span class="section-label">How it works</span>
-          <h2 style="font-family:'DM Serif Display',Georgia,serif;font-size:clamp(32px,4vw,52px);letter-spacing:-0.025em;line-height:1.1;color:#0C0C0A;margin-top:12px">
-            From connection to <em>savings in 90 minutes</em>
-          </h2>
-        </div>
-        <div class="how-steps stagger" style="position:relative">
-          <div class="how-connector"></div>
-          <div class="how-step">
-            <div class="how-step-num">01</div>
-            <div class="how-step-title">Connect your data</div>
-            <div class="how-step-desc">Link your bank feed, SSO provider, or accounting tool. Takes under 12 minutes. No engineering required.</div>
+      <div class="diagram reveal">
+        <div class="dsrc-row stagger">
+          <div class="dsrc">
+            <div class="dsrc-icon" style="background:#EFF6FF"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="1.5"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></div>
+            <div class="dsrc-title">Finance</div><div class="dsrc-desc">Bank transactions, invoices</div>
           </div>
-          <div class="how-step">
-            <div class="how-step-num">02</div>
-            <div class="how-step-title">Spendly scans everything</div>
-            <div class="how-step-desc">AI automatically discovers every SaaS subscription, maps it to employees, and cross-references usage data.</div>
+          <div class="dsrc">
+            <div class="dsrc-icon" style="background:#ECFDF5"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+            <div class="dsrc-title">HR</div><div class="dsrc-desc">Employee records, offboarding</div>
           </div>
-          <div class="how-step">
-            <div class="how-step-num">03</div>
-            <div class="how-step-title">Waste gets flagged</div>
-            <div class="how-step-desc">Unused seats, duplicate tools, expiring trials, and risky renewals surface as ranked actionable alerts.</div>
-          </div>
-          <div class="how-step">
-            <div class="how-step-num">04</div>
-            <div class="how-step-title">You approve. Money saved.</div>
-            <div class="how-step-desc">One click to approve a recommendation. Spendly tracks every dollar recovered and projects your 90-day savings.</div>
+          <div class="dsrc">
+            <div class="dsrc-icon" style="background:#FFFBEB"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
+            <div class="dsrc-title">IT / SSO</div><div class="dsrc-desc">Login activity, app access</div>
           </div>
         </div>
-      </div>
-    </section>
-
-    <!-- VALUES PILLARS -->
-    <section class="reveal pillars fade-in">
-        <div class="container">
-            <div class="pillars-header">
-                <span class="section-label">Our principles</span>
-                <h2>We believe in ruthless clarity over comfortable guesswork</h2>
-                <p>Every dollar should be visible. Every decision should be easy.</p>
-            </div>
-            <div class="pillars-grid stagger-children">
-                <div class="pillar">
-                    <svg class="pillar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
-                        stroke-linecap="round">
-                        <path d="M21.21 15.89A10 10 0 1 1 8 2.83" />
-                        <path d="M22 12A10 10 0 0 0 12 2v10z" />
-                    </svg>
-                    <h3>Data over assumptions</h3>
-                    <p>Real spend data — from bank feeds, SSO logs, and accounting APIs — not surveys or self-reporting
-                        from department heads.</p>
-                </div>
-                <div class="pillar">
-                    <svg class="pillar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
-                        stroke-linecap="round">
-                        <circle cx="12" cy="5" r="3" />
-                        <circle cx="19" cy="17" r="3" />
-                        <circle cx="5" cy="17" r="3" />
-                        <path d="M12 8v3m0 0-5 6m5-6 5 6" />
-                    </svg>
-                    <h3>Systems are connected</h3>
-                    <p>Finance, IT, and HR data belong together. Fragmented tools create fragmented decisions — we fix
-                        that with one unified layer.</p>
-                </div>
-                <div class="pillar">
-                    <svg class="pillar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
-                        stroke-linecap="round">
-                        <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
-                        <polyline points="16 7 22 7 22 13" />
-                    </svg>
-                    <h3>Progress is measurable</h3>
-                    <p>We track every dollar recovered, every license reclaimed, every renewal caught — so ROI is never
-                        in doubt or estimated.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CASE STUDY -->
-    <section class="reveal case-study fade-in">
-        <div class="container">
-            <div class="case-study-img">
-                <div class="case-study-img-inner">
-                    <div class="case-study-company">Acme Corp</div>
-                    <div class="case-study-result">130 tools · 8 departments</div>
-                </div>
-                <div class="case-study-badge">
-                    <div class="case-study-badge-num">$89,000</div>
-                    <div class="case-study-badge-label">Identified in week one</div>
-                </div>
-            </div>
-            <div class="case-study-content">
-                <span class="section-label">Customer story</span>
-                <h2>Why Acme Corp chose Spendly</h2>
-                <p>With 130 SaaS tools across 8 departments and no central visibility, Acme's finance team was bleeding
-                    $340,000/year in waste. After connecting Spendly to their bank feed and Okta, they had a full
-                    inventory in 47 minutes — and $89,000 in confirmed savings flagged within the first week.</p>
-                <a href="insights.html" class="case-study-link">Read the case study →</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- TESTIMONIAL -->
-    <section class="reveal testimonial fade-in">
-        <div class="container">
-            <span class="quote-mark">“</span>
-            <p class="testimonial-quote">We finally stopped guessing. Spendly found $61,000 in waste we didn't know
-                existed — unused seats, forgotten trials, duplicate tools. It paid for itself in the first month.</p>
-            <div class="testimonial-person">
-                <div class="testimonial-avatar">S</div>
-                <div>
-                    <div class="testimonial-name">Sarah Chen</div>
-                    <div class="testimonial-title">VP of Finance, Meridian Labs</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- INSIGHTS -->
-    <section class="reveal insights fade-in">
-        <div class="container">
-            <div class="insights-header">
-                <div>
-                    <span class="section-label">Insights</span>
-                    <h2>Stay sharp on SaaS spend</h2>
-                </div>
-                <a href="insights.html" class="insights-link">View all insights →</a>
-            </div>
-            <div class="insights-grid">
-                <a href="insights.html" class="article-card">
-                    <div class="article-img" style="background:linear-gradient(135deg,#eff6ff,#bfdbfe)">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="1.5"
-                            stroke-linecap="round">
-                            <line x1="12" y1="1" x2="12" y2="23" />
-                            <path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" />
-                        </svg>
-                    </div>
-                    <div class="article-body">
-                        <span class="article-tag">Strategy</span>
-                        <div class="article-title">The Hidden Cost of SaaS Sprawl (And How to Fix It)</div>
-                        <div class="article-meta">
-                            <span>Mar 2025</span>
-                            <span class="article-meta-dot"></span>
-                            <span>5 min read</span>
-                        </div>
-                    </div>
-                </a>
-                <a href="insights.html" class="article-card">
-                    <div class="article-img" style="background:linear-gradient(135deg,#ecfdf5,#a7f3d0)">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="1.5"
-                            stroke-linecap="round">
-                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
-                        </svg>
-                    </div>
-                    <div class="article-body">
-                        <span class="article-tag" style="color:#059669;background:#ecfdf5">Analytics</span>
-                        <div class="article-title">How to Audit 100 SaaS Tools in Under an Hour</div>
-                        <div class="article-meta">
-                            <span>Feb 2025</span>
-                            <span class="article-meta-dot"></span>
-                            <span>7 min read</span>
-                        </div>
-                    </div>
-                </a>
-                <a href="insights.html" class="article-card">
-                    <div class="article-img" style="background:linear-gradient(135deg,#fffbeb,#fde68a)">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="1.5"
-                            stroke-linecap="round">
-                            <rect x="3" y="4" width="18" height="18" rx="2" />
-                            <line x1="16" y1="2" x2="16" y2="6" />
-                            <line x1="8" y1="2" x2="8" y2="6" />
-                            <line x1="3" y1="10" x2="21" y2="10" />
-                        </svg>
-                    </div>
-                    <div class="article-body">
-                        <span class="article-tag" style="color:#d97706;background:#fffbeb">Renewals</span>
-                        <div class="article-title">The 90-Day Renewal Window: When to Cancel, Renegotiate, or Renew
-                        </div>
-                        <div class="article-meta">
-                            <span>Jan 2025</span>
-                            <span class="article-meta-dot"></span>
-                            <span>4 min read</span>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
-    </section>
-
-
-
-
-
-    <section class="comparison-section">
-      <div class="container">
-        <div class="reveal">
-          <span class="section-label">The difference</span>
-          <h2 style="font-family:'DM Serif Display',Georgia,serif;font-size:clamp(32px,4vw,52px);letter-spacing:-0.025em;line-height:1.1;color:#0C0C0A;max-width:540px;margin-top:12px">
-            Life before and <em>after Spendly</em>
-          </h2>
-        </div>
-        <div class="comparison-wrap">
-          <div class="comparison-col col-before">
-            <div class="col-header">
-              <div class="col-header-left">
-                <div class="col-dot" style="background:#DC2626"></div>
-                <span class="col-title">Without Spendly</span>
-              </div>
-              <span class="col-sub">Current state</span>
-            </div>
-            <div class="col-items">
-              <div class="col-item">
-                <div class="ci-marker bad">✕</div>
-                <div class="ci-text">Spreadsheets tracking <strong>some</strong> subscriptions — manually updated, always out of date</div>
-              </div>
-              <div class="col-item">
-                <div class="ci-marker bad">✕</div>
-                <div class="ci-text">Offboarded employees still have <strong>active paid licenses</strong> weeks later</div>
-              </div>
-              <div class="col-item">
-                <div class="ci-marker bad">✕</div>
-                <div class="ci-text">Marketing uses Notion. Engineering uses Confluence. <strong>Nobody knows both exist.</strong></div>
-              </div>
-              <div class="col-item">
-                <div class="ci-marker bad">✕</div>
-                <div class="ci-text">$48,000 Salesforce renewal <strong>auto-renews</strong> because nobody set a reminder</div>
-              </div>
-              <div class="col-item">
-                <div class="ci-marker bad">✕</div>
-                <div class="ci-text">Finance asks IT for a tool list. IT asks Finance. <strong>Nobody has it.</strong></div>
-              </div>
-              <div class="col-item">
-                <div class="ci-marker bad">✕</div>
-                <div class="ci-text">Free trial converts to paid at 2am. <strong>$890/mo charged.</strong> Nobody notices for 3 months.</div>
-              </div>
-            </div>
+        <div class="dconn"></div>
+        <div class="dintel">
+          <div class="di-head">
+            <div class="di-logo-box"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M8 1L14 4.5V11.5L8 15L2 11.5V4.5L8 1Z" stroke="white" stroke-width="1.2"/></svg></div>
+            <div><div class="di-title">Spendly Intelligence Layer</div><div class="di-sub">Real-time synthesis across all data sources</div></div>
           </div>
-
-          <div class="vs-col">
-            <div class="vs-badge">VS</div>
+          <div class="di-badges">
+            <span class="dib dib-b">47 tools detected</span>
+            <span class="dib dib-r">$61k waste found</span>
+            <span class="dib dib-a">6 renewals flagged</span>
           </div>
-
-          <div class="comparison-col col-after">
-            <div class="col-header">
-              <div class="col-header-left">
-                <div class="col-dot" style="background:#059669"></div>
-                <span class="col-title">With Spendly</span>
-              </div>
-              <span class="col-sub">Your new reality</span>
-            </div>
-            <div class="col-items">
-              <div class="col-item">
-                <div class="ci-marker good">✓</div>
-                <div class="ci-text"><strong>Every SaaS tool</strong> automatically discovered — bank feed, SSO, and accounting connected</div>
-              </div>
-              <div class="col-item">
-                <div class="ci-marker good">✓</div>
-                <div class="ci-text">Offboarded employees flagged <strong>instantly</strong> — idle seats reclaimed before next billing cycle</div>
-              </div>
-              <div class="col-item">
-                <div class="ci-marker good">✓</div>
-                <div class="ci-text">AI detects the overlap, <strong>recommends consolidation</strong>, calculates exact annual savings</div>
-              </div>
-              <div class="col-item">
-                <div class="ci-marker good">✓</div>
-                <div class="ci-text"><strong>90-day renewal calendar</strong> with risk scores — catch every contract before it auto-renews</div>
-              </div>
-              <div class="col-item">
-                <div class="ci-marker good">✓</div>
-                <div class="ci-text">One dashboard for Finance, IT, and HR — <strong>same data, every team aligned</strong></div>
-              </div>
-              <div class="col-item">
-                <div class="ci-marker good">✓</div>
-                <div class="ci-text">Trial conversion alerts fire <strong>14 days early</strong> — cancel or upgrade entirely on your terms</div>
-              </div>
-            </div>
+          <div class="di-foot">
+            <div class="di-live"><div class="di-dot"></div>Live sync · Updated 2 min ago</div>
+            <span>3 sources · 47 indexed</span>
           </div>
-        </div>
-      </div>
-    </section>
-
-    <div class="metrics-band reveal">
-      <div class="metrics-grid">
-        <div class="metric-item">
-          <div class="metric-num" data-counter data-target="247830" data-prefix="$">$247,830</div>
-          <div class="metric-label">Average SaaS spend<br>detected per company</div>
-        </div>
-        <div class="metric-item">
-          <div class="metric-num" data-counter data-target="61" data-prefix="$" data-suffix="k+">$61k+</div>
-          <div class="metric-label">Average annual waste<br>recovered in year one</div>
-        </div>
-        <div class="metric-item">
-          <div class="metric-num" data-counter data-target="47" data-suffix=" min">47 min</div>
-          <div class="metric-label">Time from signup<br>to first insight</div>
-        </div>
-        <div class="metric-item">
-          <div class="metric-num" data-counter data-target="94" data-suffix="%">94%</div>
-          <div class="metric-label">Of AI-flagged waste<br>confirmed accurate</div>
         </div>
       </div>
     </div>
+  </div>
+</section>
 
-    <section class="integrations-section">
-      <div class="container">
-        <div class="integrations-header reveal">
-          <span class="section-label">Integrations</span>
-          <h2 style="font-family:'DM Serif Display',Georgia,serif;font-size:clamp(28px,3.5vw,44px);letter-spacing:-0.025em;line-height:1.1;color:#0C0C0A;margin-top:12px">
-            Connects to tools<br><em>you already use</em>
-          </h2>
+<!-- PRINCIPLES -->
+<section class="prin-bg">
+  <div class="container">
+    <div class="reveal" style="text-align:center;max-width:500px;margin:0 auto">
+      <span class="slabel">Our principles</span>
+      <h2 class="sh2">Built on a simple belief.</h2>
+    </div>
+    <div class="prin-grid stagger">
+      <div>
+        <svg class="prin-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+          <circle cx="18" cy="18" r="14"/><path d="M18 4v14l8 8"/>
+        </svg>
+        <div class="prin-title">Data over assumptions</div>
+        <p class="prin-desc">Every recommendation in Spendly is backed by real transaction data, real login activity, and real headcount. We don't guess — we show.</p>
+      </div>
+      <div>
+        <svg class="prin-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+          <circle cx="8" cy="8" r="4"/><circle cx="28" cy="8" r="4"/><circle cx="18" cy="28" r="4"/>
+          <path d="M12 8h12M10 11l6 14M26 11l-6 14"/>
+        </svg>
+        <div class="prin-title">Systems are connected</div>
+        <p class="prin-desc">Finance, HR, and IT don't operate in silos anymore. Spendly is the layer that connects them, making waste visible the moment it appears.</p>
+      </div>
+      <div>
+        <svg class="prin-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+          <polyline points="4,28 12,18 18,22 28,10"/><polyline points="24,10 28,10 28,14"/>
+        </svg>
+        <div class="prin-title">Progress is measurable</div>
+        <p class="prin-desc">Track every dollar saved, every license canceled, every renewal caught early. Your CFO will finally have a number to report.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CASE STUDY -->
+<section class="case-bg">
+  <div class="container">
+    <div class="case-layout">
+      <div class="case-visual reveal">
+        <div class="case-co">Acme Corp</div>
+        <div class="case-co-sub">130 tools · 8 departments</div>
+        <div class="case-dotgrid">
+          <div class="cg a"></div><div class="cg a"></div><div class="cg f"></div><div class="cg a"></div><div class="cg a"></div>
+          <div class="cg a"></div><div class="cg f"></div><div class="cg a"></div><div class="cg a"></div><div class="cg a"></div>
+          <div class="cg a"></div><div class="cg a"></div><div class="cg a"></div><div class="cg f"></div><div class="cg a"></div>
+          <div class="cg f"></div><div class="cg a"></div><div class="cg a"></div><div class="cg a"></div><div class="cg f"></div>
         </div>
-        <div class="integrations-grid stagger">
-          <div class="integration-card">
-            <div class="int-logo" style="background:#EFF6FF;color:#1D4ED8">Pl</div>
-            <div class="int-name">Plaid</div>
-            <span class="int-status s-live">Live</span>
-          </div>
-          <div class="integration-card">
-            <div class="int-logo" style="background:#F0FDF4;color:#166534">Ok</div>
-            <div class="int-name">Okta</div>
-            <span class="int-status s-live">Live</span>
-          </div>
-          <div class="integration-card">
-            <div class="int-logo" style="background:#FFF7ED;color:#C2410C">Qb</div>
-            <div class="int-name">QuickBooks</div>
-            <span class="int-status s-live">Live</span>
-          </div>
-          <div class="integration-card">
-            <div class="int-logo" style="background:#F5F3FF;color:#6D28D9">Gg</div>
-            <div class="int-name">Google SSO</div>
-            <span class="int-status s-live">Live</span>
-          </div>
-          <div class="integration-card">
-            <div class="int-logo" style="background:#EFF6FF;color:#1D4ED8">Xe</div>
-            <div class="int-name">Xero</div>
-            <span class="int-status s-live">Live</span>
-          </div>
-          <div class="integration-card">
-            <div class="int-logo" style="background:#ECFDF5;color:#065F46">Bb</div>
-            <div class="int-name">BambooHR</div>
-            <span class="int-status s-soon">Soon</span>
-          </div>
-          <div class="integration-card">
-            <div class="int-logo" style="background:#FEF2F2;color:#991B1B">Sf</div>
-            <div class="int-name">Salesforce</div>
-            <span class="int-status s-soon">Soon</span>
-          </div>
-          <div class="integration-card">
-            <div class="int-logo" style="background:#FFFBEB;color:#92400E">Sl</div>
-            <div class="int-name">Slack</div>
-            <span class="int-status s-soon">Soon</span>
-          </div>
-          <div class="integration-card">
-            <div class="int-logo" style="background:#F7F6F2;color:#6B7280">Az</div>
-            <div class="int-name">Azure AD</div>
-            <span class="int-status s-soon">Soon</span>
-          </div>
-          <div class="integration-card">
-            <div class="int-logo" style="background:#EFF6FF;color:#1D4ED8">Ne</div>
-            <div class="int-name">NetSuite</div>
-            <span class="int-status s-soon">Soon</span>
-          </div>
-          <div class="integration-card">
-            <div class="int-logo" style="background:#F0FDF4;color:#166534">Wr</div>
-            <div class="int-name">Workday</div>
-            <span class="int-status s-soon">Soon</span>
-          </div>
-          <div class="integration-card">
-            <div class="int-logo" style="background:#F7F6F2;color:#9A9890">+8</div>
-            <div class="int-name">More coming</div>
-            <span class="int-status s-soon">2025</span>
-          </div>
+        <div class="case-legend">
+          <div class="cl-item"><div class="cl-dot" style="background:#4ADE80"></div>Active (70%)</div>
+          <div class="cl-item"><div class="cl-dot" style="background:#FCA5A5"></div>Flagged (30%)</div>
+        </div>
+        <div class="case-badge">
+          <div class="cb-num">$89,000</div>
+          <div class="cb-label">Identified in week one</div>
         </div>
       </div>
-    </section>
-
-    <section class="faq-section reveal">
-      <div class="container">
-        <div class="faq-inner">
-          <div style="text-align:center">
-            <span class="section-label">FAQ</span>
-            <h2 style="font-family:'DM Serif Display',Georgia,serif;font-size:clamp(32px,4vw,48px);letter-spacing:-0.025em;line-height:1.1;color:#0C0C0A;margin-top:12px">
-              Questions we <em>always get asked</em>
-            </h2>
+      <div class="reveal">
+        <span class="slabel" style="color:var(--accent)">Customer story</span>
+        <div class="case-quote">"We found $89,000 in software waste on day one."</div>
+        <p class="case-story">Acme Corp connected Spendly to their banking feed and HR system on a Monday morning. By Friday, they had a full picture of 130 tools, identified $89k in immediate savings, and canceled three overlapping design subscriptions.</p>
+        <div class="case-stats">
+          <div>
+            <div class="cs-num" style="color:var(--accent)" data-counter data-target="89" data-prefix="$" data-suffix="k">$89k</div>
+            <div class="cs-label">Waste identified</div>
           </div>
-          <div class="faq-list">
-            <div class="faq-item">
-              <button class="faq-btn" onclick="toggleFaq(this)">
-                How long does it take to set up?
-                <span class="faq-icon">+</span>
-              </button>
-              <div class="faq-body">
-                Most teams are fully connected in under 12 minutes. Connect your bank feed or accounting tool, link your SSO provider, and Spendly starts scanning immediately. Your first insights appear within the hour — no engineering resources required.
-              </div>
-            </div>
-            <div class="faq-item">
-              <button class="faq-btn" onclick="toggleFaq(this)">
-                Does Spendly actually save money or just show data?
-                <span class="faq-icon">+</span>
-              </button>
-              <div class="faq-body">
-                Both. Spendly surfaces the waste and gives you one-click actions to eliminate it. You approve a recommendation and it tracks the savings in real time. Average first-year recovery is $61,000 — with 94% of flagged items confirmed as genuine waste.
-              </div>
-            </div>
-            <div class="faq-item">
-              <button class="faq-btn" onclick="toggleFaq(this)">
-                Is our financial data safe?
-                <span class="faq-icon">+</span>
-              </button>
-              <div class="faq-body">
-                Yes. Spendly is SOC 2 compliant, uses bank-grade encryption, and never stores raw credentials. We connect via OAuth and read-only API access — we can see your spend data but never move money or make changes on your behalf.
-              </div>
-            </div>
-            <div class="faq-item">
-              <button class="faq-btn" onclick="toggleFaq(this)">
-                What if we only have a few SaaS tools?
-                <span class="faq-icon">+</span>
-              </button>
-              <div class="faq-body">
-                Spendly works for teams with as few as 10 tools. Most customers discover 20–30% more tools than they thought they had. Our Starter plan is built for smaller stacks and pays for itself after a single cancelled subscription.
-              </div>
-            </div>
-            <div class="faq-item">
-              <button class="faq-btn" onclick="toggleFaq(this)">
-                How is this different from checking our credit card statement?
-                <span class="faq-icon">+</span>
-              </button>
-              <div class="faq-body">
-                Credit card statements show payments but not usage. Spendly connects payment data with employee login data and HR records — so you see not just what you're paying, but who's actually using it, which seats are idle, and which tools are duplicated.
-              </div>
-            </div>
+          <div>
+            <div class="cs-num" style="color:#0891B2">4 days</div>
+            <div class="cs-label">Time to first insight</div>
           </div>
+          <div>
+            <div class="cs-num" data-counter data-target="130">130</div>
+            <div class="cs-label">Tools discovered</div>
+          </div>
+        </div>
+        <a href="./insights.html" class="case-link">Read the case study →</a>
+        <div class="case-person">
+          <div class="case-avatar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9A9890" stroke-width="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+          <div><div class="case-name">Sarah Chen</div><div class="case-role">VP Finance, Acme Corp</div></div>
         </div>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
 
-    <!-- FINAL CTA -->
-    <section class="reveal final-cta fade-in">
-        <div class="container">
-            <h2>Ready to see what<br><em>you're wasting?</em></h2>
-            <p>Connect in 12 minutes. Get your first insight within the hour. No credit card required.</p>
-            <a href="dashboard.html" class="btn-light">Request a demo →</a>
-            <p class="final-cta-note">SOC 2 compliant · No credit card required · Cancel anytime</p>
+<!-- BLOG -->
+<section class="blog-bg">
+  <div class="container">
+    <div class="blog-header reveal">
+      <div>
+        <span class="slabel">From the blog</span>
+        <h2 class="sh2">Spend intelligence, explained.</h2>
+      </div>
+      <a href="./insights.html" class="blog-all">View all articles →</a>
+    </div>
+    <div class="blog-grid stagger">
+      <a href="./insights.html" class="bcard">
+        <div class="bimg" style="background:linear-gradient(135deg,#EFF6FF,#DBEAFE)">
+          <svg style="position:absolute;inset:0;width:100%;height:100%" viewBox="0 0 360 200" preserveAspectRatio="xMidYMid slice">
+            <rect x="20" y="20" width="60" height="40" rx="6" fill="#BFDBFE" opacity=".6"/>
+            <rect x="90" y="50" width="80" height="30" rx="6" fill="#93C5FD" opacity=".5"/>
+            <rect x="180" y="25" width="50" height="50" rx="6" fill="#BFDBFE" opacity=".4"/>
+            <rect x="240" y="45" width="70" height="35" rx="6" fill="#93C5FD" opacity=".5"/>
+            <rect x="50" y="100" width="90" height="40" rx="6" fill="#BFDBFE" opacity=".5"/>
+            <rect x="160" y="95" width="60" height="45" rx="6" fill="#60A5FA" opacity=".3"/>
+            <rect x="240" y="105" width="80" height="35" rx="6" fill="#BFDBFE" opacity=".4"/>
+          </svg>
+          <div class="bimg-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="1.5"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
+          <div class="bimg-tag" style="background:#EFF6FF;color:#1D4ED8">Strategy</div>
         </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer>
-        <div class="footer-top">
-            <div class="footer-brand">
-                <h3>Spendly</h3>
-                <p>AI-powered SaaS spend intelligence.<br>Built by Team Bugg Slayers.</p>
-            </div>
-            <div class="footer-col">
-                <h4>Product</h4>
-                <ul>
-                    <li><a href="features.html">Features</a></li>
-                    <li><a href="pricing.html">Pricing</a></li>
-                    <li><a href="dashboard.html">Dashboard</a></li>
-                    <li><a href="insights.html">Changelog</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Company</h4>
-                <ul>
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="about.html">Careers</a></li>
-                    <li><a href="insights.html">Blog</a></li>
-                    <li><a href="about.html">Contact</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Legal</h4>
-                <ul>
-                    <li><a href="about.html">Privacy</a></li>
-                    <li><a href="about.html">Terms</a></li>
-                    <li><a href="about.html">Security</a></li>
-                    <li><a href="about.html">SOC 2</a></li>
-                </ul>
-            </div>
+        <div class="bbody">
+          <span class="bcat" style="color:#2563EB">Strategy</span>
+          <div class="btitle">The Hidden Cost of SaaS Sprawl</div>
+          <div class="bexcerpt">Most finance teams are managing 40+ tools they never approved. Here's why it happens — and how to fix it.</div>
+          <div class="bmeta"><span>Feb 12, 2025</span><span class="bmdot"></span><span>6 min read</span></div>
         </div>
-        <div class="footer-bottom">
-            <p>© 2025 Spendly · Built by Team Bugg Slayers</p>
-            <p><a href="about.html">Privacy</a> · <a href="about.html">Terms</a></p>
+      </a>
+      <a href="./insights.html" class="bcard">
+        <div class="bimg" style="background:linear-gradient(135deg,#ECFDF5,#A7F3D0)">
+          <svg style="position:absolute;inset:0;width:100%;height:100%" viewBox="0 0 360 200" preserveAspectRatio="xMidYMid slice">
+            <rect x="20" y="20" width="300" height="18" rx="4" fill="#6EE7B7" opacity=".5"/>
+            <rect x="20" y="48" width="260" height="18" rx="4" fill="#6EE7B7" opacity=".4"/>
+            <rect x="20" y="76" width="280" height="18" rx="4" fill="#A7F3D0" opacity=".5"/>
+            <rect x="20" y="104" width="240" height="18" rx="4" fill="#6EE7B7" opacity=".3"/>
+            <rect x="20" y="132" width="270" height="18" rx="4" fill="#A7F3D0" opacity=".4"/>
+            <rect x="20" y="160" width="250" height="18" rx="4" fill="#6EE7B7" opacity=".4"/>
+          </svg>
+          <div class="bimg-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="1.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div class="bimg-tag" style="background:#ECFDF5;color:#065F46">Analytics</div>
         </div>
-    </footer>
+        <div class="bbody">
+          <span class="bcat" style="color:#059669">Analytics</span>
+          <div class="btitle">How to Audit 100 SaaS Tools in a Week</div>
+          <div class="bexcerpt">A step-by-step framework used by enterprise finance teams to identify waste at scale without the manual work.</div>
+          <div class="bmeta"><span>Jan 28, 2025</span><span class="bmdot"></span><span>8 min read</span></div>
+        </div>
+      </a>
+      <a href="./insights.html" class="bcard">
+        <div class="bimg" style="background:linear-gradient(135deg,#FFFBEB,#FDE68A)">
+          <svg style="position:absolute;inset:0;width:100%;height:100%" viewBox="0 0 360 200" preserveAspectRatio="xMidYMid slice">
+            <rect x="20" y="20" width="45" height="45" rx="7" fill="#FCD34D" opacity=".6"/>
+            <rect x="75" y="20" width="45" height="45" rx="7" fill="#FDE68A" opacity=".5"/>
+            <rect x="200" y="20" width="45" height="45" rx="7" fill="#FCD34D" opacity=".5"/>
+            <rect x="255" y="20" width="45" height="45" rx="7" fill="#FDE68A" opacity=".4"/>
+            <rect x="20" y="80" width="45" height="45" rx="7" fill="#FDE68A" opacity=".4"/>
+            <rect x="130" y="80" width="45" height="45" rx="7" fill="#FCD34D" opacity=".6"/>
+            <rect x="255" y="80" width="45" height="45" rx="7" fill="#FCD34D" opacity=".5"/>
+            <rect x="75" y="140" width="45" height="45" rx="7" fill="#FDE68A" opacity=".5"/>
+            <rect x="200" y="140" width="45" height="45" rx="7" fill="#FCD34D" opacity=".4"/>
+          </svg>
+          <div class="bimg-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+          <div class="bimg-tag" style="background:#FFFBEB;color:#92400E">Renewals</div>
+        </div>
+        <div class="bbody">
+          <span class="bcat" style="color:#D97706">Renewals</span>
+          <div class="btitle">The 90-Day Renewal Window</div>
+          <div class="bexcerpt">Why 90 days is your most powerful negotiation window — and how to know which renewals deserve your attention.</div>
+          <div class="bmeta"><span>Jan 14, 2025</span><span class="bmdot"></span><span>5 min read</span></div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
 
-    <script>
-        // Navbar scroll
-        const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
-            navbar.classList.toggle('scrolled', window.scrollY > 20);
-        });
+<!-- FINAL CTA -->
+<section class="cta-section reveal">
+  <div class="container">
+    <span class="cta-label">Ready to start</span>
+    <h2 class="cta-h2">Find out what you're<br><span class="blue">paying for but not using.</span></h2>
+    <p class="cta-sub">Connect your data in 15 minutes. See your first insight before lunch. No engineering required.</p>
+    <div class="cta-btns">
+      <a href="./dashboard.html" class="btn-light">Book a demo</a>
+      <a href="./dashboard.html" class="btn-dg">Start free trial →</a>
+    </div>
+    <div class="cta-trust">
+      <div class="cta-ti"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4A4A42" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>SOC 2 Type II</div>
+      <div class="cta-ti"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4A4A42" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>GDPR Compliant</div>
+      <div class="cta-ti"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4A4A42" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>No credit card required</div>
+    </div>
+  </div>
+</section>
 
-        // Hamburger
-        const hamburger = document.getElementById('hamburger');
-        const navLinks = document.getElementById('navLinks');
-        hamburger.addEventListener('click', () => {
-            navLinks.classList.toggle('open');
-        });
+<!-- FOOTER -->
+<footer>
+  <div class="ft">
+    <div>
+      <div class="fb-name">
+        <div class="nav-logo-box"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M8 1L14 4.5V11.5L8 15L2 11.5V4.5L8 1Z" stroke="white" stroke-width="1.2"/></svg></div>
+        Spendly
+      </div>
+      <p class="fb-desc">AI-powered spend intelligence for finance teams that demand clarity.</p>
+    </div>
+    <div class="fc"><div class="fc-title">Product</div><ul><li><a href="./dashboard.html">Dashboard</a></li><li><a href="./dashboard.html">Alerts</a></li><li><a href="./renewals.html">Renewals</a></li><li><a href="./settings.html">Integrations</a></li><li><a href="./about.html">Security</a></li></ul></div>
+    <div class="fc"><div class="fc-title">Solutions</div><ul><li><a href="./features.html">Finance Teams</a></li><li><a href="./features.html">IT Managers</a></li><li><a href="./features.html">HR Operations</a></li><li><a href="./pricing.html">Enterprise</a></li></ul></div>
+    <div class="fc"><div class="fc-title">Resources</div><ul><li><a href="./insights.html">Blog</a></li><li><a href="./insights.html">Docs</a></li><li><a href="./insights.html">Case Studies</a></li><li><a href="./insights.html">Changelog</a></li><li><a href="./about.html">Status</a></li></ul></div>
+    <div class="fc"><div class="fc-title">Company</div><ul><li><a href="./about.html">About</a></li><li><a href="./about.html">Careers</a></li><li><a href="./about.html">Press</a></li><li><a href="./about.html">Contact</a></li></ul></div>
+  </div>
+  <div class="fb-bar">
+    <p class="fb-copy">© 2025 Spendly, Inc. All rights reserved. Built by Team Bugg Slayers.</p>
+    <div class="fb-legal"><a href="./about.html">Privacy</a><a href="./about.html">Terms</a><a href="./about.html">Security</a></div>
+  </div>
+</footer>
 
-        // Scroll fade-in
-        const fadeEls = document.querySelectorAll('.fade-in');
-        const fadeObserver = new IntersectionObserver((entries) => {
-            entries.forEach(e => {
-                if (e.isIntersecting) {
-                    e.target.classList.add('visible');
-                    fadeObserver.unobserve(e.target);
-                }
-            });
-        }, { threshold: 0.1 });
-        fadeEls.forEach(el => fadeObserver.observe(el));
-
-        // Counter animation
-        function animateCounter(el, target, duration, prefix, suffix) {
-            const start = performance.now();
-            const update = (time) => {
-                const progress = Math.min((time - start) / duration, 1);
-                const eased = 1 - Math.pow(1 - progress, 4);
-                const value = Math.floor(eased * target);
-                el.textContent = (prefix || '') + value.toLocaleString() + (suffix || '');
-                if (progress < 1) requestAnimationFrame(update);
-            };
-            requestAnimationFrame(update);
-        }
-
-        const counterObserver = new IntersectionObserver((entries) => {
-            entries.forEach(e => {
-                if (e.isIntersecting) {
-                    const el = e.target;
-                    const target = +el.dataset.target;
-                    const prefix = el.dataset.prefix || '';
-                    const suffix = el.dataset.suffix || '';
-                    animateCounter(el, target, 1800, prefix, suffix);
-                    counterObserver.unobserve(el);
-                }
-            });
-        }, { threshold: 0.3 });
-        document.querySelectorAll('[data-counter]').forEach(el => counterObserver.observe(el));
-    </script>
-<script src="assets/spendly-polish.js"></script>
+<script>
+const nav=document.getElementById('navbar');
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>20)},{passive:true});
+const hb=document.getElementById('hamburger'),nl=document.getElementById('navLinks');
+if(hb&&nl){hb.addEventListener('click',()=>{const o=nl.classList.toggle('open');const s=hb.querySelectorAll('span');s[0].style.transform=o?'rotate(45deg) translate(5px,5px)':'';s[1].style.opacity=o?'0':'1';s[2].style.transform=o?'rotate(-45deg) translate(5px,-5px)':'';})}
+const obs=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:0.1,rootMargin:'0px 0px -32px 0px'});
+document.querySelectorAll('.reveal,.stagger').forEach(el=>obs.observe(el));
+function runC(el){const t=parseFloat(el.dataset.target)||0,p=el.dataset.prefix||'',s=el.dataset.suffix||'',d=1800,st=performance.now();const tick=n=>{const pg=Math.min((n-st)/d,1),e=1-Math.pow(1-pg,4);el.textContent=p+Math.floor(e*t).toLocaleString()+s;if(pg<1)requestAnimationFrame(tick);else el.textContent=p+t.toLocaleString()+s;};requestAnimationFrame(tick);}
+const cobs=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){runC(e.target);cobs.unobserve(e.target);}});},{threshold:0.4});
+document.querySelectorAll('[data-counter]').forEach(el=>cobs.observe(el));
+setTimeout(()=>{const f=document.getElementById('sbf');if(f)f.style.width='26%';},600);
+document.querySelectorAll('.db').forEach(b=>{b.addEventListener('mouseenter',()=>{document.querySelectorAll('.db').forEach(x=>x.classList.remove('hi'));b.classList.add('hi');});});
+document.querySelectorAll('.btn-primary,.btn-ghost,.btn-light,.btn-dg,.nav-cta').forEach(btn=>{btn.addEventListener('mousemove',(e)=>{const r=btn.getBoundingClientRect();btn.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.1}px,${(e.clientY-r.top-r.height/2)*.1}px)`;});btn.addEventListener('mouseleave',()=>{btn.style.transform='';});});
+document.body.style.opacity='0';document.body.style.transition='opacity .35s ease';
+window.addEventListener('load',()=>requestAnimationFrame(()=>{document.body.style.opacity='1';}));
+document.querySelectorAll('a[href]').forEach(link=>{const href=link.getAttribute('href');if(!href||href.startsWith('#')||href.startsWith('http')||href.startsWith('mailto'))return;link.addEventListener('click',(e)=>{e.preventDefault();document.body.style.opacity='0';document.body.style.transition='opacity .18s ease';setTimeout(()=>window.location.href=href,180);});});
+</script>
 </body>
-
 </html>
