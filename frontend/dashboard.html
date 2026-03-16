@@ -715,7 +715,7 @@
 <div class="topbar">
         <div class="topbar__greeting">
           <h2>Good morning, Alex</h2>
-          <p>March 14, 2025 · Last synced: 2 min ago</p>
+          <p><span id="currentDate"></span> · Last synced: 2 min ago</p>
         </div>
         <div class="topbar__actions">
           <button class="topbar__icon-btn"><i data-lucide="bell" style="width:18px;height:18px"></i><span class="notif-dot"></span></button>
@@ -1092,6 +1092,14 @@ window.addEventListener('scroll', () => {
         }
       });
       
+      // Set current date dynamically
+      const dateEl = document.getElementById('currentDate');
+      if (dateEl) {
+        const now = new Date();
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        dateEl.textContent = now.toLocaleDateString('en-US', options);
+      }
+
       // Target Slider Logic
       const slider = document.getElementById('targetSlider');
       const targetVal = document.getElementById('targetValue');
