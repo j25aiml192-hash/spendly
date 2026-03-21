@@ -652,6 +652,7 @@
   </style>
     <link rel="stylesheet" href="assets/spendly-polish.css">
     <link rel="stylesheet" href="assets/dashboard-premium.css">
+  <script src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"></script>
 </head>
 
 <body>
@@ -1022,6 +1023,57 @@ window.addEventListener('scroll', () => {
     
     });
   </script>
+<script>
+const API_URL = 'https://spendly-backend-production-0e5a.up.railway.app';
+const CLERK_KEY = 'pk_test_bm90YWJsZS1tYWxsYXJkLTE2LmNsZXJrLmFjY291bnRzLmRldiQ';
+
+async function apiFetch(path, options = {}) {
+  const token = await window.Clerk.session.getToken();
+  const res = await fetch(API_URL + path, {
+    ...options,
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'Content-Type': 'application/json',
+      ...(options.headers || {})
+    }
+  });
+  if (!res.ok) throw new Error('API error: ' + res.status);
+  return res.json();
+}
+
+async function initAuth(onReady) {
+  const clerk = window.Clerk;
+  await clerk.load({ publishableKey: CLERK_KEY });
+  if (!clerk.user) {
+    window.location.href = 'https://spendly-pink.vercel.app';
+    return;
+  }
+  document.body.style.visibility = 'visible';
+  if (onReady) onReady(clerk.user);
+}
+document.body.style.visibility = 'hidden';
+window.addEventListener('load', () => initAuth(loadPageData));
+
+async function loadPageData() {
+  try {
+    const data = await apiFetch('/api/dashboard');
+    
+    // Update main KPIs
+    const els = {
+      'total-spend': '$' + (data.total_annual_spend||0).toLocaleString(),
+      'tools-count': data.active_tools_count || 0,
+      'potential-savings': '$' + (data.potential_savings||0).toLocaleString(),
+      'avg-utilization': (data.avg_utilization||0) + '%'
+    };
+
+    for (const [key, val] of Object.entries(els)) {
+      const el = document.querySelector(`[data-kpi="${key}"], #${key}`);
+      if (el) el.textContent = val;
+    }
+
+  } catch (err) { console.error('cfo dashboard error:', err); }
+}
+</script>
 </body>
 
 </html>

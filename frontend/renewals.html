@@ -691,6 +691,7 @@
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
     <link rel="stylesheet" href="assets/dashboard-premium.css">
+  <script src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"></script>
 </head>
 
 <body>
@@ -934,6 +935,90 @@ window.addEventListener('scroll', () => {
   
     });
   </script>
+<script>
+const API_URL = 'https://spendly-backend-production-0e5a.up.railway.app';
+const CLERK_KEY = 'pk_test_bm90YWJsZS1tYWxsYXJkLTE2LmNsZXJrLmFjY291bnRzLmRldiQ';
+
+async function apiFetch(path, options = {}) {
+  const token = await window.Clerk.session.getToken();
+  const res = await fetch(API_URL + path, {
+    ...options,
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'Content-Type': 'application/json',
+      ...(options.headers || {})
+    }
+  });
+  if (!res.ok) throw new Error('API error: ' + res.status);
+  return res.json();
+}
+
+async function initAuth(onReady) {
+  const clerk = window.Clerk;
+  await clerk.load({ publishableKey: CLERK_KEY });
+  if (!clerk.user) {
+    window.location.href = 'https://spendly-pink.vercel.app';
+    return;
+  }
+  document.body.style.visibility = 'visible';
+  if (onReady) onReady(clerk.user);
+}
+document.body.style.visibility = 'hidden';
+window.addEventListener('load', () => initAuth(loadPageData));
+
+async function loadPageData() {
+  try {
+    const tools = await apiFetch('/api/tools');
+    const renewals = tools
+      .filter(t => t.renewal_date)
+      .sort((a,b) => new Date(a.renewal_date) - new Date(b.renewal_date));
+
+    const container = document.getElementById('renewals-container')
+      || document.querySelector('.renewals-list')
+      || document.querySelector('.renewal-items')
+      || document.getElementById('riskList'); // Fallback for the div id
+    if (!container) return;
+
+    container.innerHTML = renewals.map(t => {
+      const days = Math.ceil(
+        (new Date(t.renewal_date) - new Date()) / 86400000
+      );
+      const severity = days <= 7  ? 'critical'
+                     : days <= 30 ? 'high'
+                     : days <= 60 ? 'medium' : 'low';
+      const colors = {
+        critical: { bg:'#FEF2F2', color:'#991B1B' },
+        high:     { bg:'#FFFBEB', color:'#92400E' },
+        medium:   { bg:'#FEF3C7', color:'#B45309' },
+        low:      { bg:'#ECFDF5', color:'#065F46' }
+      };
+      return `
+        <div style="display:flex;align-items:center;gap:16px;
+             padding:14px 20px;background:#fff;border:1px solid #E8E6E0;
+             border-radius:10px;margin-bottom:8px">
+          <div style="flex:1">
+            <div style="font-size:14px;font-weight:500;color:#0A0A0A">
+              ${t.name}</div>
+            <div style="font-size:12px;color:#9A9890;margin-top:2px">
+              ${t.category} · $${(t.annual_cost||0).toLocaleString()}/yr</div>
+          </div>
+          <div style="font-family:'JetBrains Mono',monospace;
+               font-size:13px;color:#0A0A0A">
+            ${days > 0 ? days + ' days' : 'Overdue'}</div>
+          <span style="font-size:10px;font-weight:500;padding:3px 9px;
+               border-radius:20px;text-transform:uppercase;
+               background:${colors[severity].bg};
+               color:${colors[severity].color}">${severity}</span>
+        </div>
+      `;
+    }).join('');
+
+    const countEl = document.querySelector('[data-kpi="renewals"]');
+    if (countEl) countEl.textContent = renewals.length;
+
+  } catch(err) { console.error('renewals error:', err); }
+}
+</script>
 </body>
 
 </html>

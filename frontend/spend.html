@@ -613,6 +613,7 @@
   </style>
     <link rel="stylesheet" href="assets/spendly-polish.css">
     <link rel="stylesheet" href="assets/dashboard-premium.css">
+  <script src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"></script>
 </head>
 
 <body>
@@ -936,6 +937,76 @@ window.addEventListener('scroll', () => {
     
     });
   </script>
+<script>
+const API_URL = 'https://spendly-backend-production-0e5a.up.railway.app';
+const CLERK_KEY = 'pk_test_bm90YWJsZS1tYWxsYXJkLTE2LmNsZXJrLmFjY291bnRzLmRldiQ';
+
+async function apiFetch(path, options = {}) {
+  const token = await window.Clerk.session.getToken();
+  const res = await fetch(API_URL + path, {
+    ...options,
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'Content-Type': 'application/json',
+      ...(options.headers || {})
+    }
+  });
+  if (!res.ok) throw new Error('API error: ' + res.status);
+  return res.json();
+}
+
+async function initAuth(onReady) {
+  const clerk = window.Clerk;
+  await clerk.load({ publishableKey: CLERK_KEY });
+  if (!clerk.user) {
+    window.location.href = 'https://spendly-pink.vercel.app';
+    return;
+  }
+  document.body.style.visibility = 'visible';
+  if (onReady) onReady(clerk.user);
+}
+document.body.style.visibility = 'hidden';
+window.addEventListener('load', () => initAuth(loadPageData));
+
+async function loadPageData() {
+  try {
+    const data = await apiFetch('/api/spend/breakdown');
+    
+    const totalEl = document.querySelector('[data-kpi="total-spend"], #total-spend, .total-spend-value');
+    if (totalEl) totalEl.textContent = 
+      '$' + (data.total_annual||0).toLocaleString();
+    
+    const monthlyEl = document.querySelector('#monthly-avg, .monthly-value');
+    if (monthlyEl) monthlyEl.textContent = 
+      '$' + (data.monthly_avg||0).toLocaleString();
+
+    const catContainer = document.getElementById('category-breakdown')
+      || document.querySelector('.spend-by-category');
+    if (catContainer && data.by_category) {
+      const total = data.total_annual || 1;
+      catContainer.innerHTML = Object.entries(data.by_category)
+        .sort((a,b) => b[1]-a[1])
+        .map(([cat, amount]) => `
+          <div style="margin-bottom:14px">
+            <div style="display:flex;justify-content:space-between;
+                 margin-bottom:5px">
+              <span style="font-size:13px;color:#3D3D38">${cat}</span>
+              <span style="font-family:'JetBrains Mono',monospace;
+                   font-size:13px;color:#0A0A0A">
+                   $${amount.toLocaleString()}</span>
+            </div>
+            <div style="height:6px;background:#E8E6E0;border-radius:3px;
+                 overflow:hidden">
+              <div style="height:100%;border-radius:3px;background:#2563EB;
+                   width:${Math.round((amount/total)*100)}%;
+                   transition:width 1s ease"></div>
+            </div>
+          </div>
+        `).join('');
+    }
+  } catch(err) { console.error('spend error:', err); }
+}
+</script>
 </body>
 
 </html>

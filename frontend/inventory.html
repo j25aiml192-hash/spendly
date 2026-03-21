@@ -696,6 +696,7 @@
     <link rel="stylesheet" href="assets/spendly-polish.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
     <link rel="stylesheet" href="assets/dashboard-premium.css">
+  <script src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"></script>
 </head>
 
 <body>
@@ -940,6 +941,101 @@ window.addEventListener('scroll', () => {
   
     });
   </script>
+<script>
+const API_URL = 'https://spendly-backend-production-0e5a.up.railway.app';
+const CLERK_KEY = 'pk_test_bm90YWJsZS1tYWxsYXJkLTE2LmNsZXJrLmFjY291bnRzLmRldiQ';
+
+async function apiFetch(path, options = {}) {
+  const token = await window.Clerk.session.getToken();
+  const res = await fetch(API_URL + path, {
+    ...options,
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'Content-Type': 'application/json',
+      ...(options.headers || {})
+    }
+  });
+  if (!res.ok) throw new Error('API error: ' + res.status);
+  return res.json();
+}
+
+async function initAuth(onReady) {
+  const clerk = window.Clerk;
+  await clerk.load({ publishableKey: CLERK_KEY });
+  if (!clerk.user) {
+    window.location.href = 'https://spendly-pink.vercel.app';
+    return;
+  }
+  document.body.style.visibility = 'visible';
+  if (onReady) onReady(clerk.user);
+}
+document.body.style.visibility = 'hidden';
+window.addEventListener('load', () => initAuth(loadPageData));
+
+async function loadPageData() {
+  try {
+    const tools = await apiFetch('/api/tools');
+    const container = document.getElementById('tools-container')
+      || document.querySelector('.tools-grid')
+      || document.querySelector('.inventory-list')
+      || document.querySelector('tbody');
+    
+    if (!container) return;
+    
+    const rows = tools.map(t => `
+      <tr style="border-bottom:1px solid #E8E6E0">
+        <td style="padding:14px 16px;font-size:13.5px;font-weight:500;
+            color:#0A0A0A">${t.name}</td>
+        <td style="padding:14px 16px;font-size:13px;color:#6B7280">
+            ${t.category || 'Other'}</td>
+        <td style="padding:14px 16px;font-family:'JetBrains Mono',monospace;
+            font-size:13px;color:#0A0A0A">
+            $${(t.monthly_cost||0).toLocaleString()}/mo</td>
+        <td style="padding:14px 16px;font-size:13px;color:#6B7280">
+            ${t.active_seats||0} / ${t.seat_count||0}</td>
+        <td style="padding:14px 16px">
+          <span style="font-size:10px;font-weight:500;padding:3px 9px;
+            border-radius:20px;text-transform:uppercase;
+            background:${t.status==='flagged'?'#FEF2F2':'#ECFDF5'};
+            color:${t.status==='flagged'?'#991B1B':'#065F46'}">
+            ${t.status}</span>
+        </td>
+      </tr>
+    `).join('');
+    
+    if (container.tagName === 'TBODY') {
+      container.innerHTML = rows;
+    } else {
+      container.innerHTML = `<table style="width:100%;border-collapse:collapse">
+        <thead style="background:#F9F9F7">
+          <tr>
+            <th style="padding:10px 16px;text-align:left;font-size:11px;
+                font-weight:500;text-transform:uppercase;letter-spacing:.07em;
+                color:#9A9890">Tool</th>
+            <th style="padding:10px 16px;text-align:left;font-size:11px;
+                font-weight:500;text-transform:uppercase;letter-spacing:.07em;
+                color:#9A9890">Category</th>
+            <th style="padding:10px 16px;text-align:left;font-size:11px;
+                font-weight:500;text-transform:uppercase;letter-spacing:.07em;
+                color:#9A9890">Cost</th>
+            <th style="padding:10px 16px;text-align:left;font-size:11px;
+                font-weight:500;text-transform:uppercase;letter-spacing:.07em;
+                color:#9A9890">Seats</th>
+            <th style="padding:10px 16px;text-align:left;font-size:11px;
+                font-weight:500;text-transform:uppercase;letter-spacing:.07em;
+                color:#9A9890">Status</th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>`;
+    }
+
+    const countEl = document.querySelector('[data-kpi="tools"], #tools-count');
+    if (countEl) countEl.textContent = tools.length;
+    
+  } catch(err) { console.error('inventory error:', err); }
+}
+</script>
 </body>
 
 </html>
