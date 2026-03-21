@@ -1,11 +1,11 @@
 {
-  "rootDirectory": "frontend",
   "rewrites": [
-    { "source": "/dashboard", "destination": "/dashboard.html" },
-    { "source": "/inventory", "destination": "/inventory.html" },
-    { "source": "/spend", "destination": "/spend.html" },
-    { "source": "/alerts", "destination": "/alerts.html" },
-    { "source": "/settings", "destination": "/settings.html" },
-    { "source": "/", "destination": "/index.html" }
+    { "source": "/dashboard", "destination": "/frontend/dashboard.html" },
+    { "source": "/inventory", "destination": "/frontend/inventory.html" },
+    { "source": "/spend", "destination": "/frontend/spend.html" },
+    { "source": "/alerts", "destination": "/frontend/alerts.html" },
+    { "source": "/settings", "destination": "/frontend/settings.html" },
+    { "source": "/", "destination": "/frontend/index.html" },
+    { "source": "/(.*)", "destination": "/frontend/$1" }
   ]
 }
