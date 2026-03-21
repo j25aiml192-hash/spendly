@@ -691,7 +691,17 @@
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
     <link rel="stylesheet" href="assets/dashboard-premium.css">
-  <script src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"></script>
+  <script>
+  window.__onClerkLoaded = async function() {};
+</script>
+<script
+  async
+  crossorigin="anonymous"
+  data-clerk-publishable-key="pk_test_bm90YWJsZS1tYWxsYXJkLTE2LmNsZXJrLmFjY291bnRzLmRldiQ"
+  src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"
+  type="text/javascript"
+  onload="window.__clerkLoaded = true">
+</script>
 </head>
 
 <body>
@@ -817,50 +827,7 @@ const counterObserver = new IntersectionObserver((entries) => {
 }, { threshold: 0.3 });
 document.querySelectorAll('[data-counter]').forEach(el => counterObserver.observe(el));
 </script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      // Number Counter Animation
-      const counters = document.querySelectorAll('.counter');
-
-      const animateCounter = (counter) => {
-        const target = parseInt(counter.dataset.target);
-        const duration = 1800;
-        let start = 0;
-        const increment = target / (duration / 16); // Approximation for 60fps
-
-        const updateCounter = () => {
-          if (start < target) {
-            start += increment;
-            counter.innerText = Math.ceil(start).toLocaleString();
-            requestAnimationFrame(updateCounter);
-          } else {
-            counter.innerText = target.toLocaleString();
-          }
-        };
-
-        updateCounter();
-      };
-
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              counters.forEach(counter => {
-                if (!counter.classList.contains('animated')) {
-                  animateCounter(counter);
-                  counter.classList.add('animated');
-                }
-              });
-              observer.disconnect();
-            }
-          });
-        },
-        { threshold: 0.1 }
-      );
-
-      observer.observe(document.querySelector('#renewal-forecast'));
-    });
-  </script>
+  
 <script>
 window.addEventListener('scroll', () => {
     const nav = document.querySelector('nav');
@@ -954,17 +921,43 @@ async function apiFetch(path, options = {}) {
 }
 
 async function initAuth(onReady) {
-  const clerk = window.Clerk;
-  await clerk.load({ publishableKey: CLERK_KEY });
-  if (!clerk.user) {
-    window.location.href = 'https://spendly-pink.vercel.app';
-    return;
+  try {
+    const clerk = window.Clerk;
+    await clerk.load({ 
+      publishableKey: CLERK_KEY 
+    });
+    if (!clerk.user) {
+      window.location.href = '/';
+      return;
+    }
+    document.body.style.visibility = 'visible';
+    if (onReady) onReady(clerk.user);
+  } catch(err) {
+    console.error('Clerk auth error:', err);
+    document.body.style.visibility = 'visible';
   }
-  document.body.style.visibility = 'visible';
-  if (onReady) onReady(clerk.user);
 }
 document.body.style.visibility = 'hidden';
-window.addEventListener('load', () => initAuth(loadPageData));
+
+function waitForClerk(callback, attempts) {
+  attempts = attempts || 0;
+  if (window.Clerk) {
+    callback();
+  } else if (attempts < 50) {
+    setTimeout(function() {
+      waitForClerk(callback, attempts + 1);
+    }, 100);
+  } else {
+    console.error('Clerk SDK failed to load');
+    document.body.style.visibility = 'visible';
+  }
+}
+
+window.addEventListener('load', function() {
+  waitForClerk(function() {
+    initAuth(loadPageData);
+  });
+});
 
 async function loadPageData() {
   try {
