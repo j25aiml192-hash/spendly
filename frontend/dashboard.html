@@ -670,6 +670,7 @@
   </style>
     <link rel="stylesheet" href="assets/spendly-polish.css">
     <link rel="stylesheet" href="assets/dashboard-premium.css">
+    <script src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"></script>
 </head>
 
 <body>
@@ -727,23 +728,23 @@
       <div class="kpi-row">
         <div class="kpi-card animate-in">
           <div class="kpi-card__label">Total SaaS Spend</div>
-          <div class="kpi-card__value"><span data-counter="247830" data-prefix="$" data-suffix="/yr">$0</span></div>
+          <div class="kpi-card__value"><span id="total-spend" data-counter="247830" data-prefix="$" data-suffix="/yr">$0</span></div>
           <div class="kpi-card__trend kpi-card__trend--up">↑ 3.2% vs last quarter</div>
         </div>
         <div class="kpi-card animate-in" style="animation-delay:0.08s">
           <div class="kpi-card__label">Detected Waste</div>
-          <div class="kpi-card__value" style="color:var(--accent-danger)"><span data-counter="61240" data-prefix="$">$0</span></div>
-          <div class="kpi-card__trend" style="color:var(--accent-warning)">24.7% of total spend</div>
+          <div class="kpi-card__value" style="color:var(--accent-danger)"><span id="waste-amount" data-counter="61240" data-prefix="$">$0</span></div>
+          <div class="kpi-card__trend" style="color:var(--accent-warning)" id="waste-pct">24.7% of total spend</div>
         </div>
         <div class="kpi-card animate-in" style="animation-delay:0.16s">
           <div class="kpi-card__label">Active Tools</div>
-          <div class="kpi-card__value"><span data-counter="47">0</span></div>
-          <div class="kpi-card__trend" style="color:var(--accent-warning)">12 flagged for review</div>
+          <div class="kpi-card__value"><span id="active-tools" data-counter="47">0</span></div>
+          <div class="kpi-card__trend" style="color:var(--accent-warning)" id="flagged-tools">12 flagged for review</div>
         </div>
         <div class="kpi-card animate-in" style="animation-delay:0.24s">
           <div class="kpi-card__label">Upcoming Renewals</div>
-          <div class="kpi-card__value"><span data-counter="6">0</span></div>
-          <div class="kpi-card__trend kpi-card__trend--down">Next in 8 days</div>
+          <div class="kpi-card__value"><span id="renewals-count" data-counter="6">0</span></div>
+          <div class="kpi-card__trend kpi-card__trend--down" id="next-renewal">Next in 8 days</div>
         </div>
       </div>
 
@@ -797,11 +798,13 @@
         <div class="card chart-card animate-in">
           <h4>Recent Alerts</h4>
           <div id="alertList"></div>
+          <div id="alerts-list"></div>
           <a href="alerts.html" class="view-all">View all 8 alerts →</a>
         </div>
         <div class="card chart-card animate-in" style="animation-delay:0.1s">
           <h4>SaaS Inventory — Top by Cost</h4>
           <div id="invList"></div>
+          <div id="tools-list"></div>
           <a href="inventory.html" class="view-all">View all 47 tools →</a>
         </div>
       </div>
@@ -809,215 +812,185 @@
   </div>
 
     
-  <script>
+  <script src="assets/shared.js"></script>
+  <script src="assets/spendly-polish.js"></script>
+<script>
+const API_URL = 'https://spendly-backend-production-0e5a.up.railway.app';
+const CLERK_KEY = 'pk_test_bm90YWJsZS1tYWxsYXJkLTE2LmNsZXJrLmFjY291bnRzLmRldiQ';
+
+async function apiFetch(path, options = {}) {
+  const token = await window.Clerk.session.getToken();
+  const res = await fetch(API_URL + path, {
+    ...options,
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'Content-Type': 'application/json',
+      ...(options.headers || {})
+    }
+  });
+  if (!res.ok) throw new Error('API error: ' + res.status);
+  return res.json();
+}
+
+async function loadDashboard() {
+  try {
+    const data = await apiFetch('/api/dashboard/summary');
+    const kpiMap = {
+      'total-spend':   '$' + (data.total_spend || 0).toLocaleString(),
+      'waste-amount':  '$' + (data.detected_waste || 0).toLocaleString(),
+      'waste-pct':     (data.waste_percent || 0) + '% of total',
+      'active-tools':  data.active_tools || 0,
+      'flagged-tools': data.flagged_tools + ' flagged',
+      'renewals-count':data.upcoming_renewals || 0,
+      'next-renewal':  data.next_renewal_days 
+                       ? 'Next in ' + data.next_renewal_days + ' days' 
+                       : 'None soon',
+      'alert-count':   data.active_alerts || 0,
+    };
+    Object.entries(kpiMap).forEach(([id, value]) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = value;
+    });
+
+    const alerts = await apiFetch('/api/alerts');
+    const alertContainer = document.getElementById('alerts-list');
+    if (alertContainer && alerts.length > 0) {
+      alertContainer.innerHTML = alerts.slice(0, 5).map(a => `
+        <div style="display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid #E8E6E0">
+          <div style="width:7px;height:7px;border-radius:50%;margin-top:5px;
+               background:${a.severity==='critical'?'#DC2626':a.severity==='high'?'#D97706':'#2563EB'};flex-shrink:0"></div>
+          <div style="flex:1;font-size:13px;color:#3D3D38">
+            <strong style="display:block;color:#0A0A0A">${a.tool_name}</strong>${a.message}
+          </div>
+          <span style="font-size:9px;font-weight:600;padding:2px 7px;border-radius:20px;text-transform:uppercase;
+                background:${a.severity==='critical'?'#FEF2F2':a.severity==='high'?'#FFFBEB':'#EFF6FF'};
+                color:${a.severity==='critical'?'#991B1B':a.severity==='high'?'#92400E':'#1D4ED8'}">
+            ${a.severity}
+          </span>
+        </div>`).join('');
+    }
+
+    const tools = await apiFetch('/api/tools');
+    const toolsContainer = document.getElementById('tools-list');
+    if (toolsContainer && tools.length > 0) {
+      toolsContainer.innerHTML = tools.slice(0, 8).map(t => `
+        <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #E8E6E0">
+          <div style="width:32px;height:32px;border-radius:7px;background:#F4F3EE;border:1px solid #E8E6E0;
+               display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#6B7280;flex-shrink:0">
+            ${t.name.substring(0,2)}
+          </div>
+          <div style="flex:1">
+            <div style="font-size:13px;font-weight:500;color:#0A0A0A">${t.name}</div>
+            <div style="font-size:11px;color:#9A9890">${t.category}</div>
+          </div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#0A0A0A">
+            $${(t.monthly_cost||0).toLocaleString()}/mo
+          </div>
+          <span style="font-size:9px;font-weight:600;padding:2px 7px;border-radius:20px;text-transform:uppercase;
+                background:${t.status==='flagged'?'#FEF2F2':'#ECFDF5'};
+                color:${t.status==='flagged'?'#991B1B':'#065F46'}">
+            ${t.status}
+          </span>
+        </div>`).join('');
+    }
+    console.log('✅ Dashboard loaded with real data');
+  } catch(err) {
+    console.error('Dashboard load error:', err);
+    console.log('ℹ️ Showing mock data');
+  }
+}
+
+async function initAuth() {
+  const clerk = window.Clerk;
+  await clerk.load({ publishableKey: CLERK_KEY });
+  if (!clerk.user) {
+    clerk.openSignIn({ afterSignInUrl: '/dashboard', afterSignUpUrl: '/dashboard' });
+    return;
+  }
+  document.body.style.visibility = 'visible';
+  const greetEl = document.querySelector('.db-greet, [class*="greet"]');
+  if (greetEl && clerk.user.firstName) {
+    greetEl.innerHTML = 'Good morning, <em>' + (clerk.user.organizationMemberships?.[0]?.organization?.name || clerk.user.firstName) + '.</em>';
+  }
+  loadDashboard();
+  const signOutBtn = document.getElementById('sign-out');
+  if (signOutBtn) signOutBtn.addEventListener('click', () => clerk.signOut());
+}
+
+document.body.style.visibility = 'hidden';
+window.addEventListener('load', initAuth);
+</script>
+<script>
 document.querySelector('.hamburger')?.addEventListener('click', () => {
   document.querySelector('.nav-links')?.classList.toggle('open');
 });
-</script>
-  <script>
-const fadeObserver = new IntersectionObserver((entries) => {
-  entries.forEach(e => { 
-    if (e.isIntersecting) { 
-      e.target.classList.add('visible');
-      fadeObserver.unobserve(e.target);
-    }
-  });
-}, { threshold: 0.15 });
-document.querySelectorAll('.fade-in').forEach(el => fadeObserver.observe(el));
-</script>
-  <script>
-function animateCounter(el, target, duration = 1800, prefix = '', suffix = '') {
-  const start = performance.now();
-  const update = (time) => {
-    const progress = Math.min((time - start) / duration, 1);
-    const eased = 1 - Math.pow(1 - progress, 4);
-    el.textContent = prefix + Math.floor(eased * target).toLocaleString() + suffix;
-    if (progress < 1) requestAnimationFrame(update);
-  };
-  requestAnimationFrame(update);
-}
-const counterObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      const el = entry.target;
-      animateCounter(el, +el.dataset.target, 1800, 
-        el.dataset.prefix || '', el.dataset.suffix || '');
-      counterObserver.unobserve(el);
-    }
-  });
-}, { threshold: 0.3 });
-document.querySelectorAll('[data-counter]').forEach(el => counterObserver.observe(el));
-</script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      // Number Counter Animation
-      const counters = document.querySelectorAll('.counter');
-
-      const animateCounter = (counter) => {
-        const target = parseInt(counter.dataset.target);
-        const duration = 1800;
-        let start = 0;
-        const increment = target / (duration / 16); // Approximation for 60fps
-
-        const updateCounter = () => {
-          if (start < target) {
-            start += increment;
-            counter.innerText = Math.ceil(start).toLocaleString();
-            requestAnimationFrame(updateCounter);
-          } else {
-            counter.innerText = target.toLocaleString();
-          }
-        };
-
-        updateCounter();
-      };
-
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              counters.forEach(counter => {
-                if (!counter.classList.contains('animated')) {
-                  animateCounter(counter);
-                  counter.classList.add('animated');
-                }
-              });
-              observer.disconnect();
-            }
-          });
-        },
-        { threshold: 0.1 }
-      );
-
-      observer.observe(document.querySelector('#dashboard-overview'));
-
-      // Chart
-      const ctx = document.getElementById('spendChart').getContext('2d');
-      const spendChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-          datasets: [{
-            label: 'Monthly SaaS Spend',
-            data: [20000, 21000, 22000, 23000, 24000, 25000, 24500, 25500, 26000, 27000, 26500, 27500],
-            borderColor: '#2563EB',
-            borderWidth: 2,
-            fill: false
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: {
-            y: {
-              beginAtZero: true,
-              grid: {
-                color: '#F3F4F6'
-              },
-              ticks: {
-                font: {
-                  family: 'DM Sans'
-                },
-                color: '#6B7280'
-              }
-            },
-            x: {
-              grid: {
-                color: '#F3F4F6'
-              },
-              ticks: {
-                font: {
-                  family: 'DM Sans'
-                },
-                color: '#6B7280'
-              }
-            }
-          },
-          plugins: {
-            legend: {
-              display: false
-            }
-          }
-        }
-      });
-    });
-  </script>
-<script>
 window.addEventListener('scroll', () => {
     const nav = document.querySelector('nav');
     if(nav) nav.style.boxShadow = window.scrollY > 10 ? '0 1px 12px rgba(0,0,0,0.08)' : 'none';
 });
 </script>
-<script src="assets/shared.js"></script>
-  <script src="assets/spendly-polish.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-      
-    
-
-    // Opportunities
-    const topOpps = mockOptimizations.slice(0,6);
-    const oppList = document.getElementById('oppList');
-    topOpps.forEach(o => {
-      oppList.innerHTML += `<div class="opp-item">
-        <div class="opp-item__icon" style="background:rgba(99,102,241,0.1);color:#6366F1;display:flex;align-items:center;justify-content:center;border-radius:8px;padding:8px;"><i data-lucide="zap" style="width:16px;height:16px;"></i></div>
-        <div class="opp-item__info">
-          <div class="opp-item__name" style="font-weight:600;color:#1E293B;">${o.action}</div>
-          <div class="opp-item__action" style="font-size:13px;color:#64748B;">${o.dept} · ${o.confidence}% confidence</div>
-        </div>
-        <div class="opp-item__savings" style="font-weight:700;color:#0F172A;margin-left:auto;">$${o.savings.toLocaleString()}</div>
-      </div>`;
-    });
-
-    // Alerts
-    const alertList = document.getElementById('alertList');
-    mockAlerts.slice(0,4).forEach(a => {
-      let icon = 'bell';
-      let color = '#3B82F6';
-      let bg = '#EFF6FF';
-      
-      if (a.severity === 'critical') { icon = 'alert-triangle'; color = '#DC2626'; bg = '#FEF2F2'; }
-      if (a.severity === 'high') { icon = 'alert-circle'; color = '#EA580C'; bg = '#FFF7ED'; }
-      
-      alertList.innerHTML += `
-      <div class="alert-row" style="display:flex; gap:16px; align-items:flex-start; padding: 16px; background: rgba(255,255,255,0.6); border: 1px solid rgba(226,232,240,0.8); border-radius: 12px; margin-bottom: 12px; transition: all 0.3s ease;">
-        <div style="background:${bg}; color:${color}; padding: 10px; border-radius: 10px; display:flex; align-items:center; justify-content:center;">
-          <i data-lucide="${icon}" style="width:18px; height:18px;"></i>
-        </div>
-        <div style="flex:1;">
-          <div style="font-weight: 600; color: #1E293B; font-size: 14px; margin-bottom: 4px;">${a.tool} <span style="font-weight: 500; font-size: 12px; color: ${color}; padding: 2px 8px; border-radius: 12px; background: ${bg}; margin-left: 8px;">${a.severity.toUpperCase()}</span></div>
-          <div style="font-size: 13px; color: #475569; line-height: 1.4;">${a.message}</div>
-        </div>
-        <div style="font-size: 12px; color: #94A3B8; font-weight: 500; white-space: nowrap;">${a.time}</div>
-      </div>`;
-    });
-
-    // Inventory
-    const invList = document.getElementById('invList');
-    const sortedTools = [...mockTools].sort((a,b) => b.cost - a.cost).slice(0,5);
-    sortedTools.forEach(t => {
-      const usage = Math.round(t.activeSeats / t.seats * 100);
-      invList.innerHTML += `<div class="inv-row">
-        <div class="inv-row__icon" style="background:${getToolColor(t.name)}">${t.logo}</div>
-        <div class="inv-row__info">
-          <div class="inv-row__name">${t.name}</div>
-          <div class="inv-row__meta">${t.activeSeats}/${t.seats} seats · ${usage}% usage</div>
-        </div>
-        <div class="inv-row__bar"><div class="progress-bar"><div class="progress-bar__fill" style="width:${usage}%"></div></div></div>
-        <div class="inv-row__cost">$${t.cost.toLocaleString()}/mo</div>
-      </div>`;
-    });
-
-    // Chart
-    
       initSpendly();
       setupChartDefaults();
+
+      // Opportunities
+      const topOpps = mockOptimizations.slice(0,6);
+      const oppList = document.getElementById('oppList');
+      topOpps.forEach(o => {
+        oppList.innerHTML += `<div class="opp-item">
+          <div class="opp-item__icon" style="background:rgba(99,102,241,0.1);color:#6366F1;display:flex;align-items:center;justify-content:center;border-radius:8px;padding:8px;"><i data-lucide="zap" style="width:16px;height:16px;"></i></div>
+          <div class="opp-item__info">
+            <div class="opp-item__name" style="font-weight:600;color:#1E293B;">${o.action}</div>
+            <div class="opp-item__action" style="font-size:13px;color:#64748B;">${o.dept} · ${o.confidence}% confidence</div>
+          </div>
+          <div class="opp-item__savings" style="font-weight:700;color:#0F172A;margin-left:auto;">$${o.savings.toLocaleString()}</div>
+        </div>`;
+      });
+
+      // Alerts (mock fallback)
+      const alertList = document.getElementById('alertList');
+      mockAlerts.slice(0,4).forEach(a => {
+        let icon = 'bell';
+        let color = '#3B82F6';
+        let bg = '#EFF6FF';
+        if (a.severity === 'critical') { icon = 'alert-triangle'; color = '#DC2626'; bg = '#FEF2F2'; }
+        if (a.severity === 'high') { icon = 'alert-circle'; color = '#EA580C'; bg = '#FFF7ED'; }
+        alertList.innerHTML += `
+        <div class="alert-row" style="display:flex; gap:16px; align-items:flex-start; padding: 16px; background: rgba(255,255,255,0.6); border: 1px solid rgba(226,232,240,0.8); border-radius: 12px; margin-bottom: 12px; transition: all 0.3s ease;">
+          <div style="background:${bg}; color:${color}; padding: 10px; border-radius: 10px; display:flex; align-items:center; justify-content:center;">
+            <i data-lucide="${icon}" style="width:18px; height:18px;"></i>
+          </div>
+          <div style="flex:1;">
+            <div style="font-weight: 600; color: #1E293B; font-size: 14px; margin-bottom: 4px;">${a.tool} <span style="font-weight: 500; font-size: 12px; color: ${color}; padding: 2px 8px; border-radius: 12px; background: ${bg}; margin-left: 8px;">${a.severity.toUpperCase()}</span></div>
+            <div style="font-size: 13px; color: #475569; line-height: 1.4;">${a.message}</div>
+          </div>
+          <div style="font-size: 12px; color: #94A3B8; font-weight: 500; white-space: nowrap;">${a.time}</div>
+        </div>`;
+      });
+
+      // Inventory (mock fallback)
+      const invList = document.getElementById('invList');
+      const sortedTools = [...mockTools].sort((a,b) => b.cost - a.cost).slice(0,5);
+      sortedTools.forEach(t => {
+        const usage = Math.round(t.activeSeats / t.seats * 100);
+        invList.innerHTML += `<div class="inv-row">
+          <div class="inv-row__icon" style="background:${getToolColor(t.name)}">${t.logo}</div>
+          <div class="inv-row__info">
+            <div class="inv-row__name">${t.name}</div>
+            <div class="inv-row__meta">${t.activeSeats}/${t.seats} seats · ${usage}% usage</div>
+          </div>
+          <div class="inv-row__bar"><div class="progress-bar"><div class="progress-bar__fill" style="width:${usage}%"></div></div></div>
+          <div class="inv-row__cost">$${t.cost.toLocaleString()}/mo</div>
+        </div>`;
+      });
+
+      // Charts
       const ctx = document.getElementById('spendChart').getContext('2d');
       const gradient = ctx.createLinearGradient(0, 0, 0, 320);
-      gradient.addColorStop(0, 'rgba(59, 130, 246, 0.4)'); /* Blue */
-      gradient.addColorStop(0.5, 'rgba(139, 92, 246, 0.2)'); /* Purple blend */
+      gradient.addColorStop(0, 'rgba(59, 130, 246, 0.4)');
+      gradient.addColorStop(0.5, 'rgba(139, 92, 246, 0.2)');
       gradient.addColorStop(1, 'rgba(59, 130, 246, 0.0)');
-      
       const lineGradient = ctx.createLinearGradient(0, 0, 800, 0);
       lineGradient.addColorStop(0, '#3B82F6');
       lineGradient.addColorStop(1, '#8B5CF6');
@@ -1028,43 +1001,22 @@ window.addEventListener('scroll', () => {
           labels: mockSpendByMonth.map(m => m.month),
           datasets: [{
             data: mockSpendByMonth.map(m => m.spend),
-            borderColor: lineGradient,
-            backgroundColor: gradient,
-            fill: true,
-            tension: 0.4,
-            pointRadius: 0,
-            pointHoverRadius: 6,
-            pointHoverBackgroundColor: '#6366F1',
-            pointHoverBorderColor: '#fff',
-            pointHoverBorderWidth: 2,
+            borderColor: lineGradient, backgroundColor: gradient,
+            fill: true, tension: 0.4, pointRadius: 0,
+            pointHoverRadius: 6, pointHoverBackgroundColor: '#6366F1',
+            pointHoverBorderColor: '#fff', pointHoverBorderWidth: 2,
           }]
         },
         options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: { display: false },
-            tooltip: {
-              callbacks: {
-                label: (ctx) => '$' + ctx.parsed.y.toLocaleString()
-              }
-            }
-          },
+          responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { display: false }, tooltip: { callbacks: { label: (ctx) => '$' + ctx.parsed.y.toLocaleString() } } },
           scales: {
-            y: {
-              beginAtZero: false,
-              ticks: { callback: v => '$' + (v/1000) + 'k' },
-              grid: { color: 'rgba(255,255,255,0.04)' },
-              border: { display: false }
-            },
-            x: {
-              grid: { display: false },
-              border: { display: false }
-            }
+            y: { beginAtZero: false, ticks: { callback: v => '$' + (v/1000) + 'k' }, grid: { color: 'rgba(255,255,255,0.04)' }, border: { display: false } },
+            x: { grid: { display: false }, border: { display: false } }
           }
         }
       });
-      
+
       const ctxCat = document.getElementById('categoryChart').getContext('2d');
       new Chart(ctxCat, {
         type: 'doughnut',
@@ -1073,25 +1025,15 @@ window.addEventListener('scroll', () => {
           datasets: [{
             data: mockSpendByDept.map(d => d.spend),
             backgroundColor: ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#14B8A6', '#F43F5E'],
-            borderWidth: 0,
-            cutout: '75%',
-            hoverOffset: 4
+            borderWidth: 0, cutout: '75%', hoverOffset: 4
           }]
         },
         options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: { display: false },
-            tooltip: {
-              callbacks: {
-                label: (ctx) => ' ' + ctx.label + ': $' + ctx.parsed.toLocaleString()
-              }
-            }
-          }
+          responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { display: false }, tooltip: { callbacks: { label: (ctx) => ' ' + ctx.label + ': $' + ctx.parsed.toLocaleString() } } }
         }
       });
-      
+
       // Set current date dynamically
       const dateEl = document.getElementById('currentDate');
       if (dateEl) {
@@ -1106,12 +1048,10 @@ window.addEventListener('scroll', () => {
       if (slider && targetVal) {
         slider.addEventListener('input', (e) => {
           targetVal.textContent = e.target.value;
-          // Optionally pulse the chart to simulate recalculation
           document.getElementById('spendChart').style.opacity = '0.7';
           setTimeout(() => { document.getElementById('spendChart').style.opacity = '1'; }, 300);
         });
       }
-    
     });
   </script>
 </body>
