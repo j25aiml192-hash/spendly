@@ -908,7 +908,7 @@ async function initAuth() {
   const clerk = window.Clerk;
   await clerk.load();
   if (!clerk.user) {
-    clerk.openSignIn({ afterSignInUrl: '/dashboard', afterSignUpUrl: '/dashboard' });
+    window.location.href = clerk.buildSignInUrl({ redirectUrl: window.location.href });
     return;
   }
   document.body.style.visibility = 'visible';
