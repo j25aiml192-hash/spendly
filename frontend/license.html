@@ -1008,6 +1008,70 @@ window.addEventListener('scroll', () => {
   
     });
   </script>
+<script>
+const API_URL = 'https://spendly-backend-production-0e5a.up.railway.app';
+const CLERK_KEY = 'pk_test_bm90YWJsZS1tYWxsYXJkLTE2LmNsZXJrLmFjY291bnRzLmRldiQ';
+
+async function apiFetch(path, options = {}) {
+  const token = await window.Clerk.session.getToken();
+  const res = await fetch(API_URL + path, {
+    ...options,
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'Content-Type': 'application/json',
+      ...(options.headers || {})
+    }
+  });
+  if (!res.ok) throw new Error('API error: ' + res.status);
+  return res.json();
+}
+
+async function initAuth(onReady) {
+  try {
+    const clerk = window.Clerk;
+    await clerk.load({ 
+      publishableKey: CLERK_KEY 
+    });
+    if (!clerk.user) {
+      window.location.href = '/';
+      return;
+    }
+    document.body.style.visibility = 'visible';
+    if (onReady) onReady(clerk.user);
+  } catch(err) {
+    console.error('Clerk auth error:', err);
+    document.body.style.visibility = 'visible';
+  }
+}
+document.body.style.visibility = 'hidden';
+
+function waitForClerk(callback, attempts) {
+  attempts = attempts || 0;
+  if (window.Clerk) {
+    callback();
+  } else if (attempts < 50) {
+    setTimeout(function() {
+      waitForClerk(callback, attempts + 1);
+    }, 100);
+  } else {
+    console.error('Clerk SDK failed to load');
+    document.body.style.visibility = 'visible';
+  }
+}
+
+window.addEventListener('load', function() {
+  waitForClerk(function() {
+    initAuth(loadPageData);
+  });
+});
+
+async function loadPageData() {
+  try {
+    const allTools = await apiFetch('/api/tools');
+    console.log(allTools);
+  } catch(err) { console.error('license page data error:', err); }
+}
+</script>
 </body>
 
 </html>
