@@ -1,8 +1,11 @@
 {
+  "rootDirectory": "frontend",
   "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/frontend/$1"
-    }
+    { "source": "/dashboard", "destination": "/dashboard.html" },
+    { "source": "/inventory", "destination": "/inventory.html" },
+    { "source": "/spend", "destination": "/spend.html" },
+    { "source": "/alerts", "destination": "/alerts.html" },
+    { "source": "/settings", "destination": "/settings.html" },
+    { "source": "/", "destination": "/index.html" }
   ]
 }
