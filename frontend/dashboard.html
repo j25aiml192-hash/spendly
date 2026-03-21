@@ -722,10 +722,6 @@
           <h2>Good morning, Alex</h2>
           <p><span id="currentDate"></span> · Last synced: 2 min ago</p>
         </div>
-        <div class="topbar__actions">
-          <button class="topbar__icon-btn"><i data-lucide="bell" style="width:18px;height:18px"></i><span class="notif-dot"></span></button>
-          <button class="topbar__icon-btn"><i data-lucide="settings" style="width:18px;height:18px"></i></button>
-        </div>
       </div>
 
       <!-- KPIs -->
@@ -912,7 +908,7 @@ async function initAuth() {
     return;
   }
   document.body.style.visibility = 'visible';
-  const greetEl = document.querySelector('.db-greet, [class*="greet"]');
+  const greetEl = document.querySelector('.db-greet, .topbar__greeting h2');
   if (greetEl && clerk.user.firstName) {
     greetEl.innerHTML = 'Good morning, <em>' + (clerk.user.organizationMemberships?.[0]?.organization?.name || clerk.user.firstName) + '.</em>';
   }
