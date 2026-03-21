@@ -670,7 +670,11 @@
   </style>
     <link rel="stylesheet" href="assets/spendly-polish.css">
     <link rel="stylesheet" href="assets/dashboard-premium.css">
-    <script src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"></script>
+    <script
+      data-clerk-publishable-key="pk_test_bm90YWJsZS1tYWxsYXJkLTE2LmNsZXJrLmFjY291bnRzLmRldiQ"
+      src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"
+      async>
+    </script>
 </head>
 
 <body>
@@ -902,7 +906,7 @@ async function loadDashboard() {
 
 async function initAuth() {
   const clerk = window.Clerk;
-  await clerk.load({ publishableKey: CLERK_KEY });
+  await clerk.load();
   if (!clerk.user) {
     clerk.openSignIn({ afterSignInUrl: '/dashboard', afterSignUpUrl: '/dashboard' });
     return;
