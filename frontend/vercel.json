@@ -1,19 +1,6 @@
 {
   "rewrites": [
-    { "source": "/features", "destination": "/features.html" },
-    { "source": "/insights", "destination": "/insights.html" },
-    { "source": "/pricing", "destination": "/pricing.html" },
-    { "source": "/about", "destination": "/about.html" },
     { "source": "/dashboard", "destination": "/dashboard.html" },
-    { "source": "/inventory", "destination": "/inventory.html" },
-    { "source": "/license", "destination": "/license.html" },
-    { "source": "/spend", "destination": "/spend.html" },
-    { "source": "/renewals", "destination": "/renewals.html" },
-    { "source": "/duplicates", "destination": "/duplicates.html" },
-    { "source": "/optimization", "destination": "/optimization.html" },
-    { "source": "/cfo", "destination": "/cfo.html" },
-    { "source": "/settings", "destination": "/settings.html" }
-  ],
-  "cleanUrls": true,
-  "trailingSlash": false
+    { "source": "/", "destination": "/index.html" }
+  ]
 }

@@ -1,1089 +1,360 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <meta name="description" content="Spendly helps companies detect and eliminate unnecessary SaaS spending. Recover 20-30% of your SaaS budget in 90 days.">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About — Spendly</title>
+  <meta name="description" content="Meet Team Bugg Slayers — the minds behind Spendly. We're on a mission to help companies detect and eliminate unnecessary SaaS spending.">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     :root {
-      /* Backgrounds */
-      --bg-page: #FFFFFF;
-      --bg-section-alt: #F5F4F0;
-      --bg-dark: #0F1117;
-      --bg-card: #FFFFFF;
-
-      /* Typography */
-      --text-primary: #0F1117;
-      --text-body: #3D3D3D;
-      --text-muted: #6B7280;
-      --text-on-dark: #F8F8F5;
-      --text-on-dark-muted: #9CA3AF;
-
-      /* Accent */
-      --accent: #2563EB;
-      --accent-light: #EFF6FF;
-      --accent-dark: #1D4ED8;
-
-      /* Borders */
-      --border: #E5E7EB;
-      --border-dark: rgba(255, 255, 255, 0.1);
-
-      /* Status colors */
-      --status-success: #059669;
-      --status-warning: #D97706;
-      --status-danger: #DC2626;
-      --status-neutral: #6B7280;
-    }
-
-    body {
-      font-family: 'Outfit', sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: var(--bg-page);
-      color: var(--text-body);
-      line-height: 1.65;
-    }
-
-    /* LAYOUT & SPACING */
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 40px;
-    }
-
-    section {
-      padding: 96px 0;
-      opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 0.55s ease-out, transform 0.55s ease-out;
-    }
-
-    section.active {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    @media (max-width: 768px) {
-      section {
-        padding: 64px 0;
-      }
-
-      .container {
-        padding: 0 20px;
-      }
-    }
-
-        /* NAVBAR */
-    nav {
-      position: sticky; top: 0; z-index: 100; background: aliceblue;
-      top: 0;
-      left: 0;
-      width: <span class="mono">100%</span>;
-      height: 64px;
-      background-color: var(--bg-page);
-      border-bottom: 1px solid var(--border);
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 40px;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-    }
-
-    nav .logo {
-      font-family: 'Outfit', sans-serif;
-      font-size: 22px;
-      color: var(--text-primary);
-      display: flex;
-      align-items: center;
-    }
-
-    nav .logo svg {
-      width: 20px;
-      height: 20px;
-      margin-right: 8px;
-      stroke: var(--accent);
-    }
-
-    nav ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: flex;
-      gap: 24px;
-    }
-
-    nav a {
-      text-decoration: none;
-      color: var(--text-body);
-      font-size: 15px;
-      transition: color 0.2s;
-      display: inline-block;
-    }
-
-    nav a:hover {
-      color: var(--accent);
-    }
-
-    nav a.active {
-      color: var(--text-primary);
-      font-weight: 500;
-    }
-
-    nav a.active::after {
-      content: '';
-      display: block;
-      width: <span class="mono">100%</span>;
-      height: 2px;
-      background-color: var(--accent);
-      margin-top: 4px;
-    }
-
-    nav .button {
-      border: 1.5px solid var(--text-primary);
-      color: var(--text-primary);
-      background: transparent;
-      padding: 8px 20px;
-      border-radius: 6px;
-      text-decoration: none;
-      font-size: 15px;
-      transition: all 0.25s ease;
-      font-family: 'Outfit', sans-serif;
-    }
-
-    nav .button:hover {
-      background-color: var(--text-primary);
-      color: var(--bg-page);
-    }
-
-    /* HERO SECTION */
-    #hero {
-      background-color: var(--bg-page);
-      padding-top: 120px;
-      overflow: hidden;
-    }
-
-    #hero .container {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 48px;
-      align-items: center;
-    }
-
-    @media (max-width: 768px) {
-      #hero .container {
-        grid-template-columns: 1fr;
-        text-align: center;
-      }
-    }
-
-    #hero h1 {
-      font-family: 'Outfit', sans-serif;
-      font-size: clamp(48px, 6vw, 80px);
-      line-height: 1.05;
-      color: var(--text-primary);
-      margin-bottom: 24px;
-      font-weight: 400;
-    }
-
-    #hero h1 em {
-      font-style: italic;
-    }
-
-    #hero p {
-      font-size: 18px;
-      line-height: 1.7;
-      max-width: 560px;
-      margin-bottom: 32px;
-    }
-
-    #hero .buttons {
-      display: flex;
-      gap: 16px;
-    }
-
-    #hero .buttons a {
-      text-decoration: none;
-    }
-
-    .primary-button {
-      background-color: var(--text-primary);
-      color: var(--bg-page);
-      border-radius: 6px;
-      padding: 13px 28px;
-      font-size: 15px;
-      font-weight: 500;
-      transition: background-color 0.25s ease;
-      font-family: 'Outfit', sans-serif;
-      display: inline-block;
-    }
-
-    .primary-button:hover {
-      background-color: var(--accent);
-    }
-
-    .ghost-button {
-      background-color: transparent;
-      border: 1.5px solid var(--border);
-      color: var(--text-body);
-      border-radius: 6px;
-      padding: 13px 28px;
-      text-decoration: none;
-      font-size: 15px;
-      font-family: 'Outfit', sans-serif;
-      transition: all 0.25s ease;
-      display: inline-block;
-    }
-
-    .ghost-button:hover {
-      border-color: var(--text-primary);
-      color: var(--text-primary);
-    }
-
-    #hero .trust-line {
-      font-size: 13px;
-      color: var(--text-muted);
-      margin-top: 24px;
-      display: block;
-    }
-
-    /* HERO DASHBOARD CARD */
-    .dashboard-card {
-      background-color: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.12);
-      transform: rotate(-2deg);
-      animation: float 5s ease-in-out infinite;
-      padding: 24px;
-    }
-
-    .dashboard-card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-family: 'Outfit', sans-serif;
-      font-size: 14px;
-      color: var(--text-primary);
-      margin-bottom: 16px;
-    }
-
-    .fake-window-buttons {
-      display: flex;
-      gap: 6px;
-    }
-
-    .fake-window-buttons span {
-      display: block;
-      width: 12px;
-      height: 12px;
-      border-radius: <span class="mono">50%</span>;
-      background-color: #D4D4D4;
-      /* Light gray */
-    }
-
-    .dashboard-card h3 {
-      font-family: 'Outfit', sans-serif;
-      font-size: 18px;
-      color: var(--text-primary);
-      margin-bottom: 4px;
-    }
-
-    .dashboard-card .total-spend {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 32px;
-      color: var(--text-primary);
-      margin-bottom: 8px;
-    }
-
-    .dashboard-card .total-spend-delta {
-      font-size: 13px;
-      color: var(--status-success);
-    }
-
-    .dashboard-metrics {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      margin-bottom: 16px;
-    }
-
-    .dashboard-metric-card {
-      background-color: #F9FAFB;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 12px;
-      text-align: center;
-      font-family: 'Outfit', sans-serif;
-    }
-
-    .dashboard-metric-card h4 {
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--text-primary);
-      margin-bottom: 4px;
-    }
-
-    .dashboard-metric-card p {
-      font-size: 13px;
-      color: var(--text-muted);
-      margin-bottom: 0;
-    }
-
-    .dashboard-alert {
-      background-color: #FEF3C7;
-      border-left: 3px solid var(--status-warning);
-      padding: 12px;
-      margin-bottom: 8px;
-      border-radius: 4px;
-      font-family: 'Outfit', sans-serif;
-      font-size: 14px;
-      color: var(--text-primary);
-    }
-
-    /* FEATURE LIST */
-    #features {
-      background-color: var(--bg-section-alt);
-    }
-
-    #features .container {
-      max-width: 960px;
-    }
-
-    #features .label {
-      font-size: 12px;
-      font-family: 'Outfit', sans-serif;
-      font-weight: 500;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--accent);
-      display: block;
-      margin-bottom: 8px;
-    }
-
-    #features h2 {
-      font-family: 'Outfit', sans-serif;
-      font-size: clamp(32px, 4vw, 52px);
-      line-height: 1.1;
-      color: var(--text-primary);
-      margin-bottom: 32px;
-      font-weight: 400;
-    }
-
-    /* EDITORIAL SECTION */
-    #editorial {
-      background-color: var(--bg-section-alt);
-      padding-top: 64px;
-      padding-bottom: 64px;
-    }
-
-    #editorial .container {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 48px;
-      align-items: center;
-    }
-
-    @media (max-width: 768px) {
-      #editorial .container {
-        grid-template-columns: 1fr;
-        text-align: center;
-      }
-    }
-
-    #editorial h2 {
-      font-family: 'Outfit', sans-serif;
-      font-size: clamp(32px, 4vw, 52px);
-      line-height: 1.1;
-      color: var(--text-primary);
-      font-weight: 400;
-      margin-bottom: 0;
-      /* Reset default margin */
-    }
-
-    #editorial h2:last-child {
-      font-style: italic;
-      /* Apply italic style to the second h2 */
-      margin-top: -0.5em;
-      /* Adjust overlap as needed */
-    }
-
-    #editorial p {
-      font-size: 18px;
-      line-height: 1.7;
-      margin-top: 24px;
-    }
-
-    /* VALUES SECTION */
-    #values {
-      background-color: var(--bg-page);
-    }
-
-    #values .container {
-      max-width: 960px;
-    }
-
-    #values .label {
-      font-size: 12px;
-      font-family: 'Outfit', sans-serif;
-      font-weight: 500;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--accent);
-      display: block;
-      margin-bottom: 8px;
-    }
-
-    #values h2 {
-      font-family: 'Outfit', sans-serif;
-      font-size: clamp(32px, 4vw, 52px);
-      line-height: 1.1;
-      color: var(--text-primary);
-      margin-bottom: 16px;
-      font-weight: 400;
-    }
-
-    #values p {
-      font-size: 18px;
-      line-height: 1.7;
-      max-width: 560px;
-      color: var(--text-body);
-      margin-bottom: 48px;
-    }
-
-    /* TEAM SECTION */
-    #team {
-      background-color: var(--bg-section-alt);
-    }
-
-    #team .container {
-      max-width: 960px;
-      text-align: center;
-    }
-
-    #team h3 {
-      font-family: 'Outfit', sans-serif;
-      font-size: 20px;
-      font-weight: 500;
-      color: var(--text-primary);
-      margin-bottom: 8px;
-    }
-
-    #team p {
-      font-size: 16px;
-      color: var(--text-muted);
-      line-height: 1.65;
-    }
-
-    /* TESTIMONIAL SECTION */
-    #testimonial {
-      background-color: var(--bg-section-alt);
-      padding: 120px 0;
-      text-align: center;
-    }
-
-    #testimonial .container {
-      max-width: 720px;
-    }
-
-    #testimonial svg {
-      width: 60px;
-      height: 60px;
-      color: var(--border);
-      position: relative;
-      left: -32px;
-      top: -24px;
-      z-index: 0;
-      display: block;
-      margin: 0 auto;
-      /* Center the SVG */
-    }
-
-    #testimonial blockquote {
-      font-size: clamp(24px, 3vw, 32px);
-      font-family: 'Outfit', sans-serif;
-      color: var(--text-primary);
-      line-height: 1.4;
-      margin-bottom: 24px;
-      font-style: italic;
-      font-weight: 400;
-      position: relative;
-      z-index: 1;
-    }
-
-    .testimonial-attribution {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 16px;
-    }
-
-    .testimonial-attribution img {
-      width: 40px;
-      height: 40px;
-      border-radius: <span class="mono">50%</span>;
-      object-fit: cover;
-    }
-
-    .testimonial-attribution .avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: <span class="mono">50%</span>;
-      background: linear-gradient(160deg, #F5F4F0, #E8E7E2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Outfit', sans-serif;
-      font-weight: 500;
-      color: var(--text-body);
-    }
-
-    .testimonial-attribution .name {
-      font-size: 16px;
-      font-weight: 500;
-      color: var(--text-primary);
-      display: block;
-    }
-
-    .testimonial-attribution .title {
-      font-size: 14px;
-      color: var(--text-muted);
-      display: block;
-    }
-
-    /* CTA SECTION */
-    #cta {
-      background-color: var(--bg-dark);
-      color: var(--text-on-dark);
-      text-align: center;
-      padding: 120px 0;
-    }
-
-    #cta h4 {
-      font-family: 'Outfit', sans-serif;
-      font-size: clamp(32px, 4vw, 48px);
-      line-height: 1.2;
-      margin-bottom: 16px;
-      font-weight: 400;
-    }
-
-    #cta p {
-      font-size: 18px;
-      line-height: 1.7;
-      color: var(--text-on-dark-muted);
-      margin-bottom: 32px;
-      max-width: 640px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    #cta .button {
-      background-color: var(--bg-page);
-      color: var(--text-primary);
-      border-radius: 6px;
-      padding: 13px 28px;
-      font-size: 15px;
-      font-weight: 500;
-      text-decoration: none;
-      display: inline-block;
-      transition: background-color 0.25s ease, color 0.25s ease;
-      font-family: 'Outfit', sans-serif;
-    }
-
-    #cta .button:hover {
-      background-color: var(--accent);
-      color: var(--bg-page);
-    }
-
-            /* FOOTER */
-    footer {
-      background-color: var(--bg-dark);
-      color: var(--text-on-dark-muted);
-      padding: 64px 0;
-      font-size: 14px;
-    }
-
-    footer .container {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 24px;
-    }
-
-    @media (max-width: 768px) {
-      footer .container {
-        grid-template-columns: 1fr;
-        text-align: center;
-      }
-    }
-
-    footer h5 {
-      font-family: 'Outfit', sans-serif;
-      font-size: 16px;
-      font-weight: 500;
-      color: var(--text-on-dark);
-      margin-bottom: 16px;
-    }
-
-    footer ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    footer li {
-      margin-bottom: 8px;
-    }
-
-    footer a {
-      color: var(--text-on-dark-muted);
-      text-decoration: none;
-      transition: color 0.2s;
-      font-family: 'Outfit', sans-serif;
-    }
-
-    footer a:hover {
-      color: var(--text-on-dark);
-    }
-
-    footer .divider {
-      border-top: 1px solid var(--border-dark);
-      margin: 32px 0;
-    }
-
-    footer .bottom {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    @media (max-width: 768px) {
-      footer .bottom {
-        flex-direction: column;
-        gap: 16px;
-        text-align: center;
-      }
-    }
-    .mono { font-family: 'JetBrains Mono', monospace; }
-  .bg-white { background-color: #FFFFFF; }
-  .bg-alt { background-color: #F5F4F0; }
-  .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.55s ease, transform 0.55s ease; }
-.fade-in.visible { opacity: 1; transform: translateY(0); }
-
-  .card, .dashboard-card, .dashboard-metric-card, .article-card, .kpi-card, .settings-card, .feature-item {
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-    cursor: pointer;
-  }
-  .card:hover, .dashboard-card:hover, .dashboard-metric-card:hover, .article-card:hover, .kpi-card:hover, .settings-card:hover, .feature-item:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.10);
-  }
-
-  @keyframes float {
-    0%, 100% { transform: translateY(0px) rotate(-2deg); }
-    50% { transform: translateY(-10px) rotate(-2deg); }
-  }
-  .dashboard-card { animation: float 5s ease-in-out infinite; }
-
-  .button, .primary-button, .btn-primary {
-    transition: background-color 0.25s ease;
-  }
-  .button:hover, .primary-button:hover, .btn-primary:hover {
-    background-color: #2563EB !important;
-    color: #FFFFFF !important;
-  }
-
-  
-  h1 { font-size: clamp(36px, 6vw, 80px) !important; }
-  h2 { font-size: clamp(28px, 4vw, 52px) !important; }
-
-
-  
-  h1 { font-size: clamp(36px, 6vw, 80px) !important; }
-  h2 { font-size: clamp(28px, 4vw, 52px) !important; }
-
-
-@media (max-width: 768px) {
-
-  /* Nav — collapse to hamburger */
-  .nav-links { display: none; }
-  .nav-links.open { display: flex; flex-direction: column; 
-    position: fixed; top: 64px; left: 0; right: 0; 
-    background: white; padding: 24px; 
-    border-bottom: 1px solid #E5E7EB; z-index: 99; gap: 16px; }
-  .hamburger { display: flex !important; cursor: pointer; 
-    flex-direction: column; gap: 5px; }
-  .hamburger span { display: block; width: 22px; height: 2px; 
-    background: #0F1117; border-radius: 2px; 
-    transition: all 0.2s; }
-
-  /* Hero — stack vertically */
-  .hero { flex-direction: column !important; 
-    text-align: center !important; padding: 80px 24px 48px !important; }
-  .hero-visual { display: none !important; }
-  .hero-content { max-width: 100% !important; }
-
-  /* Typography — scale down */
-  h1 { font-size: clamp(32px, 8vw, 52px) !important; }
-  h2 { font-size: clamp(24px, 6vw, 36px) !important; }
-
-  /* All grid layouts — single column */
-  .cards-grid, 
-  .features-grid, 
-  .articles-grid,
-  .stats-grid,
-  .pricing-grid,
-  .pillars-grid { grid-template-columns: 1fr !important; }
-
-  /* Dashboard layout — stack sidebar on top */
-  .app-layout { flex-direction: column !important; }
-  .sidebar { width: 100% !important; height: auto !important; 
-    position: relative !important; 
-    border-right: none !important; 
-    border-bottom: 1px solid #E5E7EB !important; 
-    padding: 16px !important; }
-  .sidebar-nav { display: flex; flex-wrap: wrap; 
-    gap: 8px !important; }
-  .main-content { padding: 24px 16px !important; }
-
-  /* KPI cards — 2 columns on mobile */
-  .kpi-grid { grid-template-columns: 1fr 1fr !important; }
-
-  /* Numbered feature list — stack vertically */
-  .feature-list { flex-direction: column !important; gap: 24px !important; }
-  .feature-divider { display: none !important; }
-
-  /* Two-column sections — stack */
-  .two-col, 
-  .split-section, 
-  .case-study-layout { grid-template-columns: 1fr !important; 
-    flex-direction: column !important; }
-
-  /* Container padding */
-  .container { padding-left: 20px !important; 
-    padding-right: 20px !important; }
-
-  /* Footer — single column */
-  .footer-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
-}
-
-
-  /* MOBILE CHECKS - Comprehensive FIXED */
-  @media (max-width: 768px) {
-    /* Nav — collapse to hamburger */
-    .nav-links:not(.open) { display: none !important; }
-    .nav-links.open { display: flex !important; flex-direction: column; 
-      position: absolute; top: 64px; left: 0; right: 0; 
-      background: white; padding: 24px; 
-      border-bottom: 1px solid #E5E7EB; z-index: 99; gap: 16px; }
-    .hamburger { display: flex !important; cursor: pointer; 
-      flex-direction: column; gap: 5px; margin-left: auto; }
-    .hamburger span { display: block; width: 22px; height: 2px; 
-      background: #0F1117; border-radius: 2px; 
-      transition: all 0.2s; }
-
-    /* Hero — stack vertically */
-    .hero, #hero .container { flex-direction: column !important; 
-      text-align: center !important; padding: 80px 24px 48px !important; display: flex !important; }
-    .hero-visual, #hero .dashboard-card { display: none !important; }
-    .hero-content { max-width: 100% !important; }
-
-    /* Typography — scale down */
-    h1 { font-size: clamp(32px, 8vw, 52px) !important; }
-    h2 { font-size: clamp(24px, 6vw, 36px) !important; }
-
-    /* All grid layouts — single column */
-    .cards-grid, 
-    .features-grid, 
-    .articles-grid,
-    .stats-grid,
-    .pricing-grid,
-    .pillars-grid { grid-template-columns: 1fr !important; }
-
-    /* Dashboard layout — stack sidebar on top */
-    .dashboard-container { flex-direction: column !important; display: flex !important; }
-    .sidebar { width: 100% !important; height: auto !important; 
-      position: relative !important; 
-      border-right: none !important; 
-      border-bottom: 1px solid #E5E7EB !important; 
-      padding: 16px !important; }
-    .sidebar-nav { display: flex; flex-wrap: wrap; 
-      gap: 8px !important; }
-    .main-content { padding: 24px 16px !important; width: 100% !important; box-sizing: border-box; }
-
-    /* KPI cards — 2 columns on mobile */
-    .kpi-grid { grid-template-columns: 1fr 1fr !important; }
-
-    /* Numbered feature list — stack vertically */
-    .feature-list { flex-direction: column !important; gap: 24px !important; }
-    .feature-divider { display: none !important; }
-
-    /* Two-column sections — stack */
-    .two-col, 
-    .split-section, 
-    .case-study-layout { grid-template-columns: 1fr !important; 
-      flex-direction: column !important; }
-
-    /* Container padding */
-    .container { padding-left: 20px !important; 
-      padding-right: 20px !important; }
-
-    /* Footer — single column */
-    .footer-grid, footer .container { grid-template-columns: 1fr !important; gap: 32px !important; }
-  }
-
-
-  @media (max-width: 768px) {
-    /* Fix dashboard overflow */
-    .dashboard-container, .main-content { margin-left: 0 !important; width: 100% !important; box-sizing: border-box !important; overflow-x: hidden !important; }
-    
-    /* Stack hero buttons */
-    #hero .buttons { flex-direction: column !important; width: 100% !important; gap: 12px !important; }
-    #hero .buttons a { width: 100% !important; text-align: center !important; box-sizing: border-box !important; }
-    
-    /* Clean up navbar */
-    nav .button { display: none !important; }
-    
-    /* Fix wrapper sizing */
-    html, body { max-width: 100vw !important; overflow-x: hidden !important; }
-}
-</style>
-    <link rel="stylesheet" href="assets/spendly-polish.css">
+      --bg:#FFFFFF;--bg-alt:#F5F4F0;--bg-dark:#0F1117;--bg-card:#FFFFFF;
+      --text:#0F1117;--text-body:#3D3D3D;--text-muted:#6B7280;--text-light:#9CA3AF;
+      --text-on-dark:#F8F8F5;--text-on-dark-muted:#9CA3AF;
+      --accent:#2563EB;--accent-light:#EFF6FF;--accent-dark:#1D4ED8;
+      --border:#E5E7EB;--border-dark:rgba(255,255,255,0.1);
+      --success:#059669;--warning:#D97706;--danger:#DC2626;
+      --mono:'JetBrains Mono',monospace;--sans:'Outfit',sans-serif;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:var(--sans);background:var(--bg);color:var(--text-body);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+
+    @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+    .reveal.visible{opacity:1;transform:translateY(0)}
+    .stagger>*{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s ease}
+    .stagger.visible>*:nth-child(1){opacity:1;transform:none;transition-delay:.05s}
+    .stagger.visible>*:nth-child(2){opacity:1;transform:none;transition-delay:.12s}
+    .stagger.visible>*:nth-child(3){opacity:1;transform:none;transition-delay:.19s}
+    .stagger.visible>*:nth-child(4){opacity:1;transform:none;transition-delay:.26s}
+    .anim-1{opacity:0;animation:fadeUp .65s ease 0s forwards}
+    .anim-2{opacity:0;animation:fadeUp .65s ease .12s forwards}
+    .anim-3{opacity:0;animation:fadeUp .65s ease .22s forwards}
+
+    nav{position:sticky;top:0;z-index:100;height:64px;background:rgba(255,255,255,.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 40px;transition:box-shadow .3s}
+    nav.scrolled{box-shadow:0 1px 12px rgba(0,0,0,.08)}
+    .logo{font-size:22px;color:var(--text);display:flex;align-items:center;text-decoration:none;font-weight:500}
+    .logo svg{width:20px;height:20px;margin-right:8px;stroke:var(--accent)}
+    .nav-links{list-style:none;display:flex;gap:24px}
+    .nav-links a{text-decoration:none;color:var(--text-muted);font-size:15px;transition:color .2s}
+    .nav-links a:hover,.nav-links a.active{color:var(--text);font-weight:500}
+    .nav-cta{background:var(--text);color:#fff;font-size:14px;font-weight:500;padding:9px 22px;border-radius:8px;text-decoration:none;transition:background .2s,transform .2s;display:inline-block}
+    .nav-cta:hover{background:var(--accent);transform:translateY(-1px)}
+    .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+    .hamburger span{display:block;width:22px;height:2px;background:var(--text);border-radius:2px;transition:all .25s}
+
+    .container{max-width:1160px;margin:0 auto;padding:0 40px}
+    section{padding:96px 0}
+    .label{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:12px}
+    h1{font-size:clamp(42px,6vw,72px);line-height:1.06;color:var(--text);font-weight:400;letter-spacing:-.03em}
+    h1 em{font-style:italic}
+    h2{font-size:clamp(30px,4vw,50px);line-height:1.1;color:var(--text);font-weight:400;letter-spacing:-.025em}
+
+    /* HERO */
+    .hero{padding:120px 0 80px}
+    .hero-layout{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+    .hero p{font-size:17px;color:var(--text-muted);line-height:1.7;margin-top:20px;max-width:520px}
+    .hero-visual{display:flex;flex-direction:column;gap:16px}
+    .hero-stat-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .hero-stat{background:var(--bg-alt);border:1px solid var(--border);border-radius:14px;padding:24px;text-align:center;transition:transform .3s,box-shadow .3s}
+    .hero-stat:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.06)}
+    .hero-stat-num{font-family:var(--mono);font-size:32px;font-weight:500;color:var(--text);line-height:1;margin-bottom:6px}
+    .hero-stat-label{font-size:13px;color:var(--text-muted)}
+
+    /* MISSION */
+    .mission-section{background:var(--bg-alt)}
+    .mission-layout{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
+    .mission-text h2{margin-bottom:18px}
+    .mission-text p{font-size:16px;color:var(--text-muted);line-height:1.7;margin-bottom:16px}
+    .mission-quote{border-left:3px solid var(--accent);padding-left:20px;Font-size:18px;font-style:italic;color:var(--text);line-height:1.5;margin:28px 0}
+    .mission-visual{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .mv-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:24px;transition:transform .3s,box-shadow .3s}
+    .mv-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.06)}
+    .mv-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+    .mv-title{font-size:16px;font-weight:500;color:var(--text);margin-bottom:6px}
+    .mv-desc{font-size:13px;color:var(--text-muted);line-height:1.55}
+
+    /* VALUES */
+    .values-section{background:var(--bg)}
+    .values-header{text-align:center;max-width:520px;margin:0 auto 56px}
+    .values-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:48px}
+    .value-icon{width:40px;height:40px;color:var(--accent);margin-bottom:18px}
+    .value-title{font-size:20px;font-weight:500;color:var(--text);margin-bottom:10px}
+    .value-desc{font-size:14.5px;color:var(--text-muted);line-height:1.65}
+
+    /* TEAM */
+    .team-section{background:var(--bg-alt)}
+    .team-header{text-align:center;margin-bottom:48px}
+    .team-header p{font-size:16px;color:var(--text-muted);max-width:560px;margin:12px auto 0;line-height:1.65}
+    .team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+    .team-card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:28px 20px;text-align:center;transition:transform .3s,box-shadow .3s}
+    .team-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.08)}
+    .team-avatar{width:64px;height:64px;border-radius:50%;background:linear-gradient(145deg,#EFF6FF,#DBEAFE);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-weight:600;color:var(--accent-dark);font-size:20px}
+    .team-name{font-size:16px;font-weight:500;color:var(--text);margin-bottom:4px}
+    .team-role{font-size:13px;color:var(--text-muted);margin-bottom:12px}
+    .team-bio{font-size:12.5px;color:var(--text-light);line-height:1.5}
+
+    /* CTA */
+    .cta-section{background:var(--bg-dark);padding:120px 0;text-align:center}
+    .cta-label{font-size:10.5px;font-weight:500;text-transform:uppercase;letter-spacing:.12em;color:#4A4A42;display:block;margin-bottom:24px}
+    .cta-h2{font-size:clamp(36px,5vw,64px);font-weight:400;line-height:1.06;letter-spacing:-.03em;color:#F5F4EF;max-width:700px;margin:0 auto 16px}
+    .cta-h2 em{color:#60A5FA;font-style:italic}
+    .cta-sub{font-size:17px;color:#6E6E62;max-width:460px;margin:0 auto 40px;line-height:1.65}
+    .cta-btns{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
+    .btn-light{background:#fff;color:var(--text);font-size:15px;font-weight:500;padding:13px 28px;border-radius:8px;text-decoration:none;display:inline-block;transition:background .2s,transform .2s}
+    .btn-light:hover{background:var(--accent-light);transform:translateY(-2px)}
+    .btn-dark-ghost{background:transparent;color:#F5F4EF;font-size:15px;font-weight:500;padding:12px 28px;border-radius:8px;border:1.5px solid rgba(255,255,255,.15);text-decoration:none;display:inline-flex;align-items:center;gap:5px;transition:border-color .2s,background .2s}
+    .btn-dark-ghost:hover{border-color:rgba(255,255,255,.35);background:rgba(255,255,255,.05)}
+
+    footer{background:var(--bg-dark);border-top:1px solid rgba(255,255,255,.06);padding:60px 0 36px;color:var(--text-on-dark-muted);font-size:14px}
+    .ft{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px}
+    .fb-name{display:flex;align-items:center;gap:8px;font-size:16px;font-weight:500;color:#F5F4EF;margin-bottom:12px}
+    .fb-desc{font-size:13px;color:#4A4A42;line-height:1.6}
+    .fc-col-title{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.12em;color:#3A3A32;margin-bottom:16px}
+    .fc-col ul{list-style:none}.fc-col ul li{margin-bottom:10px}
+    .fc-col ul li a{font-size:13.5px;color:#5A5A52;text-decoration:none;transition:color .2s}
+    .fc-col ul li a:hover{color:#F5F4EF}
+    .fb-bar{border-top:1px solid rgba(255,255,255,.06);padding-top:24px;display:flex;justify-content:space-between;align-items:center}
+    .fb-copy{font-size:12.5px;color:#3A3A32}
+    .fb-legal{display:flex;gap:20px}
+    .fb-legal a{font-size:12.5px;color:#3A3A32;text-decoration:none;transition:color .2s}
+    .fb-legal a:hover{color:#F5F4EF}
+    .logo-box{width:24px;height:24px;background:var(--text);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+
+    @media(max-width:1024px){
+      .hero-layout,.mission-layout{grid-template-columns:1fr;gap:40px}
+      .team-grid{grid-template-columns:1fr 1fr}
+      .ft{grid-template-columns:1fr 1fr 1fr}
+    }
+    @media(max-width:768px){
+      nav{padding:0 20px}
+      .nav-links{display:none}
+      .nav-links.open{display:flex;flex-direction:column;position:fixed;top:64px;left:0;right:0;background:rgba(255,255,255,.97);backdrop-filter:blur(20px);padding:24px;border-bottom:1px solid var(--border);z-index:99;gap:16px}
+      .hamburger{display:flex}
+      section{padding:64px 0}.container{padding:0 20px}
+      .hero{padding:80px 0 48px}
+      .values-grid{grid-template-columns:1fr;gap:32px}
+      .team-grid{grid-template-columns:1fr 1fr}
+      .mission-visual{grid-template-columns:1fr}
+      .ft{grid-template-columns:1fr 1fr;gap:28px}
+      .fb-bar{flex-direction:column;gap:12px;text-align:center}
+    }
+    @media(max-width:480px){.team-grid{grid-template-columns:1fr}.ft{grid-template-columns:1fr}}
+  </style>
 </head>
-
 <body>
 
-    <nav>
-    <a href="index.html" class="logo">
-      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M12 2L2 7l10 5 10-5-10-5z m0 15L2 12l10-5 10 5-10 5z m0 8L2 17l10-5 10 5-10 5z" />
-      </svg>
-      Spendly
-    </a>
-    <ul class="nav-links">
-      <li><a href="features.html">Product</a></li>
-      <li><a href="insights.html">Insights</a></li>
-      <li><a href="pricing.html">Pricing</a></li>
-      <li><a class="active" href="about.html">About</a></li>
-    </ul>
-    <div class="hamburger" style="display: none;">
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
-    <a href="dashboard.html" class="button">Start for free</a>
-  </nav>
+<nav id="navbar">
+  <a href="index.html" class="logo">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2L2 7l10 5 10-5-10-5z m0 15L2 12l10-5 10 5-10 5z m0 8L2 17l10-5 10 5-10 5z"/>
+    </svg>
+    Spendly
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="features.html">Product</a></li>
+    <li><a href="insights.html">Insights</a></li>
+    <li><a href="pricing.html">Pricing</a></li>
+    <li><a class="active" href="about.html">About</a></li>
+  </ul>
+  <a href="dashboard.html" class="nav-cta">Start for free</a>
+  <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
 
-  <section id="hero" class="fade-in" class="hero">
-    <div class="container">
-      <span class="label">About Us</span>
-      <h1>Our Mission:<br><em>SaaS Under Control</em></h1>
-      <p>Team Bugg Slayers are building Spendly to help companies detect and eliminate unnecessary SaaS spending.
-        We believe every company deserves clarity, control, and ruthless efficiency in their SaaS stack.</p>
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-layout">
+      <div>
+        <span class="label anim-1">About Us</span>
+        <h1 class="anim-2">Our Mission:<br><em>SaaS Under Control</em></h1>
+        <p class="anim-3">Team Bugg Slayers built Spendly to help companies detect and eliminate unnecessary SaaS spending. We believe every company deserves clarity, control, and ruthless efficiency in their SaaS stack.</p>
+      </div>
+      <div class="hero-visual anim-3">
+        <div class="hero-stat-row">
+          <div class="hero-stat">
+            <div class="hero-stat-num" data-counter data-target="200" data-suffix="+">200+</div>
+            <div class="hero-stat-label">Companies Served</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-num" data-counter data-target="12" data-prefix="$" data-suffix="M+">$12M+</div>
+            <div class="hero-stat-label">Waste Identified</div>
+          </div>
+        </div>
+        <div class="hero-stat-row">
+          <div class="hero-stat">
+            <div class="hero-stat-num" data-counter data-target="47" data-suffix="%">47%</div>
+            <div class="hero-stat-label">Avg. Savings Found</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-num" data-counter data-target="15" data-suffix=" min">15 min</div>
+            <div class="hero-stat-label">Time to First Insight</div>
+          </div>
+        </div>
+      </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section id="team" class="reveal fade-in">
-    <div class="container">
-      <h3>Built by Team Bugg Slayers</h3>
-      <p>A small team of finance nerds, IT veterans, and engineering wizards obsessed with solving the SaaS waste
-        problem. We've seen SaaS sprawl from every angle — and we're building the solution we wish we'd had
-        years ago.</p>
+<!-- MISSION -->
+<section class="mission-section">
+  <div class="container">
+    <div class="mission-layout">
+      <div class="mission-text reveal">
+        <span class="label">Our Story</span>
+        <h2>Born from frustration.<br>Built for clarity.</h2>
+        <p>We've seen SaaS sprawl from every angle — finance teams drowning in invoices, IT managers chasing shadow subscriptions, and CFOs flying blind on software spend.</p>
+        <div class="mission-quote">"We built the solution we wish we'd had years ago — one platform that connects the dots between finance, IT, and HR data."</div>
+        <p>Spendly was born at a hackathon, refined through real customer pain, and now saves companies millions in wasted SaaS spend every year.</p>
+      </div>
+      <div class="mission-visual stagger">
+        <div class="mv-card">
+          <div class="mv-icon" style="background:#EFF6FF"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="1.5" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg></div>
+          <div class="mv-title">Full Visibility</div>
+          <div class="mv-desc">See every tool, every dollar, every user — across your entire organization.</div>
+        </div>
+        <div class="mv-card">
+          <div class="mv-icon" style="background:#ECFDF5"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="1.5" stroke-linecap="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+          <div class="mv-title">Real-Time Data</div>
+          <div class="mv-desc">Always current. Always accurate. No spreadsheets or manual uploads.</div>
+        </div>
+        <div class="mv-card">
+          <div class="mv-icon" style="background:#FFFBEB"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="1.5" stroke-linecap="round"><path d="M12 20V10M18 20V4M6 20v-4"/></svg></div>
+          <div class="mv-title">Smart Savings</div>
+          <div class="mv-desc">AI-powered recommendations that actually save money, not just generate reports.</div>
+        </div>
+        <div class="mv-card">
+          <div class="mv-icon" style="background:#FEF2F2"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
+          <div class="mv-title">Enterprise Security</div>
+          <div class="mv-desc">SOC 2 Type II, GDPR compliant. Your data is always encrypted and protected.</div>
+        </div>
+      </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section id="values" class="reveal fade-in">
-    <div class="container">
+<!-- VALUES -->
+<section class="values-section">
+  <div class="container">
+    <div class="values-header reveal">
       <span class="label">Our Principles</span>
       <h2>We believe in ruthless clarity</h2>
-      <p>Every dollar should be visible, every decision should be easy.</p>
-
-      <div class="values-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;">
-        <div class="value-item" style="text-align: left;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2" stroke-linecap="round"
-            stroke-linejoin="round" style="width: 32px; height: 32px; margin-bottom: 16px; display: block;">
-            <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
-            <path d="M22 12A10 10 0 0 0 12 2a10 10 0 0 0 0 20"></path>
-            <line x1="12" y1="2" x2="12" y2="12"></line>
-          </svg>
-          <h3
-            style="font-size: 20px; font-family: 'Outfit', sans-serif; font-weight: 500; color: var(--text-primary); margin-bottom: 8px;">
-            Data over assumptions</h3>
-          <p style="font-size: 16px; color: var(--text-muted); line-height: 1.65;">Real spend data — from bank
-            feeds, SSO logs, and accounting APIs — not surveys or self-reporting.</p>
-        </div>
-        <div class="value-item" style="text-align: left;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2" stroke-linecap="round"
-            stroke-linejoin="round" style="width: 32px; height: 32px; margin-bottom: 16px; display: block;">
-            <circle cx="12" cy="12" r="10"></circle>
-            <line x1="2" y1="12" x2="22" y2="12"></line>
-            <path
-              d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
-            </path>
-          </svg>
-          <h3
-            style="font-size: 20px; font-family: 'Outfit', sans-serif; font-weight: 500; color: var(--text-primary); margin-bottom: 8px;">
-            Systems are connected</h3>
-          <p style="font-size: 16px; color: var(--text-muted); line-height: 1.65;">Finance, IT, and HR data
-            belong together. Fragmented tools create fragmented decisions — we fix that.</p>
-        </div>
-        <div class="value-item" style="text-align: left;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2" stroke-linecap="round"
-            stroke-linejoin="round" style="width: 32px; height: 32px; margin-bottom: 16px; display: block;">
-            <path d="M13 17V11"></path>
-            <polyline points="9 4 15 4 15 9 9 9 9 4"></polyline>
-            <path d="M20 16v6m-6-6v6m3-10l3 4-3 4"></path>
-          </svg>
-          <h3
-            style="font-size: 20px; font-family: 'Outfit', sans-serif; font-weight: 500; color: var(--text-primary); margin-bottom: 8px;">
-            Progress is measurable</h3>
-          <p style="font-size: 16px; color: var(--text-muted); line-height: 1.65;">We track every dollar
-            recovered, every license reclaimed, and every renewal caught — so ROI is never in doubt.</p>
-        </div>
-      </div>
     </div>
-  </section>
-
-  <section id="cta" class="reveal fade-in">
-    <div class="container">
-      <h4>Ready to see what you're wasting?</h4>
-      <a href="dashboard.html" class="button">Request a demo</a>
-    </div>
-  </section>
-
-    <footer
-    style="background-color: var(--bg-dark); color: var(--text-on-dark-muted); padding: 64px 0; font-size: 14px;">
-    <div class="container" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;">
-      <div style="font-family: 'Outfit', sans-serif; font-size: 22px; color: var(--text-primary);">
-        Spendly
-        <p style="font-family: 'Outfit', sans-serif; color: var(--text-on-dark-muted); margin-top: 8px;">
-          AI-powered SaaS spend intelligence<br>Built by Team Bugg Slayers</p>
+    <div class="values-grid stagger">
+      <div>
+        <svg class="value-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+          <circle cx="18" cy="18" r="14"/><path d="M18 4v14l8 8"/>
+        </svg>
+        <div class="value-title">Data over assumptions</div>
+        <p class="value-desc">Real spend data — from bank feeds, SSO logs, and accounting APIs — not surveys or self-reporting. Every recommendation is backed by evidence.</p>
       </div>
       <div>
-        <h5
-          style="font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 500; color: var(--text-on-dark); margin-bottom: 16px;">
-          Product</h5>
-        <ul style="list-style: none; padding: 0; margin: 0;">
-          <li style="margin-bottom: 8px;"><a href="dashboard.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Overview</a></li>
-          <li style="margin-bottom: 8px;"><a href="features.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Features</a></li>
-          <li style="margin-bottom: 8px;"><a href="pricing.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Pricing</a></li>
-          <li style="margin-bottom: 8px;"><a href="insights.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Changelog</a></li>
-        </ul>
+        <svg class="value-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+          <circle cx="8" cy="8" r="4"/><circle cx="28" cy="8" r="4"/><circle cx="18" cy="28" r="4"/>
+          <path d="M12 8h12M10 11l6 14M26 11l-6 14"/>
+        </svg>
+        <div class="value-title">Systems are connected</div>
+        <p class="value-desc">Finance, IT, and HR data belong together. Fragmented tools create fragmented decisions — Spendly connects them all into one coherent picture.</p>
       </div>
       <div>
-        <h5
-          style="font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 500; color: var(--text-on-dark); margin-bottom: 16px;">
-          Company</h5>
-        <ul style="list-style: none; padding: 0; margin: 0;">
-          <li style="margin-bottom: 8px;"><a href="about.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">About</a></li>
-          <li style="margin-bottom: 8px;"><a href="about.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Careers</a></li>
-          <li style="margin-bottom: 8px;"><a href="insights.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Blog</a></li>
-          <li style="margin-bottom: 8px;"><a href="mailto:hello@spendly.io"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Contact</a></li>
-        </ul>
-      </div>
-      <div>
-        <h5
-          style="font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 500; color: var(--text-on-dark); margin-bottom: 16px;">
-          Legal</h5>
-        <ul style="list-style: none; padding: 0; margin: 0;">
-          <li style="margin-bottom: 8px;"><a href="about.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Privacy</a></li>
-          <li style="margin-bottom: 8px;"><a href="about.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Terms</a></li>
-          <li style="margin-bottom: 8px;"><a href="about.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Security</a></li>
-          <li style="margin-bottom: 8px;"><a href="about.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">SOC 2</a></li>
-        </ul>
+        <svg class="value-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+          <polyline points="4,28 12,18 18,22 28,10"/><polyline points="24,10 28,10 28,14"/>
+        </svg>
+        <div class="value-title">Progress is measurable</div>
+        <p class="value-desc">We track every dollar recovered, every license reclaimed, every renewal caught early — so ROI is never in doubt. Your CFO will have a number to report.</p>
       </div>
     </div>
-    <div class="divider" style="border-top: 1px solid rgba(255,255,255,0.1); margin: 32px 0;"></div>
-    <div class="bottom" style="display: flex; justify-content: space-between; align-items: center;">
-      <p style="color: var(--text-on-dark-muted); font-family: 'Outfit', sans-serif;">© 2025 Spendly · Built by Team Bugg Slayers</p>
-      <p style="color: var(--text-on-dark-muted); font-family: 'Outfit', sans-serif;"><a href="about.html"
-          style="color: var(--text-on-dark-muted); text-decoration: none;">Privacy</a> · <a href="about.html"
-          style="color: var(--text-on-dark-muted); text-decoration: none;">Terms</a></p>
-    </div>
-  </footer>
-  <script>
-document.querySelector('.hamburger')?.addEventListener('click', () => {
-  document.querySelector('.nav-links')?.classList.toggle('open');
-});
-</script>
-  <script>
-const fadeObserver = new IntersectionObserver((entries) => {
-  entries.forEach(e => { 
-    if (e.isIntersecting) { 
-      e.target.classList.add('visible');
-      fadeObserver.unobserve(e.target);
-    }
-  });
-}, { threshold: 0.15 });
-document.querySelectorAll('.fade-in').forEach(el => fadeObserver.observe(el));
-</script>
-  <script>
-function animateCounter(el, target, duration = 1800, prefix = '', suffix = '') {
-  const start = performance.now();
-  const update = (time) => {
-    const progress = Math.min((time - start) / duration, 1);
-    const eased = 1 - Math.pow(1 - progress, 4);
-    el.textContent = prefix + Math.floor(eased * target).toLocaleString() + suffix;
-    if (progress < 1) requestAnimationFrame(update);
-  };
-  requestAnimationFrame(update);
-}
-const counterObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      const el = entry.target;
-      animateCounter(el, +el.dataset.target, 1800, 
-        el.dataset.prefix || '', el.dataset.suffix || '');
-      counterObserver.unobserve(el);
-    }
-  });
-}, { threshold: 0.3 });
-document.querySelectorAll('[data-counter]').forEach(el => counterObserver.observe(el));
-</script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const sections = document.querySelectorAll('section');
-      const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('active');
-            observer.unobserve(entry.target); // Stop observing after it's active
-          }
-        });
-      }, {
-        threshold: 0.15 // Trigger when <span class="mono">15%</span> of element is visible
-      });
+  </div>
+</section>
 
-      sections.forEach(section => observer.observe(section));
-      document.body.classList.add('loaded'); // Add 'loaded' class to start initial animations
-    });
-  </script>
+<!-- TEAM -->
+<section class="team-section">
+  <div class="container">
+    <div class="team-header reveal">
+      <span class="label">The Team</span>
+      <h2>Built by Team Bugg Slayers</h2>
+      <p>A small team of finance nerds, IT veterans, and engineering wizards obsessed with solving the SaaS waste problem.</p>
+    </div>
+    <div class="team-grid stagger">
+      <div class="team-card">
+        <div class="team-avatar">HS</div>
+        <div class="team-name">Hitendra Singh</div>
+        <div class="team-role">Co-Founder & CEO</div>
+        <div class="team-bio">Former product lead who saw SaaS sprawl destroy budgets firsthand.</div>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">AK</div>
+        <div class="team-name">Ananya Kapoor</div>
+        <div class="team-role">Co-Founder & CTO</div>
+        <div class="team-bio">Full-stack engineer who turned a hackathon idea into a production platform.</div>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">RV</div>
+        <div class="team-name">Rahul Verma</div>
+        <div class="team-role">Head of Engineering</div>
+        <div class="team-bio">Infrastructure specialist building integrations that connect to 200+ data sources.</div>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">PM</div>
+        <div class="team-name">Priya Mehta</div>
+        <div class="team-role">Head of Design</div>
+        <div class="team-bio">Design lead making complex financial data feel simple and actionable.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section reveal">
+  <div class="container">
+    <span class="cta-label">Join Us</span>
+    <h2 class="cta-h2">Want to help eliminate<br><em>SaaS waste?</em></h2>
+    <p class="cta-sub">We're hiring engineers, designers, and customer success leaders who want to make a dent.</p>
+    <div class="cta-btns">
+      <a href="dashboard.html" class="btn-light">See open roles</a>
+      <a href="mailto:hello@spendly.io" class="btn-dark-ghost">Say hello →</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="ft">
+      <div>
+        <div class="fb-name">
+          <div class="logo-box"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M8 1L14 4.5V11.5L8 15L2 11.5V4.5L8 1Z" stroke="white" stroke-width="1.2"/></svg></div>
+          Spendly
+        </div>
+        <p class="fb-desc">AI-powered spend intelligence for finance teams that demand clarity.</p>
+      </div>
+      <div class="fc-col"><div class="fc-col-title">Product</div><ul><li><a href="dashboard.html">Dashboard</a></li><li><a href="features.html">Features</a></li><li><a href="pricing.html">Pricing</a></li><li><a href="insights.html">Changelog</a></li></ul></div>
+      <div class="fc-col"><div class="fc-col-title">Company</div><ul><li><a href="about.html">About</a></li><li><a href="about.html">Careers</a></li><li><a href="insights.html">Blog</a></li><li><a href="mailto:hello@spendly.io">Contact</a></li></ul></div>
+      <div class="fc-col"><div class="fc-col-title">Legal</div><ul><li><a href="about.html">Privacy</a></li><li><a href="about.html">Terms</a></li><li><a href="about.html">Security</a></li><li><a href="about.html">SOC 2</a></li></ul></div>
+    </div>
+    <div class="fb-bar">
+      <p class="fb-copy">© 2025 Spendly, Inc. Built by Team Bugg Slayers.</p>
+      <div class="fb-legal"><a href="about.html">Privacy</a><a href="about.html">Terms</a></div>
+    </div>
+  </div>
+</footer>
+
 <script>
-window.addEventListener('scroll', () => {
-    const nav = document.querySelector('nav');
-    if(nav) nav.style.boxShadow = window.scrollY > 10 ? '0 1px 12px rgba(0,0,0,0.08)' : 'none';
-});
+const nav=document.getElementById('navbar');
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>20)},{passive:true});
+const hb=document.getElementById('hamburger'),nl=document.getElementById('navLinks');
+if(hb&&nl){hb.addEventListener('click',()=>{nl.classList.toggle('open');})}
+const obs=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:0.1,rootMargin:'0px 0px -32px 0px'});
+document.querySelectorAll('.reveal,.stagger').forEach(el=>obs.observe(el));
+function runC(el){const t=parseFloat(el.dataset.target)||0,p=el.dataset.prefix||'',s=el.dataset.suffix||'',d=1800,st=performance.now();const tick=n=>{const pg=Math.min((n-st)/d,1),e=1-Math.pow(1-pg,4);el.textContent=p+Math.floor(e*t).toLocaleString()+s;if(pg<1)requestAnimationFrame(tick);else el.textContent=p+t.toLocaleString()+s;};requestAnimationFrame(tick);}
+const cobs=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){runC(e.target);cobs.unobserve(e.target);}});},{threshold:0.4});
+document.querySelectorAll('[data-counter]').forEach(el=>cobs.observe(el));
+document.body.style.opacity='0';document.body.style.transition='opacity .35s ease';
+window.addEventListener('load',()=>requestAnimationFrame(()=>{document.body.style.opacity='1';}));
 </script>
-<script src="assets/spendly-polish.js"></script>
 </body>
-
 </html>

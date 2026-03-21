@@ -1,1361 +1,351 @@
-code
-Html
-play_circle
-download
-content_copy
-expand_less
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <meta name="description" content="Spendly helps companies detect and eliminate unnecessary SaaS spending. Recover 20-30% of your SaaS budget in 90 days.">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pricing — Spendly</title>
+  <meta name="description" content="Simple, transparent pricing for Spendly — the SaaS spend intelligence platform. Start free, scale as you grow.">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     :root {
-      /* Backgrounds */
-      --bg-page: #FFFFFF;
-      --bg-section-alt: #F5F4F0;
-      --bg-dark: #0F1117;
-      --bg-card: #FFFFFF;
-
-      /* Typography */
-      --text-primary: #0F1117;
-      --text-body: #3D3D3D;
-      --text-muted: #6B7280;
-      --text-on-dark: #F8F8F5;
-      --text-on-dark-muted: #9CA3AF;
-
-      /* Accent */
-      --accent: #2563EB;
-      --accent-light: #EFF6FF;
-      --accent-dark: #1D4ED8;
-
-      /* Borders */
-      --border: #E5E7EB;
-      --border-dark: rgba(255, 255, 255, 0.1);
-
-      /* Status colors */
-      --status-success: #059669;
-      --status-warning: #D97706;
-      --status-danger: #DC2626;
-      --status-neutral: #6B7280;
-    }
-
-    body {
-      font-family: 'Outfit', sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: var(--bg-page);
-      color: var(--text-body);
-      line-height: 1.65;
-    }
-
-    /* LAYOUT & SPACING */
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 40px;
-    }
-
-    section {
-      padding: 96px 0;
-      opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 0.55s ease-out, transform 0.55s ease-out;
-    }
-
-    section.active {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    @media (max-width: 768px) {
-      section {
-        padding: 64px 0;
-      }
-
-      .container {
-        padding: 0 20px;
-      }
-    }
-
-        /* NAVBAR */
-    nav {
-      position: sticky; top: 0; z-index: 100; background: aliceblue;
-      top: 0;
-      left: 0;
-      width: <span class="mono">100%</span>;
-      height: 64px;
-      background-color: var(--bg-page);
-      border-bottom: 1px solid var(--border);
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 40px;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-    }
-
-    nav .logo {
-      font-family: 'Outfit', sans-serif;
-      font-size: 22px;
-      color: var(--text-primary);
-      display: flex;
-      align-items: center;
-    }
-
-    nav .logo svg {
-      width: 20px;
-      height: 20px;
-      margin-right: 8px;
-      stroke: var(--accent);
-    }
-
-    nav ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: flex;
-      gap: 24px;
-    }
-
-    nav a {
-      text-decoration: none;
-      color: var(--text-body);
-      font-size: 15px;
-      transition: color 0.2s;
-      display: inline-block;
-    }
-
-    nav a:hover {
-      color: var(--accent);
-    }
-
-    nav a.active {
-      color: var(--text-primary);
-      font-weight: 500;
-    }
-
-    nav a.active::after {
-      content: '';
-      display: block;
-      width: <span class="mono">100%</span>;
-      height: 2px;
-      background-color: var(--accent);
-      margin-top: 4px;
-    }
-
-    nav .button {
-      border: 1.5px solid var(--text-primary);
-      color: var(--text-primary);
-      background: transparent;
-      padding: 8px 20px;
-      border-radius: 6px;
-      text-decoration: none;
-      font-size: 15px;
-      transition: all 0.25s ease;
-      font-family: 'Outfit', sans-serif;
-    }
-
-    nav .button:hover {
-      background-color: var(--text-primary);
-      color: var(--bg-page);
-    }
-
-    /* HERO SECTION */
-    #hero {
-      background-color: var(--bg-page);
-      padding-top: 120px;
-      overflow: hidden;
-    }
-
-    #hero .container {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 48px;
-      align-items: center;
-    }
-
-    @media (max-width: 768px) {
-      #hero .container {
-        grid-template-columns: 1fr;
-        text-align: center;
-      }
-    }
-
-    #hero h1 {
-      font-family: 'Outfit', sans-serif;
-      font-size: clamp(48px, 6vw, 80px);
-      line-height: 1.05;
-      color: var(--text-primary);
-      margin-bottom: 24px;
-      font-weight: 400;
-    }
-
-    #hero h1 em {
-      font-style: italic;
-    }
-
-    #hero p {
-      font-size: 18px;
-      line-height: 1.7;
-      max-width: 560px;
-      margin-bottom: 32px;
-    }
-
-    #hero .buttons {
-      display: flex;
-      gap: 16px;
-    }
-
-    #hero .buttons a {
-      text-decoration: none;
-    }
-
-    .primary-button {
-      background-color: var(--text-primary);
-      color: var(--bg-page);
-      border-radius: 6px;
-      padding: 13px 28px;
-      font-size: 15px;
-      font-weight: 500;
-      transition: background-color 0.25s ease;
-      font-family: 'Outfit', sans-serif;
-      display: inline-block;
-    }
-
-    .primary-button:hover {
-      background-color: var(--accent);
-    }
-
-    .ghost-button {
-      background-color: transparent;
-      border: 1.5px solid var(--border);
-      color: var(--text-body);
-      border-radius: 6px;
-      padding: 13px 28px;
-      text-decoration: none;
-      font-size: 15px;
-      font-family: 'Outfit', sans-serif;
-      transition: all 0.25s ease;
-      display: inline-block;
-    }
-
-    .ghost-button:hover {
-      border-color: var(--text-primary);
-      color: var(--text-primary);
-    }
-
-    #hero .trust-line {
-      font-size: 13px;
-      color: var(--text-muted);
-      margin-top: 24px;
-      display: block;
-    }
-
-    /* HERO DASHBOARD CARD */
-    .dashboard-card {
-      background-color: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.12);
-      transform: rotate(-2deg);
-      animation: float 5s ease-in-out infinite;
-      padding: 24px;
-    }
-
-    .dashboard-card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-family: 'Outfit', sans-serif;
-      font-size: 14px;
-      color: var(--text-primary);
-      margin-bottom: 16px;
-    }
-
-    .fake-window-buttons {
-      display: flex;
-      gap: 6px;
-    }
-
-    .fake-window-buttons span {
-      display: block;
-      width: 12px;
-      height: 12px;
-      border-radius: <span class="mono">50%</span>;
-      background-color: #D4D4D4;
-      /* Light gray */
-    }
-
-    .dashboard-card h3 {
-      font-family: 'Outfit', sans-serif;
-      font-size: 18px;
-      color: var(--text-primary);
-      margin-bottom: 4px;
-    }
-
-    .dashboard-card .total-spend {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 32px;
-      color: var(--text-primary);
-      margin-bottom: 8px;
-    }
-
-    .dashboard-card .total-spend-delta {
-      font-size: 13px;
-      color: var(--status-success);
-    }
-
-    .dashboard-metrics {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      margin-bottom: 16px;
-    }
-
-    .dashboard-metric-card {
-      background-color: #F9FAFB;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 12px;
-      text-align: center;
-      font-family: 'Outfit', sans-serif;
-    }
-
-    .dashboard-metric-card h4 {
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--text-primary);
-      margin-bottom: 4px;
-    }
-
-    .dashboard-metric-card p {
-      font-size: 13px;
-      color: var(--text-muted);
-      margin-bottom: 0;
-    }
-
-    .dashboard-alert {
-      background-color: #FEF3C7;
-      border-left: 3px solid var(--status-warning);
-      padding: 12px;
-      margin-bottom: 8px;
-      border-radius: 4px;
-      font-family: 'Outfit', sans-serif;
-      font-size: 14px;
-      color: var(--text-primary);
-    }
-
-    /* FEATURE LIST */
-    #features {
-      background-color: var(--bg-section-alt);
-    }
-
-    #features .container {
-      max-width: 960px;
-    }
-
-    #features .label {
-      font-size: 12px;
-      font-family: 'Outfit', sans-serif;
-      font-weight: 500;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--accent);
-      display: block;
-      margin-bottom: 8px;
-    }
-
-    #features h2 {
-      font-family: 'Outfit', sans-serif;
-      font-size: clamp(32px, 4vw, 52px);
-      line-height: 1.1;
-      color: var(--text-primary);
-      margin-bottom: 32px;
-      font-weight: 400;
-    }
-
-    #features .feature-list {
-      display: flex;
-      justify-content: space-between;
-      gap: 24px;
-      margin-bottom: 48px;
-    }
-
-    @media (max-width: 768px) {
-      #features .feature-list {
-        flex-direction: column;
-        gap: 32px;
-      }
-    }
-
-    .feature-item {
-      flex: 1;
-      padding-left: 24px;
-      border-left: 2px solid transparent;
-      /* Add initial transparent border */
-      transition: border-left-color 0.2s;
-      /* Smooth transition for hover effect */
-    }
-
-    .feature-item:hover {
-      border-left-color: var(--accent);
-      /* Change border color on hover */
-    }
-
-    .feature-item span {
-      font-size: 13px;
-      font-family: 'Outfit', sans-serif;
-      color: var(--text-muted);
-      margin-bottom: 8px;
-      display: block;
-    }
-
-    .feature-item h3 {
-      font-size: 20px;
-      font-family: 'Outfit', sans-serif;
-      font-weight: 500;
-      color: var(--text-primary);
-      margin-bottom: 8px;
-    }
-
-    .feature-item p {
-      font-size: 16px;
-      color: var(--text-muted);
-    }
-
-    #features a.primary-button {
-      display: inline-block;
-    }
-
-    /* EDITORIAL SECTION */
-    #editorial {
-      background-color: var(--bg-section-alt);
-      padding-top: 64px;
-      padding-bottom: 64px;
-    }
-
-    #editorial .container {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 48px;
-      align-items: center;
-    }
-
-    @media (max-width: 768px) {
-      #editorial .container {
-        grid-template-columns: 1fr;
-        text-align: center;
-      }
-    }
-
-    #editorial h2 {
-      font-family: 'Outfit', sans-serif;
-      font-size: clamp(32px, 4vw, 52px);
-      line-height: 1.1;
-      color: var(--text-primary);
-      font-weight: 400;
-      margin-bottom: 0;
-      /* Reset default margin */
-    }
-
-    #editorial h2:last-child {
-      font-style: italic;
-      /* Apply italic style to the second h2 */
-      margin-top: -0.5em;
-      /* Adjust overlap as needed */
-    }
-
-    #editorial p {
-      font-size: 18px;
-      line-height: 1.7;
-      margin-top: 24px;
-    }
-
-    /* VALUES SECTION */
-    #values {
-      background-color: var(--bg-page);
-    }
-
-    #values .container {
-      max-width: 960px;
-    }
-
-    #values .label {
-      font-size: 12px;
-      font-family: 'Outfit', sans-serif;
-      font-weight: 500;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--accent);
-      display: block;
-      margin-bottom: 8px;
-    }
-
-    #values h2 {
-      font-family: 'Outfit', sans-serif;
-      font-size: clamp(32px, 4vw, 52px);
-      line-height: 1.1;
-      color: var(--text-primary);
-      margin-bottom: 16px;
-      font-weight: 400;
-    }
-
-    #values p {
-      font-size: 18px;
-      line-height: 1.7;
-      max-width: 560px;
-      color: var(--text-body);
-      margin-bottom: 48px;
-    }
-
-    #values .values-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-    }
-
-    @media (max-width: 768px) {
-      #values .values-grid {
-        grid-template-columns: 1fr;
-        text-align: center;
-      }
-    }
-
-    .value-item {
-      text-align: left;
-    }
-
-    .value-item svg {
-      width: 32px;
-      height: 32px;
-      stroke: var(--accent);
-      margin-bottom: 16px;
-      display: block;
-    }
-
-    .value-item h3 {
-      font-size: 20px;
-      font-family: 'Outfit', sans-serif;
-      font-weight: 500;
-      color: var(--text-primary);
-      margin-bottom: 8px;
-    }
-
-    .value-item p {
-      font-size: 16px;
-      color: var(--text-muted);
-      line-height: 1.65;
-    }
-
-    /* CASE STUDY SECTION */
-    #case-study {
-      background-color: var(--bg-section-alt);
-    }
-
-    #case-study .container {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 48px;
-      align-items: center;
-    }
-
-    @media (max-width: 768px) {
-      #case-study .container {
-        grid-template-columns: 1fr;
-        text-align: center;
-      }
-    }
-
-    .case-study-image {
-      background: linear-gradient(160deg, #EFF6FF <span class="mono">0%</span>, #DBEAFE <span class="mono">100%</span>);
-      border-radius: 12px;
-      height: 400px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text-primary);
-      font-size: 32px;
-      font-family: 'Outfit', sans-serif;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .case-study-image::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: <span class="mono">100%</span>;
-      height: <span class="mono">100%</span>;
-      background-image: url("data:image/svg+xml,%3Csvg width='42' height='44' viewBox='0 0 42 44' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M42 22L21 44L0 22L21 0L42 22Z' fill='rgba(255,255,255,0.2)'/%3E%3C/svg%3E");
-      opacity: 0.4;
-    }
-
-    .case-study-image span {
-      z-index: 1;
-    }
-
-    #case-study h2 {
-      font-family: 'Outfit', sans-serif;
-      font-size: clamp(32px, 4vw, 52px);
-      line-height: 1.1;
-      color: var(--text-primary);
-      margin-bottom: 24px;
-      font-weight: 400;
-    }
-
-    #case-study p {
-      font-size: 18px;
-      line-height: 1.7;
-      margin-bottom: 32px;
-    }
-
-    .case-study-stat {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 28px;
-      color: var(--text-primary);
-      margin-bottom: 16px;
-    }
-
-    /* INSIGHTS SECTION */
-    #insights {
-      background-color: var(--bg-page);
-    }
-
-    #insights .container {
-      max-width: 960px;
-    }
-
-    #insights .label {
-      font-size: 12px;
-      font-family: 'Outfit', sans-serif;
-      font-weight: 500;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--accent);
-      display: block;
-      margin-bottom: 8px;
-    }
-
-    #insights h2 {
-      font-family: 'Outfit', sans-serif;
-      font-size: clamp(32px, 4vw, 52px);
-      line-height: 1.1;
-      color: var(--text-primary);
-      margin-bottom: 48px;
-      font-weight: 400;
-    }
-
-    #insights .article-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-    }
-
-    @media (max-width: 768px) {
-      #insights .article-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .article-card {
-      background-color: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
-      transition: all 0.25s ease;
-    }
-
-    .article-card:hover {
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-      transform: translateY(-2px);
-    }
-
-    .article-image {
-      height: 200px;
-      border-radius: 12px;
-      margin: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      background-size: cover;
-      /* Ensure the background covers the entire area */
-      background-position: center;
-      /* Center the background image */
-      position: relative;
-      /* Needed for pseudo-element */
-    }
-
-    .article-image svg {
-      width: 40px;
-      height: 40px;
-      color: rgba(0, 0, 0, 0.2);
-      /* Adjust color for visibility */
-      z-index: 1;
-      /* Ensure icon is above the background */
-    }
-
-    .article-card .tag {
-      font-size: 11px;
-      font-family: 'Outfit', sans-serif;
-      font-weight: 500;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--accent);
-      background-color: var(--accent-light);
-      padding: 4px 10px;
-      border-radius: 4px;
-      display: inline-block;
-      margin: 16px;
-    }
-
-    .article-card h3 {
-      font-size: 20px;
-      font-family: 'Outfit', sans-serif;
-      font-weight: 500;
-      color: var(--text-primary);
-      margin: 0 16px;
-    }
-
-    .article-card p {
-      font-size: 14px;
-      color: var(--text-muted);
-      margin: 16px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .article-card a {
-      text-decoration: none;
-    }
-
-    /* TESTIMONIAL SECTION */
-    #testimonial {
-      background-color: var(--bg-section-alt);
-      padding: 120px 0;
-      text-align: center;
-    }
-
-    #testimonial .container {
-      max-width: 720px;
-    }
-
-    #testimonial svg {
-      width: 60px;
-      height: 60px;
-      color: var(--border);
-      position: relative;
-      left: -32px;
-      top: -24px;
-      z-index: 0;
-      display: block;
-      margin: 0 auto;
-      /* Center the SVG */
-    }
-
-    #testimonial blockquote {
-      font-size: clamp(24px, 3vw, 32px);
-      font-family: 'Outfit', sans-serif;
-      color: var(--text-primary);
-      line-height: 1.4;
-      margin-bottom: 24px;
-      font-style: italic;
-      font-weight: 400;
-      position: relative;
-      z-index: 1;
-    }
-
-    .testimonial-attribution {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 16px;
-    }
-
-    .testimonial-attribution img {
-      width: 40px;
-      height: 40px;
-      border-radius: <span class="mono">50%</span>;
-      object-fit: cover;
-    }
-
-    .testimonial-attribution .avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: <span class="mono">50%</span>;
-      background: linear-gradient(160deg, #F5F4F0, #E8E7E2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Outfit', sans-serif;
-      font-weight: 500;
-      color: var(--text-body);
-    }
-
-    .testimonial-attribution .name {
-      font-size: 16px;
-      font-weight: 500;
-      color: var(--text-primary);
-      display: block;
-    }
-
-    .testimonial-attribution .title {
-      font-size: 14px;
-      color: var(--text-muted);
-      display: block;
-    }
-
-    /* CTA SECTION */
-    #cta {
-      background-color: var(--bg-dark);
-      color: var(--text-on-dark);
-      text-align: center;
-      padding: 120px 0;
-    }
-
-    #cta h4 {
-      font-family: 'Outfit', sans-serif;
-      font-size: clamp(32px, 4vw, 48px);
-      line-height: 1.2;
-      margin-bottom: 16px;
-      font-weight: 400;
-    }
-
-    #cta p {
-      font-size: 18px;
-      line-height: 1.7;
-      color: var(--text-on-dark-muted);
-      margin-bottom: 32px;
-      max-width: 640px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    #cta .button {
-      background-color: var(--bg-page);
-      color: var(--text-primary);
-      border-radius: 6px;
-      padding: 13px 28px;
-      font-size: 15px;
-      font-weight: 500;
-      text-decoration: none;
-      display: inline-block;
-      transition: background-color 0.25s ease, color 0.25s ease;
-      font-family: 'Outfit', sans-serif;
-    }
-
-    #cta .button:hover {
-      background-color: var(--accent);
-      color: var(--bg-page);
-    }
-
-            /* FOOTER */
-    footer {
-      background-color: var(--bg-dark);
-      color: var(--text-on-dark-muted);
-      padding: 64px 0;
-      font-size: 14px;
-    }
-
-    footer .container {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 24px;
-    }
-
-    @media (max-width: 768px) {
-      footer .container {
-        grid-template-columns: 1fr;
-        text-align: center;
-      }
-    }
-
-    footer h5 {
-      font-family: 'Outfit', sans-serif;
-      font-size: 16px;
-      font-weight: 500;
-      color: var(--text-on-dark);
-      margin-bottom: 16px;
-    }
-
-    footer ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    footer li {
-      margin-bottom: 8px;
-    }
-
-    footer a {
-      color: var(--text-on-dark-muted);
-      text-decoration: none;
-      transition: color 0.2s;
-      font-family: 'Outfit', sans-serif;
-    }
-
-    footer a:hover {
-      color: var(--text-on-dark);
-    }
-
-    footer .divider {
-      border-top: 1px solid var(--border-dark);
-      margin: 32px 0;
-    }
-
-    footer .bottom {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    @media (max-width: 768px) {
-      footer .bottom {
-        flex-direction: column;
-        gap: 16px;
-        text-align: center;
-      }
-    }
-    .mono { font-family: 'JetBrains Mono', monospace; }
-  .bg-white { background-color: #FFFFFF; }
-  .bg-alt { background-color: #F5F4F0; }
-  .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.55s ease, transform 0.55s ease; }
-.fade-in.visible { opacity: 1; transform: translateY(0); }
-
-  .card, .dashboard-card, .dashboard-metric-card, .article-card, .kpi-card, .settings-card, .feature-item {
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-    cursor: pointer;
-  }
-  .card:hover, .dashboard-card:hover, .dashboard-metric-card:hover, .article-card:hover, .kpi-card:hover, .settings-card:hover, .feature-item:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.10);
-  }
-
-  @keyframes float {
-    0%, 100% { transform: translateY(0px) rotate(-2deg); }
-    50% { transform: translateY(-10px) rotate(-2deg); }
-  }
-  .dashboard-card { animation: float 5s ease-in-out infinite; }
-
-  .button, .primary-button, .btn-primary {
-    transition: background-color 0.25s ease;
-  }
-  .button:hover, .primary-button:hover, .btn-primary:hover {
-    background-color: #2563EB !important;
-    color: #FFFFFF !important;
-  }
-
-  
-  h1 { font-size: clamp(36px, 6vw, 80px) !important; }
-  h2 { font-size: clamp(28px, 4vw, 52px) !important; }
-
-
-  
-  h1 { font-size: clamp(36px, 6vw, 80px) !important; }
-  h2 { font-size: clamp(28px, 4vw, 52px) !important; }
-
-
-@media (max-width: 768px) {
-
-  /* Nav — collapse to hamburger */
-  .nav-links { display: none; }
-  .nav-links.open { display: flex; flex-direction: column; 
-    position: fixed; top: 64px; left: 0; right: 0; 
-    background: white; padding: 24px; 
-    border-bottom: 1px solid #E5E7EB; z-index: 99; gap: 16px; }
-  .hamburger { display: flex !important; cursor: pointer; 
-    flex-direction: column; gap: 5px; }
-  .hamburger span { display: block; width: 22px; height: 2px; 
-    background: #0F1117; border-radius: 2px; 
-    transition: all 0.2s; }
-
-  /* Hero — stack vertically */
-  .hero { flex-direction: column !important; 
-    text-align: center !important; padding: 80px 24px 48px !important; }
-  .hero-visual { display: none !important; }
-  .hero-content { max-width: 100% !important; }
-
-  /* Typography — scale down */
-  h1 { font-size: clamp(32px, 8vw, 52px) !important; }
-  h2 { font-size: clamp(24px, 6vw, 36px) !important; }
-
-  /* All grid layouts — single column */
-  .cards-grid, 
-  .features-grid, 
-  .articles-grid,
-  .stats-grid,
-  .pricing-grid,
-  .pillars-grid { grid-template-columns: 1fr !important; }
-
-  /* Dashboard layout — stack sidebar on top */
-  .app-layout { flex-direction: column !important; }
-  .sidebar { width: 100% !important; height: auto !important; 
-    position: relative !important; 
-    border-right: none !important; 
-    border-bottom: 1px solid #E5E7EB !important; 
-    padding: 16px !important; }
-  .sidebar-nav { display: flex; flex-wrap: wrap; 
-    gap: 8px !important; }
-  .main-content { padding: 24px 16px !important; }
-
-  /* KPI cards — 2 columns on mobile */
-  .kpi-grid { grid-template-columns: 1fr 1fr !important; }
-
-  /* Numbered feature list — stack vertically */
-  .feature-list { flex-direction: column !important; gap: 24px !important; }
-  .feature-divider { display: none !important; }
-
-  /* Two-column sections — stack */
-  .two-col, 
-  .split-section, 
-  .case-study-layout { grid-template-columns: 1fr !important; 
-    flex-direction: column !important; }
-
-  /* Container padding */
-  .container { padding-left: 20px !important; 
-    padding-right: 20px !important; }
-
-  /* Footer — single column */
-  .footer-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
-}
-
-
-  /* MOBILE CHECKS - Comprehensive FIXED */
-  @media (max-width: 768px) {
-    /* Nav — collapse to hamburger */
-    .nav-links:not(.open) { display: none !important; }
-    .nav-links.open { display: flex !important; flex-direction: column; 
-      position: absolute; top: 64px; left: 0; right: 0; 
-      background: white; padding: 24px; 
-      border-bottom: 1px solid #E5E7EB; z-index: 99; gap: 16px; }
-    .hamburger { display: flex !important; cursor: pointer; 
-      flex-direction: column; gap: 5px; margin-left: auto; }
-    .hamburger span { display: block; width: 22px; height: 2px; 
-      background: #0F1117; border-radius: 2px; 
-      transition: all 0.2s; }
-
-    /* Hero — stack vertically */
-    .hero, #hero .container { flex-direction: column !important; 
-      text-align: center !important; padding: 80px 24px 48px !important; display: flex !important; }
-    .hero-visual, #hero .dashboard-card { display: none !important; }
-    .hero-content { max-width: 100% !important; }
-
-    /* Typography — scale down */
-    h1 { font-size: clamp(32px, 8vw, 52px) !important; }
-    h2 { font-size: clamp(24px, 6vw, 36px) !important; }
-
-    /* All grid layouts — single column */
-    .cards-grid, 
-    .features-grid, 
-    .articles-grid,
-    .stats-grid,
-    .pricing-grid,
-    .pillars-grid { grid-template-columns: 1fr !important; }
-
-    /* Dashboard layout — stack sidebar on top */
-    .dashboard-container { flex-direction: column !important; display: flex !important; }
-    .sidebar { width: 100% !important; height: auto !important; 
-      position: relative !important; 
-      border-right: none !important; 
-      border-bottom: 1px solid #E5E7EB !important; 
-      padding: 16px !important; }
-    .sidebar-nav { display: flex; flex-wrap: wrap; 
-      gap: 8px !important; }
-    .main-content { padding: 24px 16px !important; width: 100% !important; box-sizing: border-box; }
-
-    /* KPI cards — 2 columns on mobile */
-    .kpi-grid { grid-template-columns: 1fr 1fr !important; }
-
-    /* Numbered feature list — stack vertically */
-    .feature-list { flex-direction: column !important; gap: 24px !important; }
-    .feature-divider { display: none !important; }
-
-    /* Two-column sections — stack */
-    .two-col, 
-    .split-section, 
-    .case-study-layout { grid-template-columns: 1fr !important; 
-      flex-direction: column !important; }
-
-    /* Container padding */
-    .container { padding-left: 20px !important; 
-      padding-right: 20px !important; }
-
-    /* Footer — single column */
-    .footer-grid, footer .container { grid-template-columns: 1fr !important; gap: 32px !important; }
-  }
-
-
-  @media (max-width: 768px) {
-    /* Fix dashboard overflow */
-    .dashboard-container, .main-content { margin-left: 0 !important; width: 100% !important; box-sizing: border-box !important; overflow-x: hidden !important; }
-    
-    /* Stack hero buttons */
-    #hero .buttons { flex-direction: column !important; width: 100% !important; gap: 12px !important; }
-    #hero .buttons a { width: 100% !important; text-align: center !important; box-sizing: border-box !important; }
-    
-    /* Clean up navbar */
-    nav .button { display: none !important; }
-    
-    /* Fix wrapper sizing */
-    html, body { max-width: 100vw !important; overflow-x: hidden !important; }
-}
-</style>
-    <link rel="stylesheet" href="assets/spendly-polish.css">
+      --bg:#FFFFFF;--bg-alt:#F5F4F0;--bg-dark:#0F1117;--bg-card:#FFFFFF;
+      --text:#0F1117;--text-body:#3D3D3D;--text-muted:#6B7280;--text-light:#9CA3AF;
+      --text-on-dark:#F8F8F5;--text-on-dark-muted:#9CA3AF;
+      --accent:#2563EB;--accent-light:#EFF6FF;--accent-dark:#1D4ED8;
+      --border:#E5E7EB;--border-dark:rgba(255,255,255,0.1);
+      --success:#059669;--warning:#D97706;--danger:#DC2626;
+      --mono:'JetBrains Mono',monospace;--sans:'Outfit',sans-serif;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:var(--sans);background:var(--bg);color:var(--text-body);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+
+    @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+    .reveal.visible{opacity:1;transform:translateY(0)}
+    .stagger>*{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s ease}
+    .stagger.visible>*:nth-child(1){opacity:1;transform:none;transition-delay:.05s}
+    .stagger.visible>*:nth-child(2){opacity:1;transform:none;transition-delay:.15s}
+    .stagger.visible>*:nth-child(3){opacity:1;transform:none;transition-delay:.25s}
+    .anim-1{opacity:0;animation:fadeUp .65s ease 0s forwards}
+    .anim-2{opacity:0;animation:fadeUp .65s ease .12s forwards}
+    .anim-3{opacity:0;animation:fadeUp .65s ease .22s forwards}
+
+    nav{position:sticky;top:0;z-index:100;height:64px;background:rgba(255,255,255,.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 40px;transition:box-shadow .3s}
+    nav.scrolled{box-shadow:0 1px 12px rgba(0,0,0,.08)}
+    .logo{font-size:22px;color:var(--text);display:flex;align-items:center;text-decoration:none;font-weight:500}
+    .logo svg{width:20px;height:20px;margin-right:8px;stroke:var(--accent)}
+    .nav-links{list-style:none;display:flex;gap:24px}
+    .nav-links a{text-decoration:none;color:var(--text-muted);font-size:15px;transition:color .2s}
+    .nav-links a:hover,.nav-links a.active{color:var(--text);font-weight:500}
+    .nav-cta{background:var(--text);color:#fff;font-size:14px;font-weight:500;padding:9px 22px;border-radius:8px;text-decoration:none;transition:background .2s,transform .2s;display:inline-block}
+    .nav-cta:hover{background:var(--accent);transform:translateY(-1px)}
+    .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+    .hamburger span{display:block;width:22px;height:2px;background:var(--text);border-radius:2px;transition:all .25s}
+
+    .container{max-width:1160px;margin:0 auto;padding:0 40px}
+    section{padding:96px 0}
+    .label{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:12px}
+    h1{font-size:clamp(42px,6vw,72px);line-height:1.06;color:var(--text);font-weight:400;letter-spacing:-.03em}
+    h1 em{font-style:italic}
+    h2{font-size:clamp(28px,3.5vw,44px);line-height:1.1;color:var(--text);font-weight:400;letter-spacing:-.025em}
+
+    .hero{padding:120px 0 48px;text-align:center}
+    .hero p{font-size:18px;color:var(--text-muted);max-width:520px;margin:20px auto 0;line-height:1.7}
+
+    /* PRICING TOGGLE */
+    .toggle-wrap{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:56px}
+    .toggle-label{font-size:14px;color:var(--text-muted);font-weight:500}
+    .toggle-label.active{color:var(--text)}
+    .toggle-switch{width:48px;height:26px;background:var(--border);border-radius:99px;position:relative;cursor:pointer;transition:background .3s}
+    .toggle-switch.on{background:var(--accent)}
+    .toggle-switch::after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;background:#fff;border-radius:50%;transition:transform .3s;box-shadow:0 1px 3px rgba(0,0,0,.15)}
+    .toggle-switch.on::after{transform:translateX(22px)}
+    .toggle-badge{font-size:11px;font-weight:600;color:var(--success);background:#ECFDF5;padding:3px 8px;border-radius:99px}
+
+    /* PRICING CARDS */
+    .pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:980px;margin:0 auto}
+    .pricing-card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:36px 28px;transition:transform .3s,box-shadow .3s;position:relative;display:flex;flex-direction:column}
+    .pricing-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.08)}
+    .pricing-card.featured{border:2px solid var(--accent);box-shadow:0 8px 32px rgba(37,99,235,.12)}
+    .pricing-card.featured:hover{box-shadow:0 16px 48px rgba(37,99,235,.18)}
+    .pricing-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;font-size:11px;font-weight:600;padding:4px 14px;border-radius:99px;letter-spacing:.04em}
+    .pc-name{font-size:20px;font-weight:600;color:var(--text);margin-bottom:6px}
+    .pc-desc{font-size:14px;color:var(--text-muted);margin-bottom:24px;line-height:1.5}
+    .pc-price{font-family:var(--mono);font-size:40px;font-weight:500;color:var(--text);line-height:1;margin-bottom:4px}
+    .pc-price span{font-size:16px;font-weight:400;color:var(--text-muted)}
+    .pc-period{font-size:13px;color:var(--text-light);margin-bottom:28px}
+    .pc-btn{display:block;text-align:center;padding:13px;border-radius:8px;font-size:15px;font-weight:500;text-decoration:none;transition:background .2s,transform .2s;margin-bottom:28px}
+    .pc-btn-primary{background:var(--text);color:#fff}
+    .pc-btn-primary:hover{background:var(--accent);transform:translateY(-1px)}
+    .pc-btn-ghost{background:transparent;border:1.5px solid var(--border);color:var(--text)}
+    .pc-btn-ghost:hover{border-color:var(--text);transform:translateY(-1px)}
+    .pc-features{list-style:none;display:flex;flex-direction:column;gap:12px;flex:1}
+    .pc-features li{font-size:14px;color:var(--text-body);display:flex;align-items:flex-start;gap:8px;line-height:1.4}
+    .pc-check{width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+    .pc-check-yes{background:#ECFDF5}
+    .pc-check-no{background:#FEF2F2}
+
+    /* FAQ */
+    .faq-section{background:var(--bg-alt)}
+    .faq-header{text-align:center;margin-bottom:48px}
+    .faq-grid{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:0}
+    .faq-item{border-bottom:1px solid var(--border);padding:20px 0;cursor:pointer}
+    .faq-item:first-child{border-top:1px solid var(--border)}
+    .faq-q{font-size:16px;font-weight:500;color:var(--text);display:flex;justify-content:space-between;align-items:center;gap:16px}
+    .faq-q svg{flex-shrink:0;transition:transform .3s}
+    .faq-item.open .faq-q svg{transform:rotate(180deg)}
+    .faq-a{font-size:15px;color:var(--text-muted);line-height:1.65;max-height:0;overflow:hidden;transition:max-height .4s ease,padding .4s ease}
+    .faq-item.open .faq-a{max-height:200px;padding-top:12px}
+
+    /* TESTIMONIAL */
+    .testimonial-section{background:var(--bg)}
+    .testimonial-card{max-width:720px;margin:0 auto;text-align:center}
+    .tq{font-size:clamp(22px,3vw,30px);color:var(--text);line-height:1.35;margin-bottom:28px;font-style:italic;font-weight:400}
+    .t-person{display:flex;align-items:center;justify-content:center;gap:14px}
+    .t-avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(160deg,#EFF6FF,#DBEAFE);display:flex;align-items:center;justify-content:center;font-weight:500;color:var(--accent-dark);font-size:14px}
+    .t-name{font-size:15px;font-weight:500;color:var(--text)}
+    .t-role{font-size:13px;color:var(--text-muted)}
+
+    /* CTA */
+    .cta-section{background:var(--bg-dark);padding:120px 0;text-align:center}
+    .cta-h2{font-size:clamp(32px,4.5vw,52px);font-weight:400;line-height:1.08;color:#F5F4EF;max-width:600px;margin:0 auto 16px}
+    .cta-h2 em{color:#60A5FA;font-style:italic}
+    .cta-sub{font-size:17px;color:#6E6E62;max-width:460px;margin:0 auto 36px;line-height:1.65}
+    .btn-light{background:#fff;color:var(--text);font-size:15px;font-weight:500;padding:13px 28px;border-radius:8px;text-decoration:none;display:inline-block;transition:background .2s,transform .2s}
+    .btn-light:hover{background:var(--accent-light);transform:translateY(-2px)}
+
+    footer{background:var(--bg-dark);border-top:1px solid rgba(255,255,255,.06);padding:60px 0 36px;color:var(--text-on-dark-muted);font-size:14px}
+    .ft{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px}
+    .fb-name{display:flex;align-items:center;gap:8px;font-size:16px;font-weight:500;color:#F5F4EF;margin-bottom:12px}
+    .fb-desc{font-size:13px;color:#4A4A42;line-height:1.6}
+    .fc-col-title{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.12em;color:#3A3A32;margin-bottom:16px}
+    .fc-col ul{list-style:none}.fc-col ul li{margin-bottom:10px}
+    .fc-col ul li a{font-size:13.5px;color:#5A5A52;text-decoration:none;transition:color .2s}
+    .fc-col ul li a:hover{color:#F5F4EF}
+    .fb-bar{border-top:1px solid rgba(255,255,255,.06);padding-top:24px;display:flex;justify-content:space-between;align-items:center}
+    .fb-copy{font-size:12.5px;color:#3A3A32}
+    .fb-legal{display:flex;gap:20px}
+    .fb-legal a{font-size:12.5px;color:#3A3A32;text-decoration:none;transition:color .2s}
+    .fb-legal a:hover{color:#F5F4EF}
+    .logo-box{width:24px;height:24px;background:var(--text);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+
+    @media(max-width:768px){
+      nav{padding:0 20px}
+      .nav-links{display:none}
+      .nav-links.open{display:flex;flex-direction:column;position:fixed;top:64px;left:0;right:0;background:rgba(255,255,255,.97);backdrop-filter:blur(20px);padding:24px;border-bottom:1px solid var(--border);z-index:99;gap:16px}
+      .hamburger{display:flex}
+      section{padding:64px 0}.container{padding:0 20px}
+      .hero{padding:80px 0 36px}
+      .pricing-grid{grid-template-columns:1fr;max-width:400px}
+      .ft{grid-template-columns:1fr 1fr;gap:28px}
+      .fb-bar{flex-direction:column;gap:12px;text-align:center}
+    }
+    @media(max-width:480px){.ft{grid-template-columns:1fr}}
+  </style>
 </head>
-
 <body>
-    <nav>
-    <a href="index.html" class="logo">
-      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M12 2L2 7l10 5 10-5-10-5z m0 15L2 12l10-5 10 5-10 5z m0 8L2 17l10-5 10 5-10 5z" />
-      </svg>
-      Spendly
-    </a>
-    <ul class="nav-links">
-      <li><a href="features.html">Product</a></li>
-      <li><a href="insights.html">Insights</a></li>
-      <li><a class="active" href="pricing.html">Pricing</a></li>
-      <li><a href="about.html">About</a></li>
-    </ul>
-    <div class="hamburger" style="display: none;">
-      <span></span>
-      <span></span>
-      <span></span>
+
+<nav id="navbar">
+  <a href="index.html" class="logo">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2L2 7l10 5 10-5-10-5z m0 15L2 12l10-5 10 5-10 5z m0 8L2 17l10-5 10 5-10 5z"/>
+    </svg>
+    Spendly
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="features.html">Product</a></li>
+    <li><a href="insights.html">Insights</a></li>
+    <li><a class="active" href="pricing.html">Pricing</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+  <a href="dashboard.html" class="nav-cta">Start for free</a>
+  <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <span class="label anim-1">Pricing</span>
+    <h1 class="anim-2">Simple pricing,<br><em>powerful savings.</em></h1>
+    <p class="anim-3">Choose the plan that's right for you. Scale up or down as your needs evolve.</p>
+  </div>
+</section>
+
+<!-- PRICING CARDS -->
+<section style="padding-top:0">
+  <div class="container">
+    <div class="toggle-wrap reveal">
+      <span class="toggle-label active" id="tMonthly">Monthly</span>
+      <div class="toggle-switch" id="toggleSwitch"></div>
+      <span class="toggle-label" id="tAnnual">Annual</span>
+      <span class="toggle-badge">Save 20%</span>
     </div>
-    <a href="dashboard.html" class="button">Start for free</a>
-  </nav>
-
-  <section id="hero" class="fade-in" class="hero">
-    <div class="container">
-      <span class="label">Pricing</span>
-      <h1>Simple pricing,<br><em>powerful savings.</em></h1>
-      <p>Choose the plan that's right for you. Scale up or down as your needs evolve.</p>
+    <div class="pricing-grid stagger">
+      <!-- Starter -->
+      <div class="pricing-card">
+        <div class="pc-name">Starter</div>
+        <p class="pc-desc">For small teams getting started with SaaS visibility.</p>
+        <div class="pc-price" id="price1">Free</div>
+        <div class="pc-period" id="period1">Up to 10 tools tracked</div>
+        <a href="dashboard.html" class="pc-btn pc-btn-ghost">Get started free</a>
+        <ul class="pc-features">
+          <li><div class="pc-check pc-check-yes"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><polyline points="2 6 5 9 10 3" stroke="#059669" stroke-width="1.5" stroke-linecap="round"/></svg></div>SaaS discovery</li>
+          <li><div class="pc-check pc-check-yes"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><polyline points="2 6 5 9 10 3" stroke="#059669" stroke-width="1.5" stroke-linecap="round"/></svg></div>Basic usage reports</li>
+          <li><div class="pc-check pc-check-yes"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><polyline points="2 6 5 9 10 3" stroke="#059669" stroke-width="1.5" stroke-linecap="round"/></svg></div>Up to 3 integrations</li>
+          <li><div class="pc-check pc-check-yes"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><polyline points="2 6 5 9 10 3" stroke="#059669" stroke-width="1.5" stroke-linecap="round"/></svg></div>Email support</li>
+          <li><div class="pc-check pc-check-no"><svg width="8" height="8" viewBox="0 0 12 12" fill="none"><line x1="3" y1="3" x2="9" y2="9" stroke="#DC2626" stroke-width="1.5" stroke-linecap="round"/><line x1="9" y1="3" x2="3" y2="9" stroke="#DC2626" stroke-width="1.5" stroke-linecap="round"/></svg></div><span style="color:var(--text-light)">License optimization</span></li>
+          <li><div class="pc-check pc-check-no"><svg width="8" height="8" viewBox="0 0 12 12" fill="none"><line x1="3" y1="3" x2="9" y2="9" stroke="#DC2626" stroke-width="1.5" stroke-linecap="round"/><line x1="9" y1="3" x2="3" y2="9" stroke="#DC2626" stroke-width="1.5" stroke-linecap="round"/></svg></div><span style="color:var(--text-light)">Renewal forecasting</span></li>
+        </ul>
+      </div>
+      <!-- Standard -->
+      <div class="pricing-card featured">
+        <div class="pricing-badge">Most Popular</div>
+        <div class="pc-name">Standard</div>
+        <p class="pc-desc">For growing teams that want full visibility and savings.</p>
+        <div class="pc-price" id="price2"><span>$</span>499<span>/mo</span></div>
+        <div class="pc-period" id="period2">Unlimited tools · Billed monthly</div>
+        <a href="dashboard.html" class="pc-btn pc-btn-primary">Start 14-day trial</a>
+        <ul class="pc-features">
+          <li><div class="pc-check pc-check-yes"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><polyline points="2 6 5 9 10 3" stroke="#059669" stroke-width="1.5" stroke-linecap="round"/></svg></div>Everything in Starter</li>
+          <li><div class="pc-check pc-check-yes"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><polyline points="2 6 5 9 10 3" stroke="#059669" stroke-width="1.5" stroke-linecap="round"/></svg></div>License optimization</li>
+          <li><div class="pc-check pc-check-yes"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><polyline points="2 6 5 9 10 3" stroke="#059669" stroke-width="1.5" stroke-linecap="round"/></svg></div>Renewal forecasting</li>
+          <li><div class="pc-check pc-check-yes"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><polyline points="2 6 5 9 10 3" stroke="#059669" stroke-width="1.5" stroke-linecap="round"/></svg></div>Duplicate detection</li>
+          <li><div class="pc-check pc-check-yes"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><polyline points="2 6 5 9 10 3" stroke="#059669" stroke-width="1.5" stroke-linecap="round"/></svg></div>Unlimited integrations</li>
+          <li><div class="pc-check pc-check-yes"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><polyline points="2 6 5 9 10 3" stroke="#059669" stroke-width="1.5" stroke-linecap="round"/></svg></div>Priority email support</li>
+        </ul>
+      </div>
+      <!-- Enterprise -->
+      <div class="pricing-card">
+        <div class="pc-name">Enterprise</div>
+        <p class="pc-desc">For large organizations with advanced needs and compliance.</p>
+        <div class="pc-price" id="price3">Custom</div>
+        <div class="pc-period" id="period3">Tailored to your organization</div>
+        <a href="mailto:hello@spendly.io" class="pc-btn pc-btn-ghost">Contact sales</a>
+        <ul class="pc-features">
+          <li><div class="pc-check pc-check-yes"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><polyline points="2 6 5 9 10 3" stroke="#059669" stroke-width="1.5" stroke-linecap="round"/></svg></div>Everything in Standard</li>
+          <li><div class="pc-check pc-check-yes"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><polyline points="2 6 5 9 10 3" stroke="#059669" stroke-width="1.5" stroke-linecap="round"/></svg></div>Automated actions & workflows</li>
+          <li><div class="pc-check pc-check-yes"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><polyline points="2 6 5 9 10 3" stroke="#059669" stroke-width="1.5" stroke-linecap="round"/></svg></div>Dedicated account manager</li>
+          <li><div class="pc-check pc-check-yes"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><polyline points="2 6 5 9 10 3" stroke="#059669" stroke-width="1.5" stroke-linecap="round"/></svg></div>SSO & SCIM provisioning</li>
+          <li><div class="pc-check pc-check-yes"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><polyline points="2 6 5 9 10 3" stroke="#059669" stroke-width="1.5" stroke-linecap="round"/></svg></div>Custom reporting & API access</li>
+          <li><div class="pc-check pc-check-yes"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><polyline points="2 6 5 9 10 3" stroke="#059669" stroke-width="1.5" stroke-linecap="round"/></svg></div>99.99% uptime SLA</li>
+        </ul>
+      </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section id="pricing-plans" class="reveal fade-in">
-    <div class="container">
-      <span class="label">Pricing Plans</span>
-      <h2>Transparent and predictable pricing</h2>
-      <p>All plans include core Spendly platform features. Contact us for custom enterprise packages.</p>
-
-      <table class="pricing-table">
-        <thead>
-          <tr>
-            <th>Feature</th>
-            <th>Basic</th>
-            <th>Standard</th>
-            <th>Premium</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>SaaS Discovery</td>
-            <td><i class="fa fa-check" style="color: var(--status-success)"></i></td>
-            <td><i class="fa fa-check" style="color: var(--status-success)"></i></td>
-            <td><i class="fa fa-check" style="color: var(--status-success)"></i></td>
-          </tr>
-          <tr>
-            <td>License Optimization</td>
-            <td><i class="fa fa-times" style="color: var(--status-danger)"></i></td>
-            <td><i class="fa fa-check" style="color: var(--status-success)"></i></td>
-            <td><i class="fa fa-check" style="color: var(--status-success)"></i></td>
-          </tr>
-          <tr>
-            <td>Renewal Forecasting</td>
-            <td><i class="fa fa-times" style="color: var(--status-danger)"></i></td>
-            <td><i class="fa fa-check" style="color: var(--status-success)"></i></td>
-            <td><i class="fa fa-check" style="color: var(--status-success)"></i></td>
-          </tr>
-          <tr>
-            <td>Automated Actions</td>
-            <td><i class="fa fa-times" style="color: var(--status-danger)"></i></td>
-            <td><i class="fa fa-times" style="color: var(--status-danger)"></i></td>
-            <td><i class="fa fa-check" style="color: var(--status-success)"></i></td>
-          </tr>
-          <tr>
-            <td>Support</td>
-            <td>Email</td>
-            <td>Priority Email</td>
-            <td>Dedicated Account Manager</td>
-          </tr>
-          <tr>
-            <td>Pricing</td>
-            <td>Free</td>
-            <td><span class="mono">$499</span>/month</td>
-            <td>Contact Us</td>
-          </tr>
-        </tbody>
-      </table>
+<!-- FAQ -->
+<section class="faq-section">
+  <div class="container">
+    <div class="faq-header reveal">
+      <span class="label">FAQ</span>
+      <h2>Common questions</h2>
     </div>
-  </section>
+    <div class="faq-grid reveal">
+      <div class="faq-item">
+        <div class="faq-q">How long does setup take?<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        <div class="faq-a">Most teams are fully connected in under 15 minutes. Spendly integrates directly with your bank feeds, SSO, and HR tools — no engineering required.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Can I switch plans later?<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        <div class="faq-a">Absolutely. You can upgrade or downgrade at any time. Changes take effect immediately, and billing is prorated automatically.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Is my data secure?<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        <div class="faq-a">Spendly is SOC 2 Type II certified and GDPR compliant. All data is encrypted at rest and in transit with AES-256 and TLS 1.3.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What integrations are supported?<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        <div class="faq-a">We support 200+ integrations including Okta, Google Workspace, Slack, QuickBooks, Xero, BambooHR, Workday, and more. If we don't support yours, we'll build it.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Do you offer a free trial?<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        <div class="faq-a">Yes! The Starter plan is free forever for up to 10 tools. Standard plans include a 14-day free trial with no credit card required.</div>
+      </div>
+    </div>
+  </div>
+</section>
 
-  <section id="testimonial" class="reveal fade-in">
-    <div class="container">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"
-        stroke-linejoin="round">
-        <path d="M3 21c3-4.5 5-8 8-10.5C14 8 16 4.5 19 3"></path>
-        <path d="M21 21c-3-4.5-5-8-8-10.5C8 8 6 4.5 3 3"></path>
-      </svg>
-      <blockquote>We finally stopped guessing. Spendly found <span class="mono">$61,000</span> in waste we didn't know existed — unused
-        seats, forgotten trials, duplicate tools. It paid for itself in the first month.</blockquote>
-      <div class="testimonial-attribution">
-        <div class="avatar">SC</div>
-        <div>
-          <span class="name">Sarah Chen</span>
-          <span class="title">VP of Finance, Meridian Labs</span>
+<!-- TESTIMONIAL -->
+<section class="testimonial-section">
+  <div class="container">
+    <div class="testimonial-card reveal">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#E5E7EB" stroke-width="1" style="margin-bottom:20px"><path d="M3 21c3-4.5 5-8 8-10.5C14 8 16 4.5 19 3"/><path d="M21 21c-3-4.5-5-8-8-10.5C8 8 6 4.5 3 3"/></svg>
+      <div class="tq">"We finally stopped guessing. Spendly found $61,000 in waste we didn't know existed — unused seats, forgotten trials, duplicate tools. It paid for itself in the first month."</div>
+      <div class="t-person">
+        <div class="t-avatar">SC</div>
+        <div style="text-align:left">
+          <div class="t-name">Sarah Chen</div>
+          <div class="t-role">VP of Finance, Meridian Labs</div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section id="cta" class="reveal fade-in">
-    <div class="container">
-      <h4>Ready to see what you're wasting?</h4>
-      <a href="dashboard.html" class="button">Request a demo</a>
-    </div>
-  </section>
+<!-- CTA -->
+<section class="cta-section reveal">
+  <div class="container">
+    <h2 class="cta-h2">Ready to see what<br>you're <em>wasting?</em></h2>
+    <p class="cta-sub">Connect your data in 15 minutes. See your first insight before lunch.</p>
+    <a href="dashboard.html" class="btn-light">Request a demo</a>
+  </div>
+</section>
 
-    <footer
-    style="background-color: var(--bg-dark); color: var(--text-on-dark-muted); padding: 64px 0; font-size: 14px;">
-    <div class="container" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;">
-      <div style="font-family: 'Outfit', sans-serif; font-size: 22px; color: var(--text-primary);">
-        Spendly
-        <p style="font-family: 'Outfit', sans-serif; color: var(--text-on-dark-muted); margin-top: 8px;">
-          AI-powered SaaS spend intelligence<br>Built by Team Bugg Slayers</p>
-      </div>
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="ft">
       <div>
-        <h5
-          style="font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 500; color: var(--text-on-dark); margin-bottom: 16px;">
-          Product</h5>
-        <ul style="list-style: none; padding: 0; margin: 0;">
-          <li style="margin-bottom: 8px;"><a href="dashboard.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Overview</a></li>
-          <li style="margin-bottom: 8px;"><a href="features.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Features</a></li>
-          <li style="margin-bottom: 8px;"><a href="pricing.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Pricing</a></li>
-          <li style="margin-bottom: 8px;"><a href="insights.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Changelog</a></li>
-        </ul>
+        <div class="fb-name">
+          <div class="logo-box"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M8 1L14 4.5V11.5L8 15L2 11.5V4.5L8 1Z" stroke="white" stroke-width="1.2"/></svg></div>
+          Spendly
+        </div>
+        <p class="fb-desc">AI-powered spend intelligence for finance teams that demand clarity.</p>
       </div>
-      <div>
-        <h5
-          style="font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 500; color: var(--text-on-dark); margin-bottom: 16px;">
-          Company</h5>
-        <ul style="list-style: none; padding: 0; margin: 0;">
-          <li style="margin-bottom: 8px;"><a href="about.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">About</a></li>
-          <li style="margin-bottom: 8px;"><a href="about.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Careers</a></li>
-          <li style="margin-bottom: 8px;"><a href="insights.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Blog</a></li>
-          <li style="margin-bottom: 8px;"><a href="mailto:hello@spendly.io"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Contact</a></li>
-        </ul>
-      </div>
-      <div>
-        <h5
-          style="font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 500; color: var(--text-on-dark); margin-bottom: 16px;">
-          Legal</h5>
-        <ul style="list-style: none; padding: 0; margin: 0;">
-          <li style="margin-bottom: 8px;"><a href="about.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Privacy</a></li>
-          <li style="margin-bottom: 8px;"><a href="about.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Terms</a></li>
-          <li style="margin-bottom: 8px;"><a href="about.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">Security</a></li>
-          <li style="margin-bottom: 8px;"><a href="about.html"
-              style="color: var(--text-on-dark-muted); text-decoration: none;">SOC 2</a></li>
-        </ul>
-      </div>
+      <div class="fc-col"><div class="fc-col-title">Product</div><ul><li><a href="dashboard.html">Dashboard</a></li><li><a href="features.html">Features</a></li><li><a href="pricing.html">Pricing</a></li><li><a href="insights.html">Changelog</a></li></ul></div>
+      <div class="fc-col"><div class="fc-col-title">Company</div><ul><li><a href="about.html">About</a></li><li><a href="about.html">Careers</a></li><li><a href="insights.html">Blog</a></li><li><a href="mailto:hello@spendly.io">Contact</a></li></ul></div>
+      <div class="fc-col"><div class="fc-col-title">Legal</div><ul><li><a href="about.html">Privacy</a></li><li><a href="about.html">Terms</a></li><li><a href="about.html">Security</a></li><li><a href="about.html">SOC 2</a></li></ul></div>
     </div>
-    <div class="divider" style="border-top: 1px solid rgba(255,255,255,0.1); margin: 32px 0;"></div>
-    <div class="bottom" style="display: flex; justify-content: space-between; align-items: center;">
-      <p style="color: var(--text-on-dark-muted); font-family: 'Outfit', sans-serif;">© 2025 Spendly · Built by Team Bugg Slayers</p>
-      <p style="color: var(--text-on-dark-muted); font-family: 'Outfit', sans-serif;"><a href="about.html"
-          style="color: var(--text-on-dark-muted); text-decoration: none;">Privacy</a> · <a href="about.html"
-          style="color: var(--text-on-dark-muted); text-decoration: none;">Terms</a></p>
+    <div class="fb-bar">
+      <p class="fb-copy">© 2025 Spendly, Inc. Built by Team Bugg Slayers.</p>
+      <div class="fb-legal"><a href="about.html">Privacy</a><a href="about.html">Terms</a></div>
     </div>
-  </footer>
+  </div>
+</footer>
 
-  <script>
-document.querySelector('.hamburger')?.addEventListener('click', () => {
-  document.querySelector('.nav-links')?.classList.toggle('open');
-});
-</script>
-  <script>
-const fadeObserver = new IntersectionObserver((entries) => {
-  entries.forEach(e => { 
-    if (e.isIntersecting) { 
-      e.target.classList.add('visible');
-      fadeObserver.unobserve(e.target);
-    }
-  });
-}, { threshold: 0.15 });
-document.querySelectorAll('.fade-in').forEach(el => fadeObserver.observe(el));
-</script>
-  <script>
-function animateCounter(el, target, duration = 1800, prefix = '', suffix = '') {
-  const start = performance.now();
-  const update = (time) => {
-    const progress = Math.min((time - start) / duration, 1);
-    const eased = 1 - Math.pow(1 - progress, 4);
-    el.textContent = prefix + Math.floor(eased * target).toLocaleString() + suffix;
-    if (progress < 1) requestAnimationFrame(update);
-  };
-  requestAnimationFrame(update);
-}
-const counterObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      const el = entry.target;
-      animateCounter(el, +el.dataset.target, 1800, 
-        el.dataset.prefix || '', el.dataset.suffix || '');
-      counterObserver.unobserve(el);
-    }
-  });
-}, { threshold: 0.3 });
-document.querySelectorAll('[data-counter]').forEach(el => counterObserver.observe(el));
-</script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const sections = document.querySelectorAll('section');
-      const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('active');
-            observer.unobserve(entry.target); // Stop observing after it's active
-          }
-        });
-      }, {
-        threshold: 0.15 // Trigger when <span class="mono">15%</span> of element is visible
-      });
-
-      sections.forEach(section => observer.observe(section));
-      document.body.classList.add('loaded'); // Add 'loaded' class to start initial animations
-    });
-  </script>
 <script>
-window.addEventListener('scroll', () => {
-    const nav = document.querySelector('nav');
-    if(nav) nav.style.boxShadow = window.scrollY > 10 ? '0 1px 12px rgba(0,0,0,0.08)' : 'none';
-});
-</script>
-<script src="assets/spendly-polish.js"></script>
-</body>
+const nav=document.getElementById('navbar');
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>20)},{passive:true});
+const hb=document.getElementById('hamburger'),nl=document.getElementById('navLinks');
+if(hb&&nl){hb.addEventListener('click',()=>{nl.classList.toggle('open');})}
+const obs=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:0.1,rootMargin:'0px 0px -32px 0px'});
+document.querySelectorAll('.reveal,.stagger').forEach(el=>obs.observe(el));
 
+// Toggle annual/monthly
+const toggle=document.getElementById('toggleSwitch');
+const tM=document.getElementById('tMonthly'),tA=document.getElementById('tAnnual');
+let annual=false;
+toggle.addEventListener('click',()=>{
+  annual=!annual;
+  toggle.classList.toggle('on',annual);
+  tM.classList.toggle('active',!annual);
+  tA.classList.toggle('active',annual);
+  document.getElementById('price2').innerHTML=annual?'<span>$</span>399<span>/mo</span>':'<span>$</span>499<span>/mo</span>';
+  document.getElementById('period2').textContent=annual?'Unlimited tools · Billed annually':'Unlimited tools · Billed monthly';
+});
+
+// FAQ toggle
+document.querySelectorAll('.faq-item').forEach(item=>{
+  item.querySelector('.faq-q').addEventListener('click',()=>{item.classList.toggle('open');});
+});
+
+document.body.style.opacity='0';document.body.style.transition='opacity .35s ease';
+window.addEventListener('load',()=>requestAnimationFrame(()=>{document.body.style.opacity='1';}));
+</script>
+</body>
 </html>
