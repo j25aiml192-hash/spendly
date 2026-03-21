@@ -689,6 +689,7 @@
     <link rel="stylesheet" href="assets/spendly-polish.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
     <link rel="stylesheet" href="assets/dashboard-premium.css">
+  <script src="./assets/shared-actions.js"></script>
 </head>
 
 <body>
@@ -753,19 +754,19 @@
                 <div class="int-icon" style="background:#00D632; color: white;">P</div>
                 <div class="int-info"><div class="int-name">Plaid</div><div class="int-desc">Banking feed · Connected 14 days ago</div></div>
                 <span class="status-dot status-dot--active"></span>
-                <button class="btn-disconnect action-disconnect">Disconnect</button>
+                <button class="btn-disconnect action-disconnect" onclick="showConfirm('Disconnect integration','This will remove access to this data source. Your existing tool data will remain.',function(){showToast('Integration disconnected ✓','success');})">Disconnect</button>
               </div>
               <div class="int-row">
                 <div class="int-icon" style="background:#2CA01C; color: white;">Q</div>
                 <div class="int-info"><div class="int-name">QuickBooks</div><div class="int-desc">Accounting · Connected 14 days ago</div></div>
                 <span class="status-dot status-dot--active"></span>
-                <button class="btn-disconnect action-disconnect">Disconnect</button>
+                <button class="btn-disconnect action-disconnect" onclick="showConfirm('Disconnect integration','This will remove access to this data source. Your existing tool data will remain.',function(){showToast('Integration disconnected ✓','success');})">Disconnect</button>
               </div>
               <div class="int-row">
                 <div class="int-icon" style="background:#4285F4; color: white;">G</div>
                 <div class="int-info"><div class="int-name">Google Workspace</div><div class="int-desc">SSO · Connected 12 days ago</div></div>
                 <span class="status-dot status-dot--active"></span>
-                <button class="btn-disconnect action-disconnect">Disconnect</button>
+                <button class="btn-disconnect action-disconnect" onclick="showConfirm('Disconnect integration','This will remove access to this data source. Your existing tool data will remain.',function(){showToast('Integration disconnected ✓','success');})">Disconnect</button>
               </div>
             </div>
             <div class="int-available">
@@ -775,37 +776,37 @@
                   <div class="int-icon" style="background:#007EE5;margin:0 auto var(--space-sm);color:white;">O</div>
                   <h5>Okta</h5>
                   <p>SSO & identity provider</p>
-                  <button class="btn-connect action-connect">Connect</button>
+                  <button class="btn-connect action-connect" onclick="showConfirm('Connect integration','This will redirect you to authorize Spendly to read your data. No write access is required.',function(){showToast('OAuth flow coming soon — contact support to connect','warn');})">Connect</button>
                 </div>
                 <div class="card int-card">
                   <div class="int-icon" style="background:#1391c1;margin:0 auto var(--space-sm);color:white;">X</div>
                   <h5>Xero</h5>
                   <p>Cloud accounting</p>
-                  <button class="btn-connect action-connect">Connect</button>
+                  <button class="btn-connect action-connect" onclick="showConfirm('Connect integration','This will redirect you to authorize Spendly to read your data. No write access is required.',function(){showToast('OAuth flow coming soon — contact support to connect','warn');})">Connect</button>
                 </div>
                 <div class="card int-card">
                   <div class="int-icon" style="background:#73C41D;margin:0 auto var(--space-sm);color:white;">B</div>
                   <h5>BambooHR</h5>
                   <p>HRIS & employee data</p>
-                  <button class="btn-connect action-connect">Connect</button>
+                  <button class="btn-connect action-connect" onclick="showConfirm('Connect integration','This will redirect you to authorize Spendly to read your data. No write access is required.',function(){showToast('OAuth flow coming soon — contact support to connect','warn');})">Connect</button>
                 </div>
                 <div class="card int-card">
                   <div class="int-icon" style="background:#0078D4;margin:0 auto var(--space-sm);color:white;">A</div>
                   <h5>Azure AD</h5>
                   <p>Microsoft identity</p>
-                  <button class="btn-connect action-connect">Connect</button>
+                  <button class="btn-connect action-connect" onclick="showConfirm('Connect integration','This will redirect you to authorize Spendly to read your data. No write access is required.',function(){showToast('OAuth flow coming soon — contact support to connect','warn');})">Connect</button>
                 </div>
                 <div class="card int-card">
                   <div class="int-icon" style="background:#00A1E0;margin:0 auto var(--space-sm);color:white;">S</div>
                   <h5>Salesforce</h5>
                   <p>CRM direct integration</p>
-                  <button class="btn-connect action-connect">Connect</button>
+                  <button class="btn-connect action-connect" onclick="showConfirm('Connect integration','This will redirect you to authorize Spendly to read your data. No write access is required.',function(){showToast('OAuth flow coming soon — contact support to connect','warn');})">Connect</button>
                 </div>
                 <div class="card int-card">
                   <div class="int-icon" style="background:#4A154B;margin:0 auto var(--space-sm);color:white;">Sl</div>
                   <h5>Slack</h5>
                   <p>Communication alerts</p>
-                  <button class="btn-connect action-connect">Connect</button>
+                  <button class="btn-connect action-connect" onclick="showConfirm('Connect integration','This will redirect you to authorize Spendly to read your data. No write access is required.',function(){showToast('OAuth flow coming soon — contact support to connect','warn');})">Connect</button>
                 </div>
               </div>
             </div>
@@ -824,19 +825,19 @@
                 <div class="member-avatar" style="background:#10B981; color: white;">JT</div>
                 <div class="member-info"><div class="member-name">Jordan Torres</div><div class="member-email">jordan@company.com · Last active: 1 hour ago</div></div>
                 <span class="role-badge role-analyst">Analyst</span>
-                <button class="btn-remove action-remove">Remove</button>
+                <button class="btn-remove action-remove" onclick="(function(btn){var row=btn.closest('tr')||btn.closest('.member-row')||btn.parentElement;var memberName=(row.querySelector('td:first-child,.member-name')||{}).textContent||'this member';memberName=memberName.trim();showConfirm('Remove team member','Remove '+memberName+' from Spendly? They will lose access immediately.',function(){row.style.transition='opacity .3s';row.style.opacity='0';setTimeout(function(){row.remove();},300);showToast(memberName+' removed ✓','success');});})(this)">Remove</button>
               </div>
               <div class="member-row">
                 <div class="member-avatar" style="background:#F59E0B; color: white;">SW</div>
                 <div class="member-info"><div class="member-name">Sam Williams</div><div class="member-email">sam@company.com · Last active: 3 days ago</div></div>
                 <span class="role-badge role-viewer">Viewer</span>
-                <button class="btn-remove action-remove">Remove</button>
+                <button class="btn-remove action-remove" onclick="(function(btn){var row=btn.closest('tr')||btn.closest('.member-row')||btn.parentElement;var memberName=(row.querySelector('td:first-child,.member-name')||{}).textContent||'this member';memberName=memberName.trim();showConfirm('Remove team member','Remove '+memberName+' from Spendly? They will lose access immediately.',function(){row.style.transition='opacity .3s';row.style.opacity='0';setTimeout(function(){row.remove();},300);showToast(memberName+' removed ✓','success');});})(this)">Remove</button>
               </div>
               <div class="member-row">
                 <div class="member-avatar" style="background:#8B5CF6; color: white;">CR</div>
                 <div class="member-info"><div class="member-name">Casey Reed</div><div class="member-email">casey@company.com · Last active: 1 day ago</div></div>
                 <span class="role-badge role-analyst">Analyst</span>
-                <button class="btn-remove action-remove">Remove</button>
+                <button class="btn-remove action-remove" onclick="(function(btn){var row=btn.closest('tr')||btn.closest('.member-row')||btn.parentElement;var memberName=(row.querySelector('td:first-child,.member-name')||{}).textContent||'this member';memberName=memberName.trim();showConfirm('Remove team member','Remove '+memberName+' from Spendly? They will lose access immediately.',function(){row.style.transition='opacity .3s';row.style.opacity='0';setTimeout(function(){row.remove();},300);showToast(memberName+' removed ✓','success');});})(this)">Remove</button>
               </div>4px;font-size:11px">Remove</button>
               </div>
             </div>
@@ -852,8 +853,8 @@
                   <p>$149/month · Billed monthly · Next payment: April 1, 2025</p>
                 </div>
                 <div style="display:flex;gap:8px;">
-                  <button class="btn-ghost btn-sm">Change plan</button>
-                  <button class="btn-primary btn-sm"><span>Upgrade to Enterprise</span></button>
+                  <button class="btn-ghost btn-sm" onclick="window.location.href='pricing.html'">Change plan</button>
+                  <button class="btn-primary btn-sm" onclick="window.location.href='pricing.html'"><span>Upgrade to Enterprise</span></button>
                 </div>
               </div>
               <div class="usage-meters">
@@ -894,7 +895,7 @@
                 <label style="font-size:13px;color:var(--text-muted);display:block;margin-bottom:6px;">Company Name</label>
                 <input type="text" class="input-glass" value="Acme Corporation">
               </div>
-              <button class="btn-primary" style="width:fit-content"><span>Save changes</span></button>
+              <button class="btn-primary" style="width:fit-content" onclick="(function(btn){btn.querySelector('span').textContent='Saving...';btn.disabled=true;setTimeout(function(){showToast('Profile saved ✓','success');btn.querySelector('span').textContent='Save changes';btn.disabled=false;},800);})(this)"><span>Save changes</span></button>
             </div>
           </div>
 
@@ -919,7 +920,7 @@
               <label style="font-size:13px;color:var(--text-muted);display:block;margin-bottom:6px;">API Key</label>
               <div style="display:flex;gap:8px;margin-bottom:var(--space-lg);">
                 <input type="text" class="input-glass" value="sk-spendly-a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6" style="font-family:var(--font-mono);font-size:12px;" readonly>
-                <button class="btn-ghost btn-sm" onclick="this.textContent='Copied!'">Copy</button>
+                <button class="btn-ghost btn-sm" onclick="(function(btn){var keyEl=document.querySelector('.api-key-value,.api-key,code,[data-api-key]');var key=keyEl?keyEl.textContent.trim():'spendly_key_demo_xxxxxxxxxxxx';navigator.clipboard.writeText(key).then(function(){btn.textContent='Copied!';btn.style.color='#059669';setTimeout(function(){btn.textContent='Copy';btn.style.color='';},2000);showToast('API key copied to clipboard','success');}).catch(function(){showToast('Could not copy — please copy manually','error');});})(this)">Copy</button>
               </div>
               <p style="font-size:13px;color:var(--text-muted)">Rate limit: 1,000 requests/minute · <a href="#" style="color:var(--accent-primary)">View API docs →</a></p>
             </div>

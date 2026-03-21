@@ -696,7 +696,8 @@
     <link rel="stylesheet" href="assets/spendly-polish.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
     <link rel="stylesheet" href="assets/dashboard-premium.css">
-  <script>
+  <script src="./assets/shared-actions.js"></script>
+<script>
   window.__onClerkLoaded = async function() {};
 </script>
 <script
@@ -755,8 +756,8 @@
           <span class="inv-count">47 tools detected</span>
         </div>
         <div class="inv-header__right">
-          <button class="btn-ghost btn-sm"><i data-lucide="download" style="width:14px;height:14px"></i> Export CSV</button>
-          <button class="btn-primary btn-sm"><span><i data-lucide="plus" style="width:14px;height:14px"></i> Add tool</span></button>
+          <button class="btn-ghost btn-sm" onclick="(async function(){try{var tools=await apiFetch('/api/tools');exportCSV(tools.map(function(t){return{Name:t.name,Category:t.category,'Monthly Cost':t.monthly_cost,'Annual Cost':t.annual_cost,'Seat Count':t.seat_count,'Active Seats':t.active_seats,Status:t.status,'Renewal Date':t.renewal_date?new Date(t.renewal_date).toLocaleDateString():''};}),'spendly-inventory.csv');}catch(e){showToast('Export failed: '+e.message,'error');}})()"><i data-lucide="download" style="width:14px;height:14px"></i> Export CSV</button>
+          <button class="btn-primary btn-sm" onclick="showAddToolModal(async function(data){try{await apiFetch('/api/tools',{method:'POST',body:JSON.stringify(data)});showToast('Tool added successfully ✓','success');setTimeout(function(){loadPageData();},800);}catch(e){showToast('Failed to add tool: '+e.message,'error');}})"><span><i data-lucide="plus" style="width:14px;height:14px"></i> Add tool</span></button>
         </div>
       </div>
 
@@ -901,8 +902,8 @@ window.addEventListener('scroll', () => {
           <div class="tool-card__footer">
             <span class="tool-card__renewal">Renews ${t.renewal} <br/>${getRiskBadge(t.risk)}</span>
             <div class="tool-card__actions">
-              <button>View</button>
-              <button>Edit</button>
+              <button onclick="showToast('Tool details coming soon','warn')">View</button>
+              <button onclick="showToast('Tool editing coming soon','warn')">Edit</button>
             </div>
           </div>
         </div>`;
@@ -924,7 +925,7 @@ window.addEventListener('scroll', () => {
           <td><div style="display:flex;align-items:center;gap:8px;"><div class="progress-bar" style="width:50px"><div class="progress-bar__fill" style="width:${usage}%"></div></div>${usage}%</div></td>
           <td>${t.renewal}</td>
           <td>${getRiskBadge(t.risk)}</td>
-          <td><button class="btn-muted" style="padding:4px 10px;font-size:11px;">⋯</button></td>
+          <td><button class="btn-muted" style="padding:4px 10px;font-size:11px;" onclick="showToast('More actions coming soon','warn')">⋯</button></td>
         </tr>`;
       }).join('');
 

@@ -652,7 +652,8 @@
   </style>
     <link rel="stylesheet" href="assets/spendly-polish.css">
     <link rel="stylesheet" href="assets/dashboard-premium.css">
-  <script>
+  <script src="./assets/shared-actions.js"></script>
+<script>
   window.__onClerkLoaded = async function() {};
 </script>
 <script
@@ -712,7 +713,7 @@
           </div>
           <div class="print-btn" style="position: relative; z-index: 10;">
             <button class="btn-ghost btn-sm" onclick="window.print()"><i data-lucide="printer" style="width:14px;height:14px"></i> Print</button>
-            <button class="btn-primary btn-sm" onclick="window.print()"><span><i data-lucide="download" style="width:14px;height:14px"></i> Export PDF</span></button>
+            <button class="btn-primary btn-sm" onclick="(function(btn){btn.querySelector('span').textContent='Generating...';btn.disabled=true;setTimeout(function(){window.print();btn.innerHTML='<span><i data-lucide=&quot;download&quot; style=&quot;width:14px;height:14px&quot;></i> Export PDF</span>';btn.disabled=false;showToast('PDF ready — use Save as PDF in print dialog','success');if(typeof lucide!=='undefined')lucide.createIcons();},500);})(this)"><span><i data-lucide="download" style="width:14px;height:14px"></i> Export PDF</span></button>
           </div>
         </div>
 

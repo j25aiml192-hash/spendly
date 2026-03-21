@@ -691,7 +691,8 @@
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
     <link rel="stylesheet" href="assets/dashboard-premium.css">
-  <script>
+  <script src="./assets/shared-actions.js"></script>
+<script>
   window.__onClerkLoaded = async function() {};
 </script>
 <script
@@ -891,9 +892,9 @@ window.addEventListener('scroll', () => {
         <div class="risk-row__usage"><div class="progress-bar" style="width:50px"><div class="progress-bar__fill" style="width:${usage}%"></div></div><span style="font-size:11px;color:var(--text-muted)">${usage}%</span></div>
         ${getRiskBadge(r.risk)}
         <div class="risk-row__actions">
-          <button class="btn-danger" style="padding:6px 12px;font-size:11px">Cancel</button>
-          <button class="btn-muted" style="padding:6px 12px;font-size:11px">Renegotiate</button>
-          <button class="btn-success" style="padding:6px 12px;font-size:11px">Renew</button>
+          <button class="btn-danger" style="padding:6px 12px;font-size:11px" onclick="handleRenewalAction(this,'cancelled')">Cancel</button>
+          <button class="btn-muted" style="padding:6px 12px;font-size:11px" onclick="handleRenewalAction(this,'renegotiate')">Renegotiate</button>
+          <button class="btn-success" style="padding:6px 12px;font-size:11px" onclick="handleRenewalAction(this,'renewed')">Renew</button>
         </div>
       </div>`;
     });

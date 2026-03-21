@@ -1,0 +1,403 @@
+﻿
+=== dashboard.html ===
+
+Button #1: "Start for free"
+  tag: <a>
+  class: button
+  href: dashboard.html
+  currently: navigates to dashboard.html
+
+Button #2: "Overview"
+  tag: <a>
+  class: active
+  href: dashboard.html
+  currently: navigates to dashboard.html
+
+Button #3: "Alerts"
+  tag: <a>
+  class: active
+  href: dashboard.html
+  currently: navigates to dashboard.html
+
+Button #4: "Auto-Cancel Underused"
+  tag: <button>
+  class: button
+  currently: nothing (no handler)
+
+Button #5: "Offboard Ex-Employees"
+  tag: <button>
+  class: button
+  currently: nothing (no handler)
+
+Button #6: "Secure Shadow IT"
+  tag: <button>
+  class: button
+  currently: nothing (no handler)
+
+Total clickable elements: 6
+
+=== inventory.html ===
+
+Button #1: "Start for free"
+  tag: <a>
+  class: button
+  href: dashboard.html
+  currently: navigates to dashboard.html
+
+Button #2: "SaaS Inventory"
+  tag: <a>
+  class: active
+  href: inventory.html
+  currently: navigates to inventory.html
+
+Button #3: "Export CSV"
+  tag: <button>
+  class: btn-ghost btn-sm
+  currently: nothing (no handler)
+
+Button #4: "Add tool"
+  tag: <button>
+  class: btn-primary btn-sm
+  currently: nothing (no handler)
+
+Button #5: "All"
+  tag: <button>
+  class: tab-filter active
+  onclick: setFilter(this,'all')
+  currently: calls setFilter(this,'all')
+
+Button #6: "Active"
+  tag: <button>
+  class: tab-filter
+  onclick: setFilter(this,'active')
+  currently: calls setFilter(this,'active')
+
+Button #7: "Flagged"
+  tag: <button>
+  class: tab-filter
+  onclick: setFilter(this,'flagged')
+  currently: calls setFilter(this,'flagged')
+
+Button #8: "Inactive"
+  tag: <button>
+  class: tab-filter
+  onclick: setFilter(this,'inactive')
+  currently: calls setFilter(this,'inactive')
+
+Button #9: "Grid"
+  tag: <button>
+  id: gridBtn
+  class: active
+  onclick: setView('grid')
+  currently: calls setView('grid')
+
+Button #10: "Table"
+  tag: <button>
+  id: tableBtn
+  onclick: setView('table')
+  currently: calls setView('table')
+
+Button #11: "View"
+  tag: <button>
+  currently: nothing (no handler)
+
+Button #12: "Edit"
+  tag: <button>
+  currently: nothing (no handler)
+
+Button #13: "Γï»"
+  tag: <button>
+  class: btn-muted
+  currently: nothing (no handler)
+
+Total clickable elements: 13
+
+=== license.html ===
+
+Button #1: "Start for free"
+  tag: <a>
+  class: button
+  href: dashboard.html
+  currently: navigates to dashboard.html
+
+Button #2: "License Optimizer"
+  tag: <a>
+  class: active
+  href: license.html
+  currently: navigates to license.html
+
+Button #3: "Reclaim"
+  tag: <button>
+  class: btn-danger
+  onclick: showReclaim('${f.user}','${f.tool}')
+  currently: calls showReclaim('${f.user}','${f.tool}')
+
+Total clickable elements: 3
+
+=== spend.html ===
+
+Button #1: "Start for free"
+  tag: <a>
+  class: button
+  href: dashboard.html
+  currently: navigates to dashboard.html
+
+Button #2: "Spend Analytics"
+  tag: <a>
+  class: active
+  href: spend.html
+  currently: navigates to spend.html
+
+Button #3: "30 days"
+  tag: <button>
+  onclick: setPeriod(this)
+  currently: calls setPeriod(this)
+
+Button #4: "90 days"
+  tag: <button>
+  onclick: setPeriod(this)
+  currently: calls setPeriod(this)
+
+Button #5: "6 months"
+  tag: <button>
+  class: active
+  onclick: setPeriod(this)
+  currently: calls setPeriod(this)
+
+Button #6: "1 year"
+  tag: <button>
+  onclick: setPeriod(this)
+  currently: calls setPeriod(this)
+
+Button #7: "Custom"
+  tag: <button>
+  onclick: setPeriod(this)
+  currently: calls setPeriod(this)
+
+Button #8: "Refresh analysis"
+  tag: <button>
+  class: btn-ghost btn-sm
+  onclick: this.textContent='Γ£ô Analysis refreshed'
+  currently: calls this.textContent='Γ£ô Analysis refreshed'
+
+Button #9: "<div style="width:28px;height:28px;border-radius:6px;background:${getToolColor(t..."
+  tag: <tr> (with onclick)
+  class: clickable-row
+  onclick: toggleExpand(${idx})
+  currently: calls toggleExpand(${idx})
+
+Total clickable elements: 9
+
+=== renewals.html ===
+
+Button #1: "Start for free"
+  tag: <a>
+  class: button
+  href: dashboard.html
+  currently: navigates to dashboard.html
+
+Button #2: "Renewal Forecast"
+  tag: <a>
+  class: active
+  href: renewals.html
+  currently: navigates to renewals.html
+
+Button #3: "Cancel"
+  tag: <button>
+  class: btn-danger
+  currently: nothing (no handler)
+
+Button #4: "Renegotiate"
+  tag: <button>
+  class: btn-muted
+  currently: nothing (no handler)
+
+Button #5: "Renew"
+  tag: <button>
+  class: btn-success
+  currently: nothing (no handler)
+
+Total clickable elements: 5
+
+=== duplicates.html ===
+
+Button #1: "Start for free"
+  tag: <a>
+  class: button
+  href: dashboard.html
+  currently: navigates to dashboard.html
+
+Button #2: "Duplicate Detector"
+  tag: <a>
+  class: active
+  href: duplicates.html
+  currently: navigates to duplicates.html
+
+Button #3: "Approve"
+  tag: <button>
+  class: btn-success
+  onclick: this.textContent='Γ£ô Approved';this.disabled=true
+  currently: calls this.textContent='Γ£ô Approved';this.disabled=true
+
+Button #4: "Dismiss"
+  tag: <button>
+  class: btn-muted
+  onclick: this.closest('.dup-group').style.opacity='0.4'
+  currently: calls this.closest('.dup-group').style.opacity='0.4'
+
+Total clickable elements: 4
+
+=== optimization.html ===
+
+Button #1: "Start for free"
+  tag: <a>
+  class: button
+  href: dashboard.html
+  currently: navigates to dashboard.html
+
+Button #2: "Optimization Actions"
+  tag: <a>
+  class: active
+  href: optimization.html
+  currently: navigates to optimization.html
+
+Button #3: "${approved.has(o.id)?'Applied Γ£ô':'Approve Action'}"
+  tag: <button>
+  class: button
+  onclick: approveOpt(${o.id},this)
+  currently: calls approveOpt(${o.id},this)
+
+Button #4: "Dismiss"
+  tag: <button>
+  class: button
+  onclick: dismissOpt(${o.id})
+  currently: calls dismissOpt(${o.id})
+
+Button #5: "Defer"
+  tag: <button>
+  class: button
+  onclick: deferOpt(${o.id}, this)
+  currently: calls deferOpt(${o.id}, this)
+
+Button #6: "${config.btnText}"
+  tag: <button>
+  currently: nothing (no handler)
+
+Total clickable elements: 6
+
+=== cfo.html ===
+
+Button #1: "Start for free"
+  tag: <a>
+  class: button
+  href: dashboard.html
+  currently: navigates to dashboard.html
+
+Button #2: "CFO View"
+  tag: <a>
+  class: active
+  href: cfo.html
+  currently: navigates to cfo.html
+
+Button #3: "Print"
+  tag: <button>
+  class: btn-ghost btn-sm
+  onclick: window.print()
+  currently: calls window.print()
+
+Button #4: "Export PDF"
+  tag: <button>
+  class: btn-primary btn-sm
+  onclick: window.print()
+  currently: calls window.print()
+
+Total clickable elements: 4
+
+=== settings.html ===
+
+Button #1: "Start for free"
+  tag: <a>
+  class: button
+  href: dashboard.html
+  currently: navigates to dashboard.html
+
+Button #2: "Settings"
+  tag: <a>
+  class: active
+  href: settings.html
+  currently: navigates to settings.html
+
+Button #3: "Integrations"
+  tag: <a>
+  class: active
+  onclick: showSection(this,'integrations')
+  currently: calls showSection(this,'integrations')
+
+Button #4: "Team"
+  tag: <a>
+  onclick: showSection(this,'team')
+  currently: calls showSection(this,'team')
+
+Button #5: "Billing"
+  tag: <a>
+  onclick: showSection(this,'billing')
+  currently: calls showSection(this,'billing')
+
+Button #6: "Profile"
+  tag: <a>
+  onclick: showSection(this,'profile')
+  currently: calls showSection(this,'profile')
+
+Button #7: "Notifications"
+  tag: <a>
+  onclick: showSection(this,'notifications')
+  currently: calls showSection(this,'notifications')
+
+Button #8: "API"
+  tag: <a>
+  onclick: showSection(this,'api')
+  currently: calls showSection(this,'api')
+
+Button #9: "Disconnect"
+  tag: <button>
+  class: btn-disconnect action-disconnect
+  currently: nothing (no handler)
+
+Button #10: "Connect"
+  tag: <button>
+  class: btn-connect action-connect
+  currently: nothing (no handler)
+
+Button #11: "Invite member AS Alex Santiago alex@company.com ┬╖ Last active: 2 min ago Admin JT Jordan Torres jord..."
+  tag: <button>
+  class: btn-primary btn-sm
+  onclick: document.getElementById('inviteModal').classList.add('active')
+  currently: calls document.getElementById('inviteModal').classList.add('active')
+
+Button #12: "Remove"
+  tag: <button>
+  class: btn-remove action-remove
+  currently: nothing (no handler)
+
+Button #13: "Change plan"
+  tag: <button>
+  class: btn-ghost btn-sm
+  currently: nothing (no handler)
+
+Button #14: "Upgrade to Enterprise"
+  tag: <button>
+  class: btn-primary btn-sm
+  currently: nothing (no handler)
+
+Button #15: "Save changes"
+  tag: <button>
+  class: btn-primary
+  currently: nothing (no handler)
+
+Button #16: "Copy"
+  tag: <button>
+  class: btn-ghost btn-sm
+  onclick: this.textContent='Copied!'
+  currently: calls this.textContent='Copied!'
+
+Total clickable elements: 16

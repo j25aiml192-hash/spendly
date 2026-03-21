@@ -719,6 +719,7 @@
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
     <link rel="stylesheet" href="assets/dashboard-premium.css">
+  <script src="./assets/shared-actions.js"></script>
 </head>
 
 <body>
@@ -945,8 +946,8 @@ window.addEventListener('scroll', () => {
         <div class="rec-bar">
           <span class="rec-bar__text">${g.recommendation} · Estimated savings: $${g.savings.toLocaleString()}/yr</span>
           <div class="rec-bar__actions">
-            <button class="btn-success" style="padding:8px 18px;font-size:12px" onclick="this.textContent='✓ Approved';this.disabled=true">Approve</button>
-            <button class="btn-muted" style="padding:8px 18px;font-size:12px" onclick="this.closest('.dup-group').style.opacity='0.4'">Dismiss</button>
+            <button class="btn-success" style="padding:8px 18px;font-size:12px" onclick="(function(btn){var group=btn.closest('.dup-group')||btn.parentElement.parentElement;var alertId=group.dataset.alertId||'';showConfirm('Approve consolidation','This will mark these tools for consolidation and create an optimization action.',async function(){if(alertId){try{await apiFetch('/api/alerts/'+alertId,{method:'PATCH',body:JSON.stringify({status:'approved'})});}catch(e){}}btn.textContent='✓ Approved';btn.disabled=true;btn.style.background='#D1FAE5';btn.style.color='#065F46';showToast('Consolidation approved ✓','success');});})(this)">Approve</button>
+            <button class="btn-muted" style="padding:8px 18px;font-size:12px" onclick="(function(btn){var group=btn.closest('.dup-group')||btn.parentElement.parentElement;var alertId=group.dataset.alertId||'';showConfirm('Dismiss duplicate alert','This will dismiss the duplicate alert and hide it from the list.',async function(){if(alertId){try{await apiFetch('/api/alerts/'+alertId,{method:'PATCH',body:JSON.stringify({status:'dismissed'})});}catch(e){}}group.style.transition='opacity .3s ease';group.style.opacity='0';setTimeout(function(){group.style.display='none';},300);showToast('Alert dismissed','warn');});})(this)">Dismiss</button>
           </div>
         </div>
       </div>`;

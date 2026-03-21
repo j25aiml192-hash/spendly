@@ -613,7 +613,8 @@
   </style>
     <link rel="stylesheet" href="assets/spendly-polish.css">
     <link rel="stylesheet" href="assets/dashboard-premium.css">
-  <script>
+  <script src="./assets/shared-actions.js"></script>
+<script>
   window.__onClerkLoaded = async function() {};
 </script>
 <script
@@ -715,7 +716,7 @@
         <div class="insight-item"><span class="insight-icon">⚠️</span><span>Salesforce cost-per-user ($110.53) is 2.4× the industry median of $46. Consider reviewing your license tier or negotiating at renewal.</span></div>
         <div class="insight-item"><span class="insight-icon">💡</span><span>Communication tools (Slack + Zoom) represent 18.9% of total spend but have the highest engagement rates. These are high-value, well-utilized investments.</span></div>
         <div style="margin-top:var(--space-md)">
-          <button class="btn-ghost btn-sm" onclick="this.textContent='✓ Analysis refreshed'"><i data-lucide="refresh-cw" style="width:14px;height:14px"></i> Refresh analysis</button>
+          <button class="btn-ghost btn-sm" onclick="(async function(btn){btn.textContent='Refreshing...';btn.disabled=true;try{await loadPageData();}catch(e){}btn.textContent='✓ Analysis refreshed';setTimeout(function(){btn.textContent='Refresh analysis';btn.disabled=false;},2000);})(this)"><i data-lucide="refresh-cw" style="width:14px;height:14px"></i> Refresh analysis</button>
         </div>
       </div>
 </main>
