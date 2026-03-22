@@ -807,53 +807,35 @@ document.addEventListener('click', function(e) {
 });
 
 function loadAlerts() {
-  var API = 'https://spendly-backend-production-0e5a.up.railway.app';
-  fetch(API + '/api/alerts', {
-    headers: { 'Authorization': 'Bearer demo' }
-  })
-  .then(function(r) { return r.json(); })
-  .catch(function() { return []; })
-  .then(function(alerts) {
-    var list    = document.getElementById('alertsList');
-    var badge   = document.getElementById('bellBadge');
-    var pending = alerts.filter(function(a) {
-      return a.status === 'pending';
-    });
+  var list  = document.getElementById('alertsList');
+  var badge = document.getElementById('bellBadge');
 
-    if (pending.length > 0) {
-      badge.textContent   = pending.length;
-      badge.style.display = 'flex';
-    } else {
-      badge.style.display = 'none';
-    }
+  var items = [
+    { dot:'#DC2626', msg:'Loom renews in 3 days — 21 inactive seats',
+      sub:'Loom · renewal alert · 1 day ago' },
+    { dot:'#D97706', msg:'Figma has 14 unused seats ($512/mo waste)',
+      sub:'Figma · unused seats · 2 days ago' },
+    { dot:'#2563EB', msg:'Figma vs Sketch — 87% feature overlap',
+      sub:'Figma · duplicate detected · 3 days ago' }
+  ];
 
-    if (!alerts.length) {
-      list.innerHTML =
-        '<p style="color:#9A9890;font-size:13px;padding:16px 0;">No alerts</p>';
-      return;
-    }
+  badge.textContent   = '3';
+  badge.style.display = 'flex';
 
-    var dotColor = {
-      critical: '#DC2626', high: '#EF4444',
-      medium:   '#2563EB', low:  '#9A9890'
-    };
-
-    list.innerHTML = alerts.slice(0, 5).map(function(a) {
-      var dot   = dotColor[a.severity] || '#9A9890';
-      var ago   = timeAgo(new Date(a.created_at));
-      return '<div style="display:flex;gap:12px;padding:12px 0;' +
-             'border-bottom:1px solid #F0EFE9;">' +
-               '<div style="width:8px;height:8px;border-radius:50%;' +
-               'background:' + dot + ';margin-top:6px;flex-shrink:0;"></div>' +
-               '<div>' +
-                 '<div style="font-weight:600;font-size:13px;">' +
-                   a.message + '</div>' +
-                 '<div style="font-size:11px;color:#9A9890;margin-top:2px;">' +
-                   a.tool_name + ' \u00b7 ' + ago + '</div>' +
-               '</div>' +
-             '</div>';
-    }).join('');
-  });
+  list.innerHTML = items.map(function(a) {
+    return '<div style="display:flex;gap:12px;padding:12px 0;' +
+           'border-bottom:1px solid #F0EFE9;">' +
+             '<div style="width:8px;height:8px;border-radius:50%;' +
+             'background:' + a.dot + ';margin-top:6px;flex-shrink:0;">' +
+             '</div>' +
+             '<div>' +
+               '<div style="font-weight:600;font-size:13px;">' +
+                 a.msg + '</div>' +
+               '<div style="font-size:11px;color:#9A9890;margin-top:2px;">' +
+                 a.sub + '</div>' +
+             '</div>' +
+           '</div>';
+  }).join('');
 }
 
 function markAllRead() {
@@ -863,12 +845,7 @@ function markAllRead() {
   document.getElementById('alertsPopup').style.display = 'none';
 }
 
-function timeAgo(date) {
-  var diff = Math.floor((Date.now() - date) / 1000);
-  if (diff < 3600)  return Math.floor(diff / 60)  + ' min ago';
-  if (diff < 86400) return Math.floor(diff / 3600) + ' hours ago';
-  return Math.floor(diff / 86400) + ' days ago';
-}
+loadAlerts();
 </script>
 </body>
 </html>
