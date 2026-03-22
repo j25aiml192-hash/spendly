@@ -809,6 +809,17 @@
           </div>
         </div>
       </div>
+<div class="card animate-in" style="animation-delay:0.2s;margin-top:var(--space-xl)">
+          <h4>Tool License Utilization</h4>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Tool</th><th>Utilization</th><th></th><th>Seats</th><th>Inactive</th><th>Monthly Waste</th><th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="licenseTableBody"></tbody>
+          </table>
+        </div>
 </main>
   </div>
     
@@ -1094,11 +1105,41 @@ async function loadPageData() {
     el = document.getElementById('kpi-inactive-seats');
     if (el) el.textContent = inactiveSeats.toLocaleString();
     el = document.getElementById('kpi-monthly-waste');
-    if (el) el.innerHTML = '
-</script>
-</body>
+    if (el) el.innerHTML = '\x24' + Math.round(monthlyWaste).toLocaleString() + '<span style="font-size:12px;color:var(--text-muted)">/mo</span>';
 
-</html> + Math.round(monthlyWaste).toLocaleString() + '<span style="font-size:12px;color:var(--text-muted)">/mo</span>';
+    // Render tool utilization table
+    var sorted = allTools.slice().sort(function(a, b) {
+      var uA = (a.seat_count || 0) > 0 ? (a.active_seats || 0) / a.seat_count : 1;
+      var uB = (b.seat_count || 0) > 0 ? (b.active_seats || 0) / b.seat_count : 1;
+      return uA - uB;
+    });
+
+    var tbody = document.getElementById('licenseTableBody');
+    if (tbody) {
+      tbody.innerHTML = sorted.map(function(t) {
+        var seats = t.seat_count || 0;
+        var active = t.active_seats || 0;
+        var inactive = seats - active;
+        var util = seats > 0 ? Math.round((active / seats) * 100) : 100;
+        var perSeat = seats > 0 ? (t.monthly_cost || 0) / seats : 0;
+        var waste = inactive > 0 ? inactive * perSeat : 0;
+        var barColor = util >= 80 ? '#10B981' : util >= 40 ? '#F59E0B' : '#EF4444';
+        var wasteColor = waste > 0 ? '#EF4444' : '#10B981';
+        var btnHTML = waste > 0
+          ? '<button class="btn-danger" style="padding:6px 14px;font-size:11px" onclick="showReclaim(\'' + t.name.replace(/'/g, "\\'") + '\',\'' + (t.category||'tool') + '\')">Reclaim</button>'
+          : '<button style="padding:6px 14px;font-size:11px;border:1px solid #E8E6E0;background:#F9FAFB;color:#9CA3AF;border-radius:6px;cursor:default" disabled>Optimal</button>';
+
+        return '<tr>'
+          + '<td style="font-weight:600;color:#0A0A0A">' + t.name + '</td>'
+          + '<td style="font-family:var(--font-mono);font-size:13px">' + util + '%</td>'
+          + '<td style="width:120px"><div style="background:#F3F4F6;border-radius:4px;height:8px;overflow:hidden"><div style="width:' + util + '%;height:100%;background:' + barColor + ';border-radius:4px;transition:width .4s ease"></div></div></td>'
+          + '<td>' + active + ' / ' + seats + '</td>'
+          + '<td style="font-weight:600">' + inactive + '</td>'
+          + '<td style="color:' + wasteColor + ';font-family:var(--font-mono);font-weight:600">\x24' + Math.round(waste).toLocaleString() + '</td>'
+          + '<td>' + btnHTML + '</td>'
+          + '</tr>';
+      }).join('');
+    }
 
   } catch(err) { console.error('license page data error:', err); }
 }
