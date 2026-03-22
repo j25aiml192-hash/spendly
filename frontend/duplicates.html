@@ -867,96 +867,68 @@ window.addEventListener('scroll', () => {
       
     
 
-    const groups = [
-      {
-        category: 'Design Tools', overlap: 87, severity: 'critical',
-        toolA: { name: 'Figma', logo: 'F', color: '#F24E1E', dept: 'Design', cost: 960, users: 22, active: 8 },
-        toolB: { name: 'Sketch', logo: 'Sk', color: '#FDB300', textColor: '#000', dept: 'Design', cost: 720, users: 12, active: 3 },
-        shared: ['Vector editing', 'Prototyping', 'Design systems', 'Collaboration', 'Export assets', 'Plugins'],
-        recommendation: 'Consolidate to Figma', savings: 8640,
-        vennColorA: '#F24E1E', vennColorB: '#FDB300'
-      },
-      {
-        category: 'Communication Tools', overlap: 72, severity: 'high',
-        toolA: { name: 'Slack', logo: 'Sl', color: '#4A154B', dept: 'All', cost: 1800, users: 120, active: 97 },
-        toolB: { name: 'Microsoft Teams', logo: 'T', color: '#6264A7', dept: 'All', cost: 0, users: 85, active: 42 },
-        shared: ['Messaging', 'Channels', 'File sharing', 'Video calls', 'Integrations'],
-        recommendation: 'Standardize on Slack', savings: 3200,
-        vennColorA: '#4A154B', vennColorB: '#6264A7'
-      },
-      {
-        category: 'Project Management', overlap: 62, severity: 'medium',
-        toolA: { name: 'Asana', logo: 'A', color: '#F06A6A', dept: 'Operations', cost: 540, users: 30, active: 18 },
-        toolB: { name: 'Notion', logo: 'N', color: '#FFFFFF', textColor: '#000', dept: 'All', cost: 480, users: 60, active: 41 },
-        shared: ['Task management', 'Project tracking', 'Wikis', 'Team collaboration'],
-        recommendation: 'Consolidate to Notion', savings: 6480,
-        vennColorA: '#F06A6A', vennColorB: '#FFFFFF'
-      },
-      {
-        category: 'Video & Recording', overlap: 55, severity: 'medium',
-        toolA: { name: 'Zoom', logo: 'Z', color: '#2D8CFF', dept: 'All', cost: 2100, users: 100, active: 88 },
-        toolB: { name: 'Loom', logo: 'L', color: '#625DF5', dept: 'Marketing', cost: 320, users: 25, active: 4 },
-        shared: ['Screen recording', 'Video sharing', 'Cloud storage'],
-        recommendation: 'Cancel Loom, use Zoom clips', savings: 3840,
-        vennColorA: '#2D8CFF', vennColorB: '#625DF5'
-      },
-    ];
-
-    const container = document.getElementById('dupGroups');
-    groups.forEach((g, i) => {
-      const severityClass = g.overlap >= 80 ? 'overlap-critical' : g.overlap >= 70 ? 'overlap-high' : '';
-      container.innerHTML += `
-      <div class="card dup-group ${severityClass} animate-in" style="animation-delay:${i*0.1}s">
-        <div class="dup-group__header">
-          <span class="dup-group__title">${g.category}</span>
-          <span class="overlap-score" style="color:${g.overlap>=80?'var(--accent-danger)':g.overlap>=70?'var(--accent-warning)':'var(--text-secondary)'}">Overlap: ${g.overlap}%</span>
-        </div>
-        <div class="comparison">
-          <div class="comp-card">
-            <div class="comp-card__logo" style="background:${g.toolA.color};color:${g.toolA.textColor||'#fff'}">${g.toolA.logo}</div>
-            <h4>${g.toolA.name}</h4>
-            <div class="comp-card__stats">
-              <div class="comp-card__stat"><span>Department</span><span>${g.toolA.dept}</span></div>
-              <div class="comp-card__stat"><span>Monthly cost</span><span>$${g.toolA.cost.toLocaleString()}</span></div>
-              <div class="comp-card__stat"><span>Active users</span><span>${g.toolA.active}/${g.toolA.users}</span></div>
-            </div>
-          </div>
-          <div class="vs-divider">
-            <div class="venn-wrap">
-              <div class="venn-circle venn-left" style="background:${g.vennColorA}"></div>
-              <div class="venn-circle venn-right" style="background:${g.vennColorB}"></div>
-              <div class="venn-label">${g.overlap}%</div>
-            </div>
-            <div class="vs-circle">VS</div>
-          </div>
-          <div class="comp-card">
-            <div class="comp-card__logo" style="background:${g.toolB.color};color:${g.toolB.textColor||'#fff'}">${g.toolB.logo}</div>
-            <h4>${g.toolB.name}</h4>
-            <div class="comp-card__stats">
-              <div class="comp-card__stat"><span>Department</span><span>${g.toolB.dept}</span></div>
-              <div class="comp-card__stat"><span>Monthly cost</span><span>$${g.toolB.cost.toLocaleString()}</span></div>
-              <div class="comp-card__stat"><span>Active users</span><span>${g.toolB.active}/${g.toolB.users}</span></div>
-            </div>
-          </div>
-        </div>
-        <div class="shared-features">
-          <h5>Shared Features</h5>
-          <div class="feature-pills">${g.shared.map(f => `<span class="feature-pill">${f}</span>`).join('')}</div>
-        </div>
-        <div class="rec-bar">
-          <span class="rec-bar__text">${g.recommendation} · Estimated savings: $${g.savings.toLocaleString()}/yr</span>
-          <div class="rec-bar__actions">
-            <button class="btn-success" style="padding:8px 18px;font-size:12px" onclick="(function(btn){var group=btn.closest('.dup-group')||btn.parentElement.parentElement;var alertId=group.dataset.alertId||'';showConfirm('Approve consolidation','This will mark these tools for consolidation and create an optimization action.',async function(){if(alertId){try{await apiFetch('/api/alerts/'+alertId,{method:'PATCH',body:JSON.stringify({status:'approved'})});}catch(e){}}btn.textContent='✓ Approved';btn.disabled=true;btn.style.background='#D1FAE5';btn.style.color='#065F46';showToast('Consolidation approved ✓','success');});})(this)">Approve</button>
-            <button class="btn-muted" style="padding:8px 18px;font-size:12px" onclick="(function(btn){var group=btn.closest('.dup-group')||btn.parentElement.parentElement;var alertId=group.dataset.alertId||'';showConfirm('Dismiss duplicate alert','This will dismiss the duplicate alert and hide it from the list.',async function(){if(alertId){try{await apiFetch('/api/alerts/'+alertId,{method:'PATCH',body:JSON.stringify({status:'dismissed'})});}catch(e){}}group.style.transition='opacity .3s ease';group.style.opacity='0';setTimeout(function(){group.style.display='none';},300);showToast('Alert dismissed','warn');});})(this)">Dismiss</button>
-          </div>
-        </div>
-      </div>`;
-    });
-
     initSpendly();
   
     });
   </script>
+<script>
+const API_URL = 'https://spendly-backend-production-0e5a.up.railway.app';
+const CLERK_KEY = 'pk_test_bm90YWJsZS1tYWxsYXJkLTE2LmNsZXJrLmFjY291bnRzLmRldiQ';
+
+async function apiFetch(path, options) {
+  options = options || {};
+  var token = await window.Clerk.session.getToken();
+  var res = await fetch(API_URL + path, {
+    method: options.method || 'GET',
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'Content-Type': 'application/json'
+    },
+    body: options.body || undefined
+  });
+  if (!res.ok) throw new Error('API error: ' + res.status);
+  return res.json();
+}
+
+async function initAuth(onReady) {
+  try {
+    var clerk = window.Clerk;
+    await clerk.load({ publishableKey: CLERK_KEY });
+    if (!clerk.user) { window.location.href = '/'; return; }
+    document.body.style.visibility = 'visible';
+    if (onReady) onReady(clerk.user);
+  } catch(err) {
+    console.error('Clerk auth error:', err);
+    document.body.style.visibility = 'visible';
+  }
+}
+document.body.style.visibility = 'hidden';
+
+function waitForClerk(callback, attempts) {
+  attempts = attempts || 0;
+  if (window.Clerk) {
+    callback();
+  } else if (attempts < 50) {
+    setTimeout(function() { waitForClerk(callback, attempts + 1); }, 100);
+  } else {
+    console.error('Clerk SDK failed to load');
+    document.body.style.visibility = 'visible';
+  }
+}
+
+window.addEventListener('load', function() {
+  waitForClerk(function() {
+    initAuth(loadPageData);
+  });
+});
+
+async function loadPageData() {
+  try {
+    var data = await apiFetch('/api/tools/duplicates');
+    console.log(data);
+  } catch(err) { console.error('duplicates page data error:', err); }
+}
+</script>
 </body>
 
 </html>
