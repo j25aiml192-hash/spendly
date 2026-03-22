@@ -1125,8 +1125,10 @@ async function loadPageData() {
         var waste = inactive > 0 ? inactive * perSeat : 0;
         var barColor = util >= 80 ? '#10B981' : util >= 40 ? '#F59E0B' : '#EF4444';
         var wasteColor = waste > 0 ? '#EF4444' : '#10B981';
+        var toolId = t._id || '';
+        var safeName = t.name.replace(/'/g, "\\'" );
         var btnHTML = waste > 0
-          ? '<button class="btn-danger" style="padding:6px 14px;font-size:11px" onclick="showReclaim(\'' + t.name.replace(/'/g, "\\'") + '\',\'' + (t.category||'tool') + '\')">Reclaim</button>'
+          ? '<button class="btn-danger" style="padding:6px 14px;font-size:11px" onclick="reclaimTool(\'' + toolId + '\',\'' + safeName + '\',' + inactive + ',' + Math.round(waste) + ')">Reclaim</button>'
           : '<button style="padding:6px 14px;font-size:11px;border:1px solid #E8E6E0;background:#F9FAFB;color:#9CA3AF;border-radius:6px;cursor:default" disabled>Optimal</button>';
 
         return '<tr>'
@@ -1143,6 +1145,25 @@ async function loadPageData() {
 
   } catch(err) { console.error('license page data error:', err); }
 }
+async function reclaimTool(toolId, toolName, inactiveCount, wasteAmount) {
+  showConfirm(
+    'Reclaim Unused Seats',
+    'Reclaim ' + inactiveCount + ' inactive seat' + (inactiveCount !== 1 ? 's' : '') + ' on <strong>' + toolName + '</strong>. This will save <strong>\x24' + wasteAmount.toLocaleString() + '/mo</strong> by flagging this tool for license optimization.',
+    async function() {
+      try {
+        await apiFetch('/api/tools/' + toolId, {
+          method: 'PUT',
+          body: JSON.stringify({ status: 'flagged' })
+        });
+        showToast(toolName + ' flagged for reclaim \u2713', 'success');
+      } catch(err) {
+        showToast('Failed to reclaim: ' + err.message, 'error');
+      }
+      await loadPageData();
+    }
+  );
+}
+
 </script>
 </body>
 
