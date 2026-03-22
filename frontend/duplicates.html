@@ -929,11 +929,7 @@ async function loadPageData() {
 
     var summaryEl = document.getElementById('dupSummaryText');
     if (summaryEl) {
-      summaryEl.innerHTML = '<strong>' + data.total_groups_found + ' overlap groups</strong> detected across your SaaS stack. Potential savings: <strong>
-</script>
-</body>
-
-</html> + Math.round(data.total_annual_savings || 0).toLocaleString() + '/yr</strong>.';
+      summaryEl.innerHTML = '<strong>' + data.total_groups_found + ' overlap groups</strong> detected across your SaaS stack. Potential savings: <strong>\x24' + Math.round(data.total_annual_savings || 0).toLocaleString() + '/yr</strong>.';
     }
 
     var container = document.getElementById('dupGroups');
@@ -949,7 +945,8 @@ async function loadPageData() {
         var colorB = '#FDB300';
         var toolA = g.tools[0] || {};
         var toolB = g.tools[1] || {};
-        
+        var safeCat = (g.category || '').replace(/'/g, "\\'");
+
         return '<div class="card dup-group ' + severityClass + ' animate-in" style="animation-delay:' + (i*0.1) + 's">'
           + '  <div class="dup-group__header">'
           + '    <span class="dup-group__title">' + g.category + '</span>'
@@ -961,11 +958,7 @@ async function loadPageData() {
           + '      <h4>' + (toolA.name || 'Unknown') + '</h4>'
           + '      <div class="comp-card__stats">'
           + '        <div class="comp-card__stat"><span>Department</span><span>' + (toolA.category || 'All') + '</span></div>'
-          + '        <div class="comp-card__stat"><span>Monthly cost</span><span>
-</script>
-</body>
-
-</html> + (toolA.monthly_cost ? toolA.monthly_cost.toLocaleString() : '0') + '</span></div>'
+          + '        <div class="comp-card__stat"><span>Monthly cost</span><span>\x24' + (toolA.monthly_cost ? toolA.monthly_cost.toLocaleString() : '0') + '</span></div>'
           + '        <div class="comp-card__stat"><span>Active users</span><span>' + (toolA.active_seats || 0) + '/' + (toolA.seat_count || 0) + '</span></div>'
           + '      </div>'
           + '    </div>'
@@ -982,11 +975,7 @@ async function loadPageData() {
           + '      <h4>' + (toolB.name || 'Unknown') + '</h4>'
           + '      <div class="comp-card__stats">'
           + '        <div class="comp-card__stat"><span>Department</span><span>' + (toolB.category || 'All') + '</span></div>'
-          + '        <div class="comp-card__stat"><span>Monthly cost</span><span>
-</script>
-</body>
-
-</html> + (toolB.monthly_cost ? toolB.monthly_cost.toLocaleString() : '0') + '</span></div>'
+          + '        <div class="comp-card__stat"><span>Monthly cost</span><span>\x24' + (toolB.monthly_cost ? toolB.monthly_cost.toLocaleString() : '0') + '</span></div>'
           + '        <div class="comp-card__stat"><span>Active users</span><span>' + (toolB.active_seats || 0) + '/' + (toolB.seat_count || 0) + '</span></div>'
           + '      </div>'
           + '    </div>'
@@ -996,15 +985,10 @@ async function loadPageData() {
           + '    <div class="feature-pills">' + g.tools.map(function(t) { return '<span class="feature-pill">' + t.name + '</span>'; }).join('') + '</div>'
           + '  </div>'
           + '  <div class="rec-bar">'
-          + '    <span class="rec-bar__text">' + g.recommendation + ' &middot; Estimated savings: 
-</script>
-</body>
-
-</html> + (g.estimated_annual_savings ? g.estimated_annual_savings.toLocaleString() : '0') + '/yr</span>'
+          + '    <span class="rec-bar__text">' + g.recommendation + ' \u00B7 Estimated savings: \x24' + (g.estimated_annual_savings ? g.estimated_annual_savings.toLocaleString() : '0') + '/yr</span>'
           + '    <div class="rec-bar__actions">'
-          + '      <!-- Buttons will be wired in next step -->'
-          + '      <button class="btn-success" style="padding:8px 18px;font-size:12px">Approve</button>'
-          + '      <button class="btn-muted" style="padding:8px 18px;font-size:12px">Dismiss</button>'
+          + '      <button class="btn-success" style="padding:8px 18px;font-size:12px" onclick="showConfirm(\'Approve Consolidation\',\'Consolidate <strong>' + safeCat + '</strong> tools as recommended. This will create an optimization action.\',function(){showToast(\'Consolidation approved \\u2713\',\'success\');setTimeout(function(){window.location.href=\'optimization.html\';},1200);})">Approve</button>'
+          + '      <button class="btn-muted" style="padding:8px 18px;font-size:12px" onclick="showConfirm(\'Dismiss Overlap\',\'Dismiss this <strong>' + safeCat + '</strong> overlap alert? It will be hidden from the list.\',function(){var card=this.closest?this.closest(\'.dup-group\'):null;showToast(\'Alert dismissed\',\'warn\');})">Dismiss</button>'
           + '    </div>'
           + '  </div>'
           + '</div>';
