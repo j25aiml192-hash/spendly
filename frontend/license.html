@@ -768,18 +768,22 @@
         <h2>License Intelligence</h2>
         <p style="color:var(--text-muted)">Identify inactive seats and reclaim wasted licenses across all tools.</p>
       </div>
-      <div class="license-summary">
+      <div class="license-summary" style="grid-template-columns:repeat(4,1fr)">
         <div class="license-stat">
-          <div class="license-stat__value" style="color:var(--accent-danger)">23</div>
+          <div class="license-stat__value" id="kpi-total-seats">—</div>
+          <div class="license-stat__label">Total seats</div>
+        </div>
+        <div class="license-stat">
+          <div class="license-stat__value" style="color:var(--accent-success)" id="kpi-active-seats">—</div>
+          <div class="license-stat__label">Active seats</div>
+        </div>
+        <div class="license-stat">
+          <div class="license-stat__value" style="color:var(--accent-danger)" id="kpi-inactive-seats">—</div>
           <div class="license-stat__label">Inactive seats</div>
         </div>
         <div class="license-stat">
-          <div class="license-stat__value" style="color:var(--accent-warning)">$4,820<span style="font-size:12px;color:var(--text-muted)">/mo</span></div>
-          <div class="license-stat__label">Waste from unused seats</div>
-        </div>
-        <div class="license-stat">
-          <div class="license-stat__value" style="color:var(--accent-success)">$57,840<span style="font-size:12px;color:var(--text-muted)">/yr</span></div>
-          <div class="license-stat__label">Potential annual savings</div>
+          <div class="license-stat__value" style="color:var(--accent-warning)" id="kpi-monthly-waste">—<span style="font-size:12px;color:var(--text-muted)">/mo</span></div>
+          <div class="license-stat__label">Monthly waste</div>
         </div>
       </div>
 
@@ -1069,6 +1073,33 @@ async function loadPageData() {
   try {
     const allTools = await apiFetch('/api/tools');
     console.log(allTools);
+
+    // Compute KPI values
+    var totalSeats = allTools.reduce(function(s, t) { return s + (t.seat_count || 0); }, 0);
+    var activeSeats = allTools.reduce(function(s, t) { return s + (t.active_seats || 0); }, 0);
+    var inactiveSeats = totalSeats - activeSeats;
+    var monthlyWaste = allTools.reduce(function(s, t) {
+      var seats = t.seat_count || 0;
+      var inactive = seats - (t.active_seats || 0);
+      var perSeat = seats > 0 ? (t.monthly_cost || 0) / seats : 0;
+      return s + (inactive > 0 ? inactive * perSeat : 0);
+    }, 0);
+
+    // Write into KPI cards
+    var el;
+    el = document.getElementById('kpi-total-seats');
+    if (el) el.textContent = totalSeats.toLocaleString();
+    el = document.getElementById('kpi-active-seats');
+    if (el) el.textContent = activeSeats.toLocaleString();
+    el = document.getElementById('kpi-inactive-seats');
+    if (el) el.textContent = inactiveSeats.toLocaleString();
+    el = document.getElementById('kpi-monthly-waste');
+    if (el) el.innerHTML = '
+</script>
+</body>
+
+</html> + Math.round(monthlyWaste).toLocaleString() + '<span style="font-size:12px;color:var(--text-muted)">/mo</span>';
+
   } catch(err) { console.error('license page data error:', err); }
 }
 </script>
