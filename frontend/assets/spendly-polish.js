@@ -96,7 +96,7 @@
       rootMargin: '0px 0px -40px 0px'
     });
 
-    revealEls.forEach(el => revealObserver.observe(el));
+    revealEls.forEach(el => { if (el && el instanceof Element) revealObserver.observe(el); });
   }
 
 
@@ -153,7 +153,7 @@
       });
     }, { threshold: 0.3 });
 
-    counterEls.forEach(el => counterObserver.observe(el));
+    counterEls.forEach(el => { if (el && el instanceof Element) counterObserver.observe(el); });
   }
 
 

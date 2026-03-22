@@ -902,7 +902,6 @@ async function initAuth(onReady) {
     document.body.style.visibility = 'visible';
   }
 }
-document.body.style.visibility = 'hidden';
 
 function waitForClerk(callback, attempts) {
   attempts = attempts || 0;
@@ -917,6 +916,7 @@ function waitForClerk(callback, attempts) {
 }
 
 window.addEventListener('load', function() {
+  document.body.style.visibility = 'hidden';
   waitForClerk(function() {
     initAuth(loadPageData);
   });
