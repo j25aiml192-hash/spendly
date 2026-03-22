@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <!-- Progress Bar Tracks -->
+  <rect x="6" y="10" width="30" height="6" rx="3" fill="#F3F4F6" />
+  <rect x="6" y="24" width="30" height="6" rx="3" fill="#F3F4F6" />
+  <rect x="6" y="38" width="30" height="6" rx="3" fill="#F3F4F6" />
+
+  <!-- Progress Bar Fills -->
+  <!-- Top: 40% -->
+  <rect x="6" y="10" width="12" height="6" rx="3" fill="#2563EB" />
+  <!-- Middle: 65% -->
+  <rect x="6" y="24" width="19" height="6" rx="3" fill="#60A5FA" />
+  <!-- Bottom: 90% -->
+  <rect x="6" y="38" width="27" height="6" rx="3" fill="#BFDBFE" />
+
+  <!-- Upward Arrow in top right -->
+  <path d="M40 14 L40 6 M37 9 L40 6 L43 9" stroke="#059669" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+</svg>

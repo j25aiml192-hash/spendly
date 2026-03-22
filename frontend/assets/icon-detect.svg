@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <!-- Dashed concentric circles centered bottom-left -->
+  <circle cx="16" cy="32" r="24" stroke="#E0F2FE" stroke-width="2" stroke-dasharray="6 4" />
+  <circle cx="16" cy="32" r="16" stroke="#BFDBFE" stroke-width="2" stroke-dasharray="6 4" />
+  <circle cx="16" cy="32" r="8" stroke="#93C5FD" stroke-width="2" stroke-dasharray="6 4" />
+
+  <!-- Single line from center toward upper right -->
+  <line x1="16" y1="32" x2="40" y2="16" stroke="#93C5FD" stroke-width="2" />
+
+  <!-- Solid dot at center -->
+  <circle cx="16" cy="32" r="4" fill="#2563EB" />
+
+  <!-- Small red alert triangle in upper right -->
+  <polygon points="40,4 46,16 34,16" stroke="#DC2626" fill="#FEF2F2" stroke-width="2" stroke-linejoin="round" />
+</svg>

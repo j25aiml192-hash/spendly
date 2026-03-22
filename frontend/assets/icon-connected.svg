@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <!-- Lines connecting center to outer circles -->
+  <line x1="24" y1="24" x2="10" y2="10" stroke="#BFDBFE" stroke-width="2" />
+  <line x1="24" y1="24" x2="38" y2="10" stroke="#BFDBFE" stroke-width="2" />
+  <line x1="24" y1="24" x2="38" y2="38" stroke="#BFDBFE" stroke-width="2" />
+  <line x1="24" y1="24" x2="10" y2="38" stroke="#BFDBFE" stroke-width="2" />
+
+  <!-- Outer circles -->
+  <circle cx="10" cy="10" r="4" fill="#EEF2FF" stroke="#2563EB" stroke-width="2" />
+  <circle cx="38" cy="10" r="4" fill="#EEF2FF" stroke="#2563EB" stroke-width="2" />
+  <circle cx="38" cy="38" r="4" fill="#EEF2FF" stroke="#2563EB" stroke-width="2" />
+  <circle cx="10" cy="38" r="4" fill="#EEF2FF" stroke="#2563EB" stroke-width="2" />
+
+  <!-- Center filled circle -->
+  <circle cx="24" cy="24" r="6" fill="#2563EB" />
+</svg>
