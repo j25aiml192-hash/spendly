@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
     integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script async crossorigin="anonymous" data-clerk-publishable-key="pk_test_bm90YWJsZS1tYWxsYXJkLTE2LmNsZXJrLmFjY291bnRzLmRldiQ" src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"></script>
   <style>
     :root {
       /* Backgrounds */
@@ -885,11 +886,11 @@
             <div style="max-width:480px;display:flex;flex-direction:column;gap:var(--space-lg);">
               <div>
                 <label style="font-size:13px;color:var(--text-muted);display:block;margin-bottom:6px;">Full Name</label>
-                <input type="text" class="input-glass" value="Alex Santiago">
+                <input type="text" class="input-glass" id="profileName" value="Alex Santiago">
               </div>
               <div>
                 <label style="font-size:13px;color:var(--text-muted);display:block;margin-bottom:6px;">Email</label>
-                <input type="email" class="input-glass" value="alex@company.com">
+                <input type="email" class="input-glass" id="profileEmail" value="alex@company.com">
               </div>
               <div>
                 <label style="font-size:13px;color:var(--text-muted);display:block;margin-bottom:6px;">Company Name</label>
@@ -1060,6 +1061,170 @@ window.addEventListener('scroll', () => {
   
     });
   </script>
+
+<!-- Invite Member Modal -->
+<div id="inviteModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.4);z-index:1000;align-items:center;justify-content:center;" onclick="if(event.target===this){this.style.display='none';this.classList.remove('active');}">
+  <div style="background:#fff;width:480px;max-width:90vw;border-radius:16px;padding:32px;box-shadow:0 20px 60px rgba(0,0,0,0.15);position:relative;" onclick="event.stopPropagation();">
+    <h3 style="font-size:1.2rem;margin:0 0 24px;color:var(--text-primary);">Invite Team Member</h3>
+    <div style="margin-bottom:16px;">
+      <label style="font-size:13px;color:var(--text-muted);display:block;margin-bottom:6px;">Email address</label>
+      <input type="email" id="inviteEmail" class="input-glass" placeholder="colleague@company.com" style="width:100%;box-sizing:border-box;">
+    </div>
+    <div style="margin-bottom:24px;">
+      <label style="font-size:13px;color:var(--text-muted);display:block;margin-bottom:6px;">Role</label>
+      <select id="inviteRole" class="input-glass" style="width:100%;box-sizing:border-box;padding:10px 12px;border-radius:8px;border:1px solid var(--border);font-family:'Outfit',sans-serif;font-size:14px;">
+        <option value="Admin">Admin</option>
+        <option value="Member" selected>Member</option>
+        <option value="Viewer">Viewer</option>
+      </select>
+    </div>
+    <div style="display:flex;gap:12px;justify-content:flex-end;">
+      <button class="btn-ghost btn-sm" onclick="var m=document.getElementById('inviteModal');m.style.display='none';m.classList.remove('active');">Cancel</button>
+      <button class="btn-primary btn-sm" onclick="showConfirm('Send Invite','Send an invitation to the email address entered?',function(){showToast('Invitation sent \u2713','success');var m=document.getElementById('inviteModal');m.style.display='none';m.classList.remove('active');})"><span>Send Invite</span></button>
+    </div>
+  </div>
+</div>
+<script>
+// Support classList.add('active') from the invite button
+(function(){
+  var modal = document.getElementById('inviteModal');
+  if (modal) {
+    var obs = new MutationObserver(function() {
+      if (modal.classList.contains('active')) {
+        modal.style.display = 'flex';
+      }
+    });
+    obs.observe(modal, { attributes: true, attributeFilter: ['class'] });
+  }
+})();
+</script>
+<script>
+var API_URL = 'https://spendly-backend-production-0e5a.up.railway.app';
+var CLERK_KEY = 'pk_test_bm90YWJsZS1tYWxsYXJkLTE2LmNsZXJrLmFjY291bnRzLmRldiQ';
+
+async function apiFetch(path, options) {
+  options = options || {};
+  var token = await window.Clerk.session.getToken();
+  var res = await fetch(API_URL + path, {
+    method: options.method || 'GET',
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'Content-Type': 'application/json'
+    },
+    body: options.body || undefined
+  });
+  if (!res.ok) throw new Error('API error: ' + res.status);
+  return res.json();
+}
+
+async function initAuth(onReady) {
+  document.body.style.visibility = 'hidden';
+  try {
+    var clerk = window.Clerk;
+    await clerk.load({ publishableKey: CLERK_KEY });
+    if (!clerk.user) { window.location.href = '/'; return; }
+    document.body.style.visibility = 'visible';
+    if (onReady) onReady(clerk.user);
+  } catch(err) {
+    console.error('Clerk auth error:', err);
+    document.body.style.visibility = 'visible';
+  }
+}
+
+function waitForClerk(callback, attempts) {
+  attempts = attempts || 0;
+  if (window.Clerk) {
+    callback();
+  } else if (attempts < 50) {
+    setTimeout(function() { waitForClerk(callback, attempts + 1); }, 100);
+  } else {
+    console.error('Clerk SDK failed to load');
+    document.body.style.visibility = 'visible';
+  }
+}
+
+window.addEventListener('load', function() {
+  waitForClerk(function() {
+    initAuth(loadPageData);
+  });
+});
+
+async function loadPageData() {
+  try {
+    var status = await apiFetch('/api/integrations/status');
+    console.log('Integration status:', status);
+
+    // Map API keys to the integration names shown on the page
+    var nameMap = {
+      plaid: 'Plaid',
+      quickbooks: 'QuickBooks',
+      okta: 'Okta',
+      google_workspace: 'Google Workspace',
+      xero: 'Xero',
+      bamboohr: 'BambooHR',
+      azure_ad: 'Azure AD',
+      salesforce: 'Salesforce',
+      slack: 'Slack'
+    };
+
+    Object.keys(nameMap).forEach(function(key) {
+      var displayName = nameMap[key];
+      var isConnected = status[key];
+
+      // Find the integration name element on the page
+      var nameEls = document.querySelectorAll('.int-name, .int-card h5');
+      nameEls.forEach(function(nameEl) {
+        if (nameEl.textContent.trim() !== displayName) return;
+
+        // Find the closest button (Disconnect or Connect)
+        var row = nameEl.closest('.int-row') || nameEl.closest('.int-card');
+        if (!row) return;
+        var btn = row.querySelector('.btn-disconnect, .btn-connect, .action-disconnect, .action-connect');
+        if (!btn) return;
+
+        if (isConnected) {
+          btn.textContent = 'Disconnect';
+          btn.style.background = '#FEF2F2';
+          btn.style.color = '#991B1B';
+        } else {
+          btn.textContent = 'Connect';
+          btn.style.background = '#F5F4EF';
+          btn.style.color = '#3D3D38';
+        }
+      });
+    });
+  } catch(err) {
+    console.error('Integration status error:', err);
+    showToast('Could not load integration status', 'warn');
+  }
+
+  // Populate Profile tab with real Clerk user data
+  try {
+    var user = window.Clerk && window.Clerk.user;
+    if (user) {
+      var fullName = user.fullName || ((user.firstName || '') + ' ' + (user.lastName || '')).trim();
+      var email = (user.emailAddresses && user.emailAddresses.length > 0) ? user.emailAddresses[0].emailAddress : '';
+      var initials = fullName.split(' ').map(function(w){ return w.charAt(0); }).join('').toUpperCase().substring(0,2);
+
+      var nameInput = document.getElementById('profileName');
+      if (nameInput) nameInput.value = fullName;
+
+      var emailInput = document.getElementById('profileEmail');
+      if (emailInput) emailInput.value = email;
+
+      // Update the first team member (the admin/current user) avatar and info
+      var firstAvatar = document.querySelector('.member-avatar');
+      if (firstAvatar) firstAvatar.textContent = initials;
+      var firstName = document.querySelector('.member-name');
+      if (firstName) firstName.textContent = fullName;
+      var firstEmail = document.querySelector('.member-email');
+      if (firstEmail && email) firstEmail.textContent = email + ' · Last active: just now';
+    }
+  } catch(err) {
+    console.error('Profile populate error:', err);
+  }
+}
+</script>
 </body>
 
 </html>
