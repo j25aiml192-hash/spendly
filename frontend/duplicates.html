@@ -764,7 +764,7 @@
     <main class="main-content">
 <div class="dup-header">
         <h2>Duplicate Tool Detector</h2>
-        <p style="color:var(--text-muted);font-size:14px;">4 overlap groups detected across your SaaS stack.</p>
+        <p style="color:var(--text-muted);font-size:14px;" id="dupSummaryText">Loading duplicate analysis...</p>
       </div>
 
       <div class="dup-groups" id="dupGroups"></div>
@@ -926,6 +926,90 @@ async function loadPageData() {
   try {
     var data = await apiFetch('/api/tools/duplicates');
     console.log(data);
+
+    var summaryEl = document.getElementById('dupSummaryText');
+    if (summaryEl) {
+      summaryEl.innerHTML = '<strong>' + data.total_groups_found + ' overlap groups</strong> detected across your SaaS stack. Potential savings: <strong>
+</script>
+</body>
+
+</html> + Math.round(data.total_annual_savings || 0).toLocaleString() + '/yr</strong>.';
+    }
+
+    var container = document.getElementById('dupGroups');
+    if (container) {
+      if (!data.duplicate_groups || data.duplicate_groups.length === 0) {
+        container.innerHTML = '<div style="padding:40px;text-align:center;color:var(--text-muted)">No duplicate tool groups found.</div>';
+        return;
+      }
+
+      container.innerHTML = data.duplicate_groups.map(function(g, i) {
+        var severityClass = g.overlap_score >= 80 ? 'overlap-critical' : g.overlap_score >= 70 ? 'overlap-high' : '';
+        var colorA = '#F24E1E';
+        var colorB = '#FDB300';
+        var toolA = g.tools[0] || {};
+        var toolB = g.tools[1] || {};
+        
+        return '<div class="card dup-group ' + severityClass + ' animate-in" style="animation-delay:' + (i*0.1) + 's">'
+          + '  <div class="dup-group__header">'
+          + '    <span class="dup-group__title">' + g.category + '</span>'
+          + '    <span class="overlap-score" style="color:' + (g.overlap_score>=80?'var(--accent-danger)':g.overlap_score>=70?'var(--accent-warning)':'var(--text-secondary)') + '">Overlap: ' + g.overlap_score + '%</span>'
+          + '  </div>'
+          + '  <div class="comparison">'
+          + '    <div class="comp-card">'
+          + '      <div class="comp-card__logo" style="background:' + colorA + ';color:#fff">' + (toolA.name ? toolA.name.charAt(0) : '?') + '</div>'
+          + '      <h4>' + (toolA.name || 'Unknown') + '</h4>'
+          + '      <div class="comp-card__stats">'
+          + '        <div class="comp-card__stat"><span>Department</span><span>' + (toolA.category || 'All') + '</span></div>'
+          + '        <div class="comp-card__stat"><span>Monthly cost</span><span>
+</script>
+</body>
+
+</html> + (toolA.monthly_cost ? toolA.monthly_cost.toLocaleString() : '0') + '</span></div>'
+          + '        <div class="comp-card__stat"><span>Active users</span><span>' + (toolA.active_seats || 0) + '/' + (toolA.seat_count || 0) + '</span></div>'
+          + '      </div>'
+          + '    </div>'
+          + '    <div class="vs-divider">'
+          + '      <div class="venn-wrap">'
+          + '        <div class="venn-circle venn-left" style="background:' + colorA + '"></div>'
+          + '        <div class="venn-circle venn-right" style="background:' + colorB + '"></div>'
+          + '        <div class="venn-label">' + g.overlap_score + '%</div>'
+          + '      </div>'
+          + '      <div class="vs-circle">VS</div>'
+          + '    </div>'
+          + '    <div class="comp-card">'
+          + '      <div class="comp-card__logo" style="background:' + colorB + ';color:#fff">' + (toolB.name ? toolB.name.charAt(0) : '?') + '</div>'
+          + '      <h4>' + (toolB.name || 'Unknown') + '</h4>'
+          + '      <div class="comp-card__stats">'
+          + '        <div class="comp-card__stat"><span>Department</span><span>' + (toolB.category || 'All') + '</span></div>'
+          + '        <div class="comp-card__stat"><span>Monthly cost</span><span>
+</script>
+</body>
+
+</html> + (toolB.monthly_cost ? toolB.monthly_cost.toLocaleString() : '0') + '</span></div>'
+          + '        <div class="comp-card__stat"><span>Active users</span><span>' + (toolB.active_seats || 0) + '/' + (toolB.seat_count || 0) + '</span></div>'
+          + '      </div>'
+          + '    </div>'
+          + '  </div>'
+          + '  <div class="shared-features">'
+          + '    <h5>Associated Tools</h5>'
+          + '    <div class="feature-pills">' + g.tools.map(function(t) { return '<span class="feature-pill">' + t.name + '</span>'; }).join('') + '</div>'
+          + '  </div>'
+          + '  <div class="rec-bar">'
+          + '    <span class="rec-bar__text">' + g.recommendation + ' &middot; Estimated savings: 
+</script>
+</body>
+
+</html> + (g.estimated_annual_savings ? g.estimated_annual_savings.toLocaleString() : '0') + '/yr</span>'
+          + '    <div class="rec-bar__actions">'
+          + '      <!-- Buttons will be wired in next step -->'
+          + '      <button class="btn-success" style="padding:8px 18px;font-size:12px">Approve</button>'
+          + '      <button class="btn-muted" style="padding:8px 18px;font-size:12px">Dismiss</button>'
+          + '    </div>'
+          + '  </div>'
+          + '</div>';
+      }).join('');
+    }
   } catch(err) { console.error('duplicates page data error:', err); }
 }
 </script>
